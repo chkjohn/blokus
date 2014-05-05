@@ -1,0 +1,42 @@
+<!doctype html>
+<html>
+	<head>
+		<title>Blokus</title>
+	</head>
+	<body>
+		<div align=center>
+		<canvas id="chessboardCanvas" width="625" height="625" style="border:0px solid #EEEEEE;">
+		Your browser does not support the HTML5 canvas tag.
+		</canvas>
+		</div>
+		 
+		<script>
+		var c=document.getElementById("chessboardCanvas");
+		var ctx=c.getContext("2d");
+		ctx.rect(0, 0, 600, 600);
+		ctx.lineWidth = 1;
+		ctx.strokeStyle = '#C17708';
+		ctx.stroke();
+		 
+		ctx.fillStyle="#C17708";
+		var tilesize = 30;
+		var left = 30;
+		for(var a=0;a<20;a++) {
+			for(var i=0; i<20;i+=1) {
+			  startX = i * left;
+			  //if(a%2==0) startX = (i+1) * 20;
+			  ctx.fillRect(startX,(a*30) ,tilesize-1,tilesize-1);
+			}
+		}
+		/*
+		ctx.font = 'italic 18px Calibri';
+		var alpha = ['a','b','c','d','e','f','g','h'];
+		for(var i=0;i<8;i++) 
+			ctx.fillText(alpha[i], 40 + (i*50),  415);
+		var num = 8;
+		for(var i=0;i<8;i++) 
+			ctx.fillText(num--, 5,  30 + (i*50));
+		*/
+		</script>
+	</body>
+</html>
