@@ -5,8 +5,15 @@ var fs      = require('fs');
 
 var app = express();
 
-console.log(8080);
-app.listen(8080);
+var osipaddress = process.env.OPENSHIFT_NODEJS_IP; 
+var osport = process.env.OPENSHIFT_NODEJS_PORT; 
+
+app.set('port', osport || 8080); 
+app.set('ipaddress', osipaddress); 
+
+var server = http.createServer(app);
+
+server.listen(app.get('port'), app.get('ipaddress'));
 
 app.get('/', function(request, response) {
     response.sendfile("./index.html");
