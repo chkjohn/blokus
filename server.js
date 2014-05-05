@@ -44,6 +44,7 @@ var SampleApp = function() {
 
         //  Local cache for static content.
         self.zcache['index.html'] = fs.readFileSync('./index.html');
+        self.zcache['blokus.html'] = fs.readFileSync('./blokus.html');
     };
 
 
