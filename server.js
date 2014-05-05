@@ -5,17 +5,17 @@ var fs      = require('fs');
 
 var app = express();
 
-console.log(process.env.OPENSHIFT_NODEJS_PORT);
-app.listen(process.env.OPENSHIFT_NODEJS_PORT);
+console.log(8080);
+app.listen(8080);
 
 app.get('/', function(request, response) {
-    response.sendfile("index.html");
+    response.sendfile("./index.html");
 });
 
 app.get('/index', function(request, response) {
-    response.sendfile("index.html");
+    response.sendfile("./index.html");
 });
 
 app.get('/blokus', function(request, response) {
-    response.sendfile("blokus.html");
+    response.sendfile("./blokus.html");
 });
