@@ -38,7 +38,7 @@
 			};
 		}
 		
-		gameboard.addEventListener('mouseover', function(e){
+		gameboard.addEventListener('mousemove', function(e){
 			var mousePos = getMousePos(gameboard, e);
 			var text = document.getElementById("text");
 			text.textContent = "MousePos: " + mousePos.x + ", " + mousePos.y;
