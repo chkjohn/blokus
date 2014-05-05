@@ -4,7 +4,6 @@
 		<title>Blokus</title>
 	</head>
 	<body>
-		<div align=center id="text"></div>
 		<div align=center>
 		<canvas id="gameboardCanvas" width="625" height="625" style="border:0px solid #EEEEEE;">
 		Your browser does not support the HTML5 canvas tag.
@@ -29,22 +28,15 @@
 			  ctx.fillRect(startX,(a*30) ,tilesize-1,tilesize-1);
 			}
 		}
-/*
-		function getMousePos(gameboard, e) {
-			var rect = gameboard.getBoundingClientRect();
-			return {
-				x: e.clientX - rect.left,
-				y: e.clientY - rect.top
-			};
-		}
-		
-		gameboard.addEventListener('mouseover', function(e){
-			var mousePos = getMousePos(gameboard, e);
-			var text = document.getElementById("text");
-			text.textContent = "MousePos: " + mousePos.x + ", " + mousePos.y;
-			console.log(text.textContent);
-		}, false);
-*/
+		/*
+		ctx.font = 'italic 18px Calibri';
+		var alpha = ['a','b','c','d','e','f','g','h'];
+		for(var i=0;i<8;i++) 
+			ctx.fillText(alpha[i], 40 + (i*50),  415);
+		var num = 8;
+		for(var i=0;i<8;i++) 
+			ctx.fillText(num--, 5,  30 + (i*50));
+		*/
 		</script>
 	</body>
 </html>
