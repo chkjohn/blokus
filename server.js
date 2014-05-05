@@ -4,8 +4,9 @@ var express = require('express');
 var fs      = require('fs');
 
 var app = express();
- 
-app.listen(3000);
+
+console.log(process.env.OPENSHIFT_NODEJS_PORT);
+app.listen(process.env.OPENSHIFT_NODEJS_PORT);
 
 app.get('/', function(request, response) {
     response.sendfile("index.html");
