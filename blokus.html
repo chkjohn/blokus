@@ -4,27 +4,31 @@
 		<title>Blokus</title>
 	</head>
 	<body>
-		<canvas id="chessboardCanvas" width="425" height="425" style="border:0px solid #EEEEEE;">
+		<div align=center>
+		<canvas id="chessboardCanvas" width="625" height="625" style="border:0px solid #EEEEEE;">
 		Your browser does not support the HTML5 canvas tag.
 		</canvas>
+		</div>
 		 
 		<script>
 		var c=document.getElementById("chessboardCanvas");
 		var ctx=c.getContext("2d");
-		ctx.rect(20, 0, 400, 400);
+		ctx.rect(0, 0, 600, 600);
 		ctx.lineWidth = 1;
-		ctx.strokeStyle = '#669966';
+		ctx.strokeStyle = '#C17708';
 		ctx.stroke();
 		 
-		ctx.fillStyle="#669966";
-		var left = 20;
-		for(var a=0;a<8;a++) {
-			for(var i=0; i<8;i+=2) {
-			  startX = i * 50;
-			  if(a%2==0) startX = (i+1) * 50;
-			  ctx.fillRect(startX + left,(a*50) ,50,50);
+		ctx.fillStyle="#C17708";
+		var tilesize = 30;
+		var left = 30;
+		for(var a=0;a<20;a++) {
+			for(var i=0; i<20;i+=1) {
+			  startX = i * left;
+			  //if(a%2==0) startX = (i+1) * 20;
+			  ctx.fillRect(startX,(a*30) ,tilesize-1,tilesize-1);
 			}
 		}
+		/*
 		ctx.font = 'italic 18px Calibri';
 		var alpha = ['a','b','c','d','e','f','g','h'];
 		for(var i=0;i<8;i++) 
@@ -32,6 +36,7 @@
 		var num = 8;
 		for(var i=0;i<8;i++) 
 			ctx.fillText(num--, 5,  30 + (i*50));
+		*/
 		</script>
 	</body>
 </html>
