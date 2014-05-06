@@ -13,18 +13,16 @@ app.set('ipaddress', osipaddress);
 
 //app.use(express.static(__dirname + '/public'));
 
-console.log(__dirname);
-
 app.get('/', function(request, response) {
-    response.sendfile("./index.html");
+    response.sendfile(__dirname + "/index.html");
 });
 
 app.get('/index', function(request, response) {
-    response.sendfile("./index.html");
+    response.sendfile(__dirname + "/index.html");
 });
 
 app.get('/blokus', function(request, response) {
-    response.sendfile("./blokus.html");
+    response.sendfile(__dirname + "/blokus.html");
 });
 
 var server = http.createServer(app);
