@@ -29,7 +29,7 @@ var server = http.createServer(app);
 server.listen(app.get('port'), app.get('ipaddress'));
 var io = require('socket.io').listen(server);
 
-/*
+
 // usernames which are currently connected to the chat
 var usernames = {};
 
@@ -65,4 +65,3 @@ io.sockets.on('connection', function (socket) {
 		socket.broadcast.emit('updatechat', 'SERVER', socket.username + ' has disconnected');
 	});
 });
-*/
