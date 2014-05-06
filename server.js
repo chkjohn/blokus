@@ -24,5 +24,4 @@ app.get('/blokus', function(request, response) {
 });
 
 var server = http.createServer(app);
-//var io = require('socket.io').listen(app.listen(port));
-server.listen(app.get('port'));
+var io = require('socket.io').listen(server.listen(app.get('port'), app.get('ipaddress')));
