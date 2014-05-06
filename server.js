@@ -11,6 +11,10 @@ var osport = process.env.OPENSHIFT_NODEJS_PORT;
 app.set('port', osport || 8080); 
 app.set('ipaddress', osipaddress); 
 
+//app.use(express.static(__dirname + '/public'));
+
+console.log(__dirname);
+
 app.get('/', function(request, response) {
     response.sendfile("./index.html");
 });
@@ -25,3 +29,11 @@ app.get('/blokus', function(request, response) {
 
 var server = http.createServer(app);
 var io = require('socket.io').listen(server.listen(app.get('port'), app.get('ipaddress')));
+/*
+io.sockets.on('connection', function (socket) {
+    socket.emit('message', { message: 'welcome to the chat' });
+    socket.on('send', function (data) {
+        io.sockets.emit('message', data);
+    });
+});
+*/
