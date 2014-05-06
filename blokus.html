@@ -12,50 +12,45 @@
 		</div>
 		 
 		<script>
-		var gameboard = document.getElementById("gameboardCanvas");
-		var ctx=gameboard.getContext("2d");
-		ctx.rect(0, 0, 600, 600);
-		ctx.lineWidth = 1;
-		ctx.strokeStyle = '#C17708';
-		ctx.stroke();
-		 
-		ctx.fillStyle="#C17708";
-		var tilesize = 30;
-		var left = 30;
-		for(var a=0;a<20;a++) {
-			for(var i=0; i<20;i+=1) {
-			  startX = i * left;
-			  //if(a%2==0) startX = (i+1) * 20;
-			  ctx.fillRect(startX,(a*30) ,tilesize-1,tilesize-1);
+			var gameboard = document.getElementById("gameboardCanvas");
+			var ctx=gameboard.getContext("2d");
+			ctx.rect(0, 0, 600, 600);
+			ctx.lineWidth = 1;
+			ctx.strokeStyle = '#C17708';
+			ctx.stroke();
+			 
+			ctx.fillStyle="#C17708";
+			var tilesize = 30;
+			var left = 30;
+			for(var a=0;a<20;a++) {
+				for(var i=0; i<20;i+=1) {
+				  startX = i * left;
+				  //if(a%2==0) startX = (i+1) * 20;
+				  ctx.fillRect(startX,(a*30) ,tilesize-1,tilesize-1);
+				}
 			}
-		}
 
-		function getMousePos(gameboard, e) {
-			var rect = gameboard.getBoundingClientRect();
-			return {
-				x: e.clientX - rect.left,
-				y: e.clientY - rect.top
-			};
-		}
-		
-		gameboard.addEventListener('mousemove', function(e){
-			var mousePos = getMousePos(gameboard, e);
-			var text = document.getElementById("text");
-			text.textContent = "MousePos: " + mousePos.x + ", " + mousePos.y;
-			console.log(text.textContent);
-		}, false);
+			function getMousePos(gameboard, e) {
+				var rect = gameboard.getBoundingClientRect();
+				return {
+					x: e.clientX - rect.left,
+					y: e.clientY - rect.top
+				};
+			}
+			
+			gameboard.addEventListener('mousemove', function(e){
+				var mousePos = getMousePos(gameboard, e);
+				var text = document.getElementById("text");
+				text.textContent = "MousePos: " + mousePos.x + ", " + mousePos.y;
+				console.log(text.textContent);
+			}, false);
 
 		</script>
 		
 		<script src="/socket.io/socket.io.js"></script>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
 		<script>
-			var osipaddress = process.env.OPENSHIFT_NODEJS_IP; 
-			var osport = process.env.OPENSHIFT_NODEJS_PORT;
-			console.log(osipaddress);
-			console.log(osport);
-			/*
-			var socket = io.connect('http://localhost:8080');
+			var socket = io.connect('http://127.0.0.1:8080');
 
 			// on connection to server, ask for user's name with an anonymous callback
 			socket.on('connect', function(){
@@ -94,7 +89,6 @@
 					}
 				});
 			});
-			*/
 
 		</script>
 		<div style="float:left;width:100px;border-right:1px solid black;height:300px;padding:10px;overflow:scroll-y;">
