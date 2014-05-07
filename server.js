@@ -1,12 +1,33 @@
 #!/bin/env node
 //  OpenShift sample Node application
 var express = require('express');
-var fs      = require('fs');
+var fs = require('fs');
 var http = require('http');
+var mysql =  require('mysql');
 
 var app = express();
 var osipaddress = process.env.OPENSHIFT_NODEJS_IP; 
-var osport = process.env.OPENSHIFT_NODEJS_PORT; 
+var osport = process.env.OPENSHIFT_NODEJS_PORT;
+
+var connection =  mysql.createConnection({
+	host	: process.env.OPENSHIFT_MYSQL_DB_HOST,
+	user	: process.env.OPENSHIFT_MYSQL_DB_USERNAME,
+	password: process.env.OPENSHIFT_MYSQL_DB_PASSWORD,
+	port	: process.env.OPENSHIFT_MYSQL_DB_PORT,
+	database: process.env.OPENSHIFT_APP_NAME
+});
+
+connection.connect(function(e){
+	if (e){
+		throw e;
+	} else{
+		console.log('Connected to database');
+	}
+});
+
+connection.query('CREATE TABLE users (' +
+					'username varchar(255) NOT NULL PRIMARY KEY,' +
+					'password varchar(255) NOT NULL)');
 
 app.set('port', osport || 8080); 
 app.set('ipaddress', osipaddress); 
