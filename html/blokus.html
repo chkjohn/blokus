@@ -2,6 +2,9 @@
 <html>
 	<head>
 		<title>Blokus</title>
+		<script src="/socket.io/socket.io.js"></script>
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
+		<script src="js/server.js"></script>
 	</head>
 	<body>
 		<div align=center id="text"></div>
@@ -19,9 +22,6 @@
 			<input id="data" style="width:200px;" />
 			<input type="button" id="datasend" value="send" />
 		</div>
-		
-		<script src="/socket.io/socket.io.js"></script>
-		<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
 		<script>
 			var gameboard = document.getElementById("gameboardCanvas");
 			var ctx=gameboard.getContext("2d");

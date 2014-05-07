@@ -17,39 +17,42 @@ var connection =  mysql.createConnection({
 	database: process.env.OPENSHIFT_APP_NAME
 });
 
+// connect to database
 connection.connect(function(e){
-	if (e){
-		throw e;
-	} else{
-		console.log('Connected to database');
-	}
+	if (e)	throw e;
+	console.log('Connected to database');
 });
 
+// create tables
 connection.query('CREATE TABLE users (' +
 					'username varchar(255) NOT NULL PRIMARY KEY,' +
 					'password varchar(255) NOT NULL)');
+connection.query('CREATE TABLE sessions (' +
+					'id int(20) NOT NULL PRIMARY KEY,' +
+					'expire datetime2)');
 
 app.set('port', osport || 8080); 
 app.set('ipaddress', osipaddress); 
 
 //app.use(express.static(__dirname + '/public'));
 
+// routing
 app.get('/', function(request, response) {
     response.sendfile(__dirname + "/index.html");
 });
-
 app.get('/index', function(request, response) {
-    response.sendfile(__dirname + "/index.html");
+    response.sendfile(__dirname + "/html/index.html");
 });
-
 app.get('/blokus', function(request, response) {
-    response.sendfile(__dirname + "/blokus.html");
+    response.sendfile(__dirname + "/html/blokus.html");
+});
+app.get('/login', function(request, response) {
+    response.sendfile(__dirname + "/html/login.html");
 });
 
 var server = http.createServer(app);
 server.listen(app.get('port'), app.get('ipaddress'));
 var io = require('socket.io').listen(server);
-
 
 // usernames which are currently connected to the chat
 var usernames = {};
@@ -86,3 +89,41 @@ io.sockets.on('connection', function (socket) {
 		socket.broadcast.emit('updatechat', 'SERVER', socket.username + ' has disconnected');
 	});
 });
+
+$(function(){
+	// when the client clicks Register
+	$('#register').click( function() {
+		// get the username and password
+		var username = $('#username').val();
+		var password = $('password').val();
+		$('#username').val('');
+		$('#password').val('');
+		
+		connection.query('INSERT INTO users VALUES username=?, password=?', [username, password], function(e, rows, fields){
+			if (e)	throw e;
+			console.log('Stored ' + username + 'in database');
+		});
+	});
+	
+	$('#login').click( function() {
+		// get the username and password
+		var username = $('#username').val();
+		var password = $('password').val();
+		$('#username').val('');
+		$('#password').val('');
+		
+		connection.query('SELECT * FROM users WHERE username=?', [username], function(e, rows, fields){
+			if (e)	throw e;
+			console.log(rows);
+		});
+	});
+
+	// when the client hits ENTER on their keyboard
+	$('#password').keypress(function(e) {
+		if(e.which == 13) {
+			$(this).blur();
+			$('#login').focus().click();
+		}
+	});
+});
+

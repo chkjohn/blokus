@@ -2,7 +2,7 @@
   "name": "OpenShift-Sample-App",
   "version": "1.0.0",
   "description": "OpenShift Sample Application",
-  "main": "server.js",
+  "main": "js/server.js",
   "author": "jdrw",
 
   "engines": {

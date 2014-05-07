@@ -1,0 +1,40 @@
+<!doctype html>
+<html>
+	<head>
+		<title>Login Page</title>
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
+		<script src="/js/function.js"></script>
+	</head>
+	<style>
+		.font{
+			font-family: Courier New;
+		}
+	</style>
+	<body class=font>
+		<h2 align="center" class=font>CSCI4140 Assignment 1 - Photo Album<br>Login Interface</h2>
+		<table align="center" cellspacing=5pt cellpadding=10pt style="border:5pt solid #7777ff;">
+			<form method=post action=login.cgi>
+			<tr>
+			<td>Username</td>
+			<td><input id="username" type=text size=20></td>
+			</tr>
+
+			<tr>
+			<td>Password</td>
+			<td><input id="password" type=password size=20></td>
+			</tr>
+
+			<tr>
+			<td align=center><input id="register" class=font type=button value=Register></td>
+			<td align=center><input id="login" class=font type=button value=Login></td>
+			</tr>
+			</form>
+			
+			<form method=post action=read_only_album.cgi>
+			<tr>
+			<td colspan=2 align=center><input class=font type=submit value="Login as Guest"></td>
+			</tr>
+			</form>
+		</table>
+	</body>
+</html>
