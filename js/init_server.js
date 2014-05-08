@@ -49,7 +49,7 @@ module.exports = function(io, usernames, connection){
 		socket.on('login', function(data){
 			connection.query('SELECT * FROM users WHERE username=?', data.username, function(e, rows, fields){
 				var message = '';
-				if (e){
+				if (e || rows == null){
 					// cannot find user in database
 					message = "Login Fail. No such user " + data.username + ".";
 					socket.emit('loginfail', message);

@@ -32,6 +32,10 @@
 		</table>
 	</body>
 	<script>
+		var username = getCookie("username");
+		if (username != ""){
+			window.location.replace("waitingroom");
+		}
 		var socket = io.connect('csci4140project-chkjohn.rhcloud.com:8000');
 		$(init_login(socket));
 	</script>
