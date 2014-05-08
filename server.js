@@ -5,7 +5,7 @@ var app = express();
 var fs = require('fs');
 var http = require('http');
 var mysql =  require('mysql');
-var func = require('./js/function');
+var init_server = require('./js/init_server');
 
 var osipaddress = process.env.OPENSHIFT_NODEJS_IP; 
 var osport = process.env.OPENSHIFT_NODEJS_PORT;
@@ -64,4 +64,4 @@ var io = require('socket.io').listen(server);
 // usernames which are currently connected to the chat
 var usernames = {};
 
-func.init_server(io, usernames, connection);
+init_server(io, usernames, connection);
