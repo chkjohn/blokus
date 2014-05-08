@@ -37,7 +37,8 @@ connection.query('CREATE TABLE sessions (' +
 app.set('port', osport || 8080); 
 app.set('ipaddress', osipaddress); 
 
-//app.use(express.static(__dirname + '/public'));
+app.use('/js', express.static(__dirname + '/js'));
+app.use('/html', express.static(__dirname + '/html'));
 
 // routing
 app.get('/', function(request, response) {
@@ -47,13 +48,13 @@ app.get('/index', function(request, response) {
     response.sendfile(__dirname + "/index.html");
 });
 app.get('/blokus', function(request, response) {
-    response.sendfile(__dirname + "/blokus.html");
+    response.sendfile(__dirname + "/html/blokus.html");
 });
 app.get('/login', function(request, response) {
-    response.sendfile(__dirname + "/login.html");
+    response.sendfile(__dirname + "/html/login.html");
 });
 app.get('/waitingroom', function(request, response) {
-    response.sendfile(__dirname + "/waitingroom.html");
+    response.sendfile(__dirname + "/html/waitingroom.html");
 });
 
 var server = http.createServer(app);
