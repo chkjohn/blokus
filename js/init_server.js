@@ -49,12 +49,15 @@ module.exports = function(io, usernames, connection){
 		socket.on('login', function(data){
 			connection.query('SELECT * FROM users WHERE username=?', data.username, function(e, rows, fields){
 				var message = '';
-				if (e || rows['password'] != data.password){
-					message = "Login Fail. Please try again.";
+				if (e){
+					message = "Login Fail. No such user " + data.username + ".";
 					socket.emit('loginfail', message);
-				} else{
+				} else if (rows['password'] == data.password){
 					message = "Welcome back, " + data.password + ".";
 					socket.emit('loginsuccess', message);
+				} else{
+					message = "Login Fail. Wrong password.";
+					socket.emit('loginfail', message);
 				}
 			});
 		});
