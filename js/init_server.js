@@ -50,10 +50,7 @@ module.exports = function(io, usernames, connection){
 			connection.query('SELECT * FROM users WHERE username=? AND password=?', [data.username, data.password], function(e, rows, fields){
 				var message = '';
 				if (e){
-					// cannot find user in database
-					message = "Login Fail. Please try again.";
-					socket.emit('loginfail', message);
-				} else {
+				} else if (rows.length == 1){
 					// login success
 					var sessionid = Math.floor((Math.random() * 9999999999) + 1).toString();
 					var expires = new Date();
@@ -67,6 +64,10 @@ module.exports = function(io, usernames, connection){
 					});
 
 					socket.emit('loginsuccess', {sessionid: sessionid, expires: expires});
+				} else{
+					// login fail
+					message = "Login Fail. Please try again.";
+					socket.emit('loginfail', message);
 				}
 			});
 		});
