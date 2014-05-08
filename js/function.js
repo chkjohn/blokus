@@ -27,7 +27,8 @@ function init_login(socket){
 		$('#username').val('');
 		$('#password').val('');
 		
-		socket.emit('login', {username: username, password: password});
+		var date = new Date();
+		socket.emit('login', {username: username, password: password, date: date});
 		socket.on('loginsuccess', function(data){
 			document.cookie = "sessionid=" + data.sessionid.toString() + "; expires=" + data.expires.toUTCString() + ";";
 			document.cookie = "username=" + username + "; expires=" + data.expires.toUTCString() + ";";
