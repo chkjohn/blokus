@@ -4,7 +4,7 @@ var express = require('express');
 var fs = require('fs');
 var http = require('http');
 var mysql =  require('mysql');
-var func = requie('js/function');
+var func = require('js/function');
 
 var app = express();
 var osipaddress = process.env.OPENSHIFT_NODEJS_IP; 
@@ -49,6 +49,9 @@ app.get('/blokus', function(request, response) {
 });
 app.get('/login', function(request, response) {
     response.sendfile(__dirname + "/html/login.html");
+});
+app.get('/waitingroom', function(request, response) {
+    response.sendfile(__dirname + "/html/waitingroom.html");
 });
 
 var server = http.createServer(app);
