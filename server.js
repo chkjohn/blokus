@@ -25,10 +25,12 @@ connection.connect(function(e){
 });
 
 // create tables
-connection.query('CREATE TABLE IF EXISTS users (' +
+connection.query('DROP TABLE IF EXISTS users');
+connection.query('CREATE TABLE users (' +
 					'username varchar(255) NOT NULL PRIMARY KEY,' +
 					'password varchar(255) NOT NULL)');
-connection.query('CREATE TABLE IF EXISTS sessions (' +
+connection.query('DROP TABLE IF EXISTS sessions');
+connection.query('CREATE TABLE sessions (' +
 					'id int(20) NOT NULL PRIMARY KEY,' +
 					'expire datetime)');
 
