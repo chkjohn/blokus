@@ -35,7 +35,7 @@ function init_login_client(socket){
 			
 			socket.emit('storesessioncookie', sessionid);
 			
-			window.location.replace("csci4140project-chkjohn.rhcloud.com/waitingroom");
+			window.location.replace("waitingroom");
 			
 		});
 		

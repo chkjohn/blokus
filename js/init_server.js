@@ -33,7 +33,7 @@ module.exports = function(io, usernames, connection){
 		
 		// when user clicks on 'Register'
 		socket.on('register', function(data){
-			connection.query('INSERT INTO users VALUES username=?, password=?', data, function(e, rows, fields){
+			connection.query('INSERT INTO users VALUES username=?, password=?', {username: data[0], password: data[1]}, function(e, rows, fields){
 				var message = '';
 				if (e){
 					message = "Register Fail. The user " + data[0] + " already exists.";
@@ -47,9 +47,9 @@ module.exports = function(io, usernames, connection){
 		
 		// when user clicks on 'Login'
 		socket.on('login', function(data){
-			connection.query('SELECT * FROM users WHERE username=?', data, function(e, rows, fields){
+			connection.query('SELECT * FROM users WHERE username=?', data[0], function(e, rows, fields){
 				var message = '';
-				if (e){
+				if (e || rows['password'] != data[1]){
 					message = "Login Fail.";
 					socket.emit('loginfail', message);
 				} else{
