@@ -1,4 +1,4 @@
-module.exports.init_server = function(io, usernames, connection){
+var init_server = function(io, usernames, connection){
 	io.sockets.on('connection', function (socket) {
 
 		// when the client emits 'sendchat', this listens and executes
