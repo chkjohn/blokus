@@ -44,16 +44,16 @@ app.get('/', function(request, response) {
     response.sendfile(__dirname + "/index.html");
 });
 app.get('/index', function(request, response) {
-    response.sendfile(__dirname + "/html/index.html");
+    response.sendfile(__dirname + "/index.html");
 });
 app.get('/blokus', function(request, response) {
-    response.sendfile(__dirname + "/html/blokus.html");
+    response.sendfile(__dirname + "/blokus.html");
 });
 app.get('/login', function(request, response) {
-    response.sendfile(__dirname + "/html/login.html");
+    response.sendfile(__dirname + "/login.html");
 });
 app.get('/waitingroom', function(request, response) {
-    response.sendfile(__dirname + "/html/waitingroom.html");
+    response.sendfile(__dirname + "/waitingroom.html");
 });
 
 var server = http.createServer(app);
