@@ -1,9 +1,9 @@
-function init_login_client(socket){
-	// when the client clicks Register
+function init_login(socket){
+	// when user clicks 'Register'
 	$('#register').click( function() {
 		// get the username and password
 		var username = $('#username').val();
-		var password = $('password').val();
+		var password = $('#password').val();
 		$('#username').val('');
 		$('#password').val('');
 		
@@ -19,23 +19,18 @@ function init_login_client(socket){
 		});
 	});
 	
+	// when user clicks 'Login'
 	$('#login').click( function() {
 		// get the username and password
 		var username = $('#username').val();
-		var password = $('password').val();
+		var password = $('#password').val();
 		$('#username').val('');
 		$('#password').val('');
 		
 		socket.emit('login', {username: username, password: password});
-		socket.on('loginsuccess', function(message){
-			var sessionid = Math.floor((Math.random() * 9999999999) + 1).toString();
-			var expires = new Date();
-			expires.setHours(expires.getHours() + 1);
-			
-			document.cookie = "sessionid=" + sessionid + "; expires=" + expires.toString() + ";";
-			document.cookie = "username=" + username + "; expires=" + expires.toString() + ";";
-			
-			socket.emit('storesessioncookie', sessionid);
+		socket.on('loginsuccess', function(data){
+			document.cookie = "sessionid=" + data.sessionid + "; expires=" + data.expires.toString() + ";";
+			document.cookie = "username=" + username + "; expires=" + data.expires.toString() + ";";
 			
 			window.location.replace("waitingroom");
 		});
@@ -52,6 +47,22 @@ function init_login_client(socket){
 			$(this).blur();
 			$('#login').focus().click();
 		}
+	});
+}
+
+function init_waitingroom(socket){
+	// when user clicks 'Logout'
+	$('#logout').click( function() {
+		// get the username and password
+		var username = getCookie("username");
+		var sessionid = getCookie("sessionid");
+		document.cookie = "username=; expires=Thu, 01 Jan 1970 00:00:00 GMT";
+		document.cookie = "seesionid=; expires=Thu, 01 Jan 1970 00:00:00 GMT";
+		
+		socket.emit('logout', sessionid);
+		socket.on('logoutsuccess', function(){
+			window.location.replace("login");
+		});
 	});
 }
 

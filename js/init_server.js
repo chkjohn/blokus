@@ -39,7 +39,7 @@ module.exports = function(io, usernames, connection){
 					message = "Register Fail. The user " + data.username + " already exists.";
 					socket.emit('registerfail', message);
 				} else{
-					message = "Welcome, " + data.username + ". You have registered successfully.\nPlease login to play the game.";
+					message = "Welcome, " + data.username + ". You have registered successfully.\n\nPlease login to play the game.";
 					socket.emit('registersuccess', message);
 				}
 			});
@@ -50,27 +50,40 @@ module.exports = function(io, usernames, connection){
 			connection.query('SELECT * FROM users WHERE username=?', data.username, function(e, rows, fields){
 				var message = '';
 				if (e){
+					// cannot find user in database
 					message = "Login Fail. No such user " + data.username + ".";
 					socket.emit('loginfail', message);
 				} else if (rows['password'] == data.password){
-					message = "Welcome back, " + data.username + ".";
-					socket.emit('loginsuccess', message);
+					// login success
+					var sessionid = Math.floor((Math.random() * 9999999999) + 1).toString();
+					var expires = new Date();
+					expires.setHours(expires.getHours() + 1);
+					expires_sql = expires.toISOString().slice(0, 19).replace('T', ' ');
+					
+					connection.query('INSERT INTO sessions SET ?', {id: sessionid, expire: expires_sql}, function(e, rows, fields){
+						var message = '';
+						if (e)	throw e;
+						console.log(sessionid);
+					});
+
+					socket.emit('loginsuccess', {sessionid: sessionid, expires: expires});
 				} else{
+					// wrong password
 					message = "Login Fail. Wrong password.";
 					socket.emit('loginfail', message);
 				}
 			});
 		});
 		
-		socket.on('storesessioncookie', function(sessionid){
-			var expires = new Date();
-			expires.setHours(expires.getHours() + 1);
-			expires = expires.toISOString().slice(0, 19).replace('T', ' ');
-			
-			connection.query('INSERT INTO sessions SET ?', {id: sessionid, expire: expires}, function(e, rows, fields){
+		// when user clicks on 'Logout'
+		socket.on('logout', function(data){
+			connection.query('DELTE FROM sessions WHERE id=?', data.sessionid, function(e, rows, fields){
 				var message = '';
-				if (e)	throw e;
-				console.log(sessionid);
+				if (e){
+				} else{
+					// logout success
+					socket.emit('logoutsuccess');
+				}
 			});
 		});
 	});

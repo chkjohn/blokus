@@ -6,7 +6,7 @@
 		<script src="/js/function.js"></script>
 	</head>
 	<body>
-		<h1 align=center id="welcome"></h1>
+		<h1 align=center id="welcome"></h1><input id="logout" class=font type=button value=Logout>
 	</body>
 	<script>
 		var username = getCookie("username");
@@ -15,5 +15,7 @@
 		} else{
 			window.location.replace("login");
 		}
+		var socket = io.connect('csci4140project-chkjohn.rhcloud.com:8000');
+		init_waitingroom(socket);
 	</script>
 </html>
