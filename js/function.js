@@ -29,7 +29,7 @@ function init_login(socket){
 		
 		socket.emit('login', {username: username, password: password});
 		socket.on('loginsuccess', function(data){
-			document.cookie = "sessionid=" + data.sessionid.toString() + "; expires=" + data.expires.toUTCTString() + ";";
+			document.cookie = "sessionid=" + data.sessionid.toString() + "; expires=" + data.expires.toUTCString() + ";";
 			document.cookie = "username=" + username + "; expires=" + data.expires.toUTCString() + ";";
 			
 			window.location.replace("waitingroom");
