@@ -24,7 +24,7 @@ connection.connect(function(e){
 	console.log('Connected to database');
 });
 
-connection.query('SET GLOBAL time_zone = ?', "+8:00")
+// connection.query('SET GLOBAL time_zone = ?', "+8:00")
 
 // create tables
 connection.query('DROP TABLE IF EXISTS users');

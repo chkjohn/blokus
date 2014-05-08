@@ -58,7 +58,6 @@ module.exports = function(io, usernames, connection){
 					
 					connection.query('INSERT INTO sessions SET ?', {id: sessionid, expire: expires_sql}, function(e, rows, fields){
 						var message = '';
-						if (e)	throw e;
 						console.log(sessionid);
 					});
 
