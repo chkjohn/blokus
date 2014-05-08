@@ -89,7 +89,7 @@ io.sockets.on('connection', function (socket) {
 		socket.broadcast.emit('updatechat', 'SERVER', socket.username + ' has disconnected');
 	});
 });
-
+/*
 $(function(){
 	// when the client clicks Register
 	$('#register').click( function() {
@@ -127,3 +127,4 @@ $(function(){
 	});
 });
 
+*/
