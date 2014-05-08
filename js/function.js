@@ -7,13 +7,15 @@ function init_login_client(socket){
 		$('#username').val('');
 		$('#password').val('');
 		
-		socket.emit('register', [username, password]);
+		socket.emit('register', {username: username, password: password});
 		socket.on('registersuccess', function(message){
 			$('#login_text').textContent = message;
+			console.log(message);
 		});
 		
 		socket.on('registerfail', function(message){
-			$('#login_text').textContent = "Register Fail. Please try again.";
+			$('#login_text').textContent = message;
+			console.log(message);
 		});
 	});
 	
@@ -24,7 +26,7 @@ function init_login_client(socket){
 		$('#username').val('');
 		$('#password').val('');
 		
-		socket.emit('login', [username, password]);
+		socket.emit('login', {username: username, password: password});
 		socket.on('loginsuccess', function(message){
 			var sessionid = Math.floor((Math.random() * 9999999999) + 1).toString();
 			var expires = new Date();
@@ -36,11 +38,11 @@ function init_login_client(socket){
 			socket.emit('storesessioncookie', sessionid);
 			
 			window.location.replace("waitingroom");
-			
 		});
 		
 		socket.on('loginfail', function(message){
 			$('#login_text').textContent = "Login Fail. Please try again.";
+			console.log(message);
 		});
 	});
 

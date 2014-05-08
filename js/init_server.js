@@ -33,13 +33,13 @@ module.exports = function(io, usernames, connection){
 		
 		// when user clicks on 'Register'
 		socket.on('register', function(data){
-			connection.query('INSERT INTO users VALUES username=?, password=?', {username: data[0], password: data[1]}, function(e, rows, fields){
+			connection.query('INSERT INTO users VALUES ?', data, function(e, rows, fields){
 				var message = '';
 				if (e){
-					message = "Register Fail. The user " + data[0] + " already exists.";
+					message = "Register Fail. The user " + data.username + " already exists.";
 					socket.emit('registerfail', message);
 				} else{
-					message = "Welcome, " + data[0] + ". You have registered successfully.\nPlease login to play the game.";
+					message = "Welcome, " + data.username + ". You have registered successfully.\nPlease login to play the game.";
 					socket.emit('registersuccess', message);
 				}
 			});
@@ -47,13 +47,13 @@ module.exports = function(io, usernames, connection){
 		
 		// when user clicks on 'Login'
 		socket.on('login', function(data){
-			connection.query('SELECT * FROM users WHERE username=?', data[0], function(e, rows, fields){
+			connection.query('SELECT * FROM users WHERE username=?', data.username, function(e, rows, fields){
 				var message = '';
-				if (e || rows['password'] != data[1]){
+				if (e || rows['password'] != data.password){
 					message = "Login Fail.";
 					socket.emit('loginfail', message);
 				} else{
-					message = "Welcome back, " + data[0] + ".";
+					message = "Welcome back, " + data.password + ".";
 					socket.emit('loginsuccess', message);
 				}
 			});
@@ -64,7 +64,7 @@ module.exports = function(io, usernames, connection){
 			expires.setHours(expires.getHours() + 1);
 			expires = expires.toISOString().slice(0, 19).replace('T', ' ');
 			
-			connection.query('INSERT INTO sessions VALUES id=?, expire=?', [sessionid, expires], function(e, rows, fields){
+			connection.query('INSERT INTO sessions VALUES ?', {id: sessionid, expire: expires}, function(e, rows, fields){
 				var message = '';
 				if (e)	throw e;
 				console.log(sessionid);
