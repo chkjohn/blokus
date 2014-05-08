@@ -75,11 +75,10 @@ module.exports = function(io, usernames, connection){
 		// when user clicks on 'Logout'
 		socket.on('logout', function(data){
 			connection.query('DELTE FROM sessions WHERE id=?', data.sessionid, function(e, rows, fields){
-				var message = '';
 				if (e){
 				} else{
 					// logout success
-					socket.emit('logoutsuccess');
+					socket.emit('logoutsuccess', "logout");
 				}
 			});
 		});
