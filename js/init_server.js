@@ -33,7 +33,7 @@ module.exports = function(io, usernames, connection){
 		
 		// when user clicks on 'Register'
 		socket.on('register', function(data){
-			connection.query('INSERT INTO users VALUES ?', data, function(e, rows, fields){
+			connection.query('INSERT INTO users SET ?', data, function(e, rows, fields){
 				var message = '';
 				if (e){
 					message = "Register Fail. The user " + data.username + " already exists.";
@@ -53,7 +53,7 @@ module.exports = function(io, usernames, connection){
 					message = "Login Fail. No such user " + data.username + ".";
 					socket.emit('loginfail', message);
 				} else if (rows['password'] == data.password){
-					message = "Welcome back, " + data.password + ".";
+					message = "Welcome back, " + data.username + ".";
 					socket.emit('loginsuccess', message);
 				} else{
 					message = "Login Fail. Wrong password.";
@@ -67,7 +67,7 @@ module.exports = function(io, usernames, connection){
 			expires.setHours(expires.getHours() + 1);
 			expires = expires.toISOString().slice(0, 19).replace('T', ' ');
 			
-			connection.query('INSERT INTO sessions VALUES ?', {id: sessionid, expire: expires}, function(e, rows, fields){
+			connection.query('INSERT INTO sessions SET ?', {id: sessionid, expire: expires}, function(e, rows, fields){
 				var message = '';
 				if (e)	throw e;
 				console.log(sessionid);
