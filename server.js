@@ -24,10 +24,10 @@ connection.connect(function(e){
 });
 
 // create tables
-connection.query('CREATE TABLE users (' +
+connection.query('CREATE TABLE IF EXISTS users (' +
 					'username varchar(255) NOT NULL PRIMARY KEY,' +
 					'password varchar(255) NOT NULL)');
-connection.query('CREATE TABLE sessions (' +
+connection.query('CREATE TABLE IF EXISTS sessions (' +
 					'id int(20) NOT NULL PRIMARY KEY,' +
 					'expire datetime2)');
 
@@ -89,7 +89,7 @@ io.sockets.on('connection', function (socket) {
 		socket.broadcast.emit('updatechat', 'SERVER', socket.username + ' has disconnected');
 	});
 });
-/*
+
 $(function(){
 	// when the client clicks Register
 	$('#register').click( function() {
@@ -126,5 +126,3 @@ $(function(){
 		}
 	});
 });
-
-*/
