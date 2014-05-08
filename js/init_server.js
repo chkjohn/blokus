@@ -50,7 +50,7 @@ module.exports = function(io, usernames, connection){
 			connection.query('SELECT * FROM users WHERE username=?', data.username, function(e, rows, fields){
 				var message = '';
 				if (e || rows['password'] != data.password){
-					message = "Login Fail.";
+					message = "Login Fail. Please try again.";
 					socket.emit('loginfail', message);
 				} else{
 					message = "Welcome back, " + data.password + ".";

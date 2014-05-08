@@ -9,12 +9,12 @@ function init_login_client(socket){
 		
 		socket.emit('register', {username: username, password: password});
 		socket.on('registersuccess', function(message){
-			$('#login_text').textContent = message;
+			$('#login_text').text(message);
 			console.log(message);
 		});
 		
 		socket.on('registerfail', function(message){
-			$('#login_text').textContent = message;
+			$('#login_text').text(message);
 			console.log(message);
 		});
 	});
@@ -41,7 +41,7 @@ function init_login_client(socket){
 		});
 		
 		socket.on('loginfail', function(message){
-			$('#login_text').textContent = "Login Fail. Please try again.";
+			$('#login_text').text(message);
 			console.log(message);
 		});
 	});
