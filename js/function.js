@@ -29,8 +29,8 @@ function init_login(socket){
 		
 		socket.emit('login', {username: username, password: password});
 		socket.on('loginsuccess', function(data){
-			document.cookie = "sessionid=" + data.sessionid.toString() + "; expires=" + data.expires.toString() + ";";
-			document.cookie = "username=" + username + "; expires=" + data.expires.toString() + ";";
+			document.cookie = "sessionid=" + data.sessionid.toString() + "; expires=" + data.expires.toUCTString() + ";";
+			document.cookie = "username=" + username + "; expires=" + data.expires.toUCTString() + ";";
 			
 			window.location.replace("waitingroom");
 		});
@@ -59,7 +59,7 @@ function init_waitingroom(socket){
 		document.cookie = "username=; expires=Thu, 01 Jan 1970 00:00:00 GMT";
 		document.cookie = "sessionid=; expires=Thu, 01 Jan 1970 00:00:00 GMT";
 		
-		socket.emit('logout', sessionid);
+		socket.emit('logout', parseInt(sessionid));
 		socket.on('logoutsuccess', function(){
 			window.location.replace("login");
 		});

@@ -73,7 +73,7 @@ module.exports = function(io, usernames, connection){
 		
 		// when user clicks on 'Logout'
 		socket.on('logout', function(data){
-			connection.query('DELTE FROM sessions WHERE id=?', parseInt(data.sessionid), function(e, rows, fields){
+			connection.query('DELTE FROM sessions WHERE id=?', data.sessionid, function(e, rows, fields){
 				// logout success
 				socket.emit('logoutsuccess', "logout");
 			});
