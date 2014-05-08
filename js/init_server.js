@@ -51,7 +51,7 @@ module.exports = function(io, usernames, connection){
 				var message = '';
 				if (rows.length == 1){
 					// login success
-					var sessionid = Math.floor((Math.random() * 9999999999) + 1).toString();
+					var sessionid = Math.floor((Math.random() * 9999999998) + 1).toString();
 					var expires = new Date();
 					expires.setHours(expires.getHours() + 1);
 					expires_sql = expires.toISOString().slice(0, 19).replace('T', ' ');
