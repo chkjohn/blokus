@@ -1,12 +1,12 @@
 #!/bin/env node
 //  OpenShift sample Node application
 var express = require('express');
+var app = express();
 var fs = require('fs');
 var http = require('http');
 var mysql =  require('mysql');
-var func = require('js/function.js');
+var func = require('./js/function');
 
-var app = express();
 var osipaddress = process.env.OPENSHIFT_NODEJS_IP; 
 var osport = process.env.OPENSHIFT_NODEJS_PORT;
 
