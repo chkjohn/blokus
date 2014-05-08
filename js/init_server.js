@@ -53,7 +53,7 @@ module.exports = function(io, usernames, connection){
 					// cannot find user in database
 					message = "Login Fail. No such user " + data.username + ".";
 					socket.emit('loginfail', message);
-				} else if (rows['password'] == data.password){
+				} else if (rows[0]['password'] == data.password){
 					// login success
 					var sessionid = Math.floor((Math.random() * 9999999999) + 1).toString();
 					var expires = new Date();
