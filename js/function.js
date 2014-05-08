@@ -28,10 +28,11 @@ function init_login(socket){
 		$('#password').val('');
 		
 		var date = new Date();
+		date.setHours(expires.getHours() + 1);
 		socket.emit('login', {username: username, password: password, date: date});
 		socket.on('loginsuccess', function(data){
-			document.cookie = "sessionid=" + data.sessionid.toString() + "; expires=" + data.expires.toUTCString() + ";";
-			document.cookie = "username=" + username + "; expires=" + data.expires.toUTCString() + ";";
+			document.cookie = "sessionid=" + data.sessionid.toString() + "; expires=" + date.toUTCString() + ";";
+			document.cookie = "username=" + username + "; expires=" + date.toUTCString() + ";";
 			
 			window.location.replace("waitingroom");
 		});
