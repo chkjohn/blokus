@@ -31,7 +31,7 @@ connection.query('CREATE TABLE users (' +
 					'password varchar(255) NOT NULL)');
 connection.query('DROP TABLE IF EXISTS sessions');
 connection.query('CREATE TABLE sessions (' +
-					'id int(20) NOT NULL PRIMARY KEY,' +
+					'id bigint(10) NOT NULL PRIMARY KEY,' +
 					'expire datetime)');
 
 app.set('port', osport || 8080); 
