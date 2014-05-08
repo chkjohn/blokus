@@ -49,8 +49,7 @@ module.exports = function(io, usernames, connection){
 		socket.on('login', function(data){
 			connection.query('SELECT * FROM users WHERE username=? AND password=?', [data.username, data.password], function(e, rows, fields){
 				var message = '';
-				if (e){
-				} else if (rows.length == 1){
+				if (rows.length == 1){
 					// login success
 					var sessionid = Math.floor((Math.random() * 9999999999) + 1).toString();
 					var expires = new Date();
@@ -75,11 +74,8 @@ module.exports = function(io, usernames, connection){
 		// when user clicks on 'Logout'
 		socket.on('logout', function(data){
 			connection.query('DELTE FROM sessions WHERE id=?', data.sessionid, function(e, rows, fields){
-				if (e){
-				} else{
-					// logout success
-					socket.emit('logoutsuccess', "logout");
-				}
+				// logout success
+				socket.emit('logoutsuccess', "logout");
 			});
 		});
 	});
