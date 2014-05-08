@@ -1,5 +1,3 @@
-var service = require('../service.js');
-
 exports.init_server = function(io, usernames, connection){
 	io.sockets.on('connection', function (socket) {
 
