@@ -47,13 +47,13 @@ module.exports = function(io, usernames, connection){
 		
 		// when user clicks on 'Login'
 		socket.on('login', function(data){
-			connection.query('SELECT * FROM users WHERE username=?', data.username, function(e, rows, fields){
+			connection.query('SELECT * FROM users WHERE ?', data, function(e, rows, fields){
 				var message = '';
-				if (e || rows == null){
+				if (e){
 					// cannot find user in database
-					message = "Login Fail. No such user " + data.username + ".";
+					message = "Login Fail. Please try again.";
 					socket.emit('loginfail', message);
-				} else if (rows[0]['password'] == data.password){
+				} else {
 					// login success
 					var sessionid = Math.floor((Math.random() * 9999999999) + 1).toString();
 					var expires = new Date();
@@ -67,10 +67,6 @@ module.exports = function(io, usernames, connection){
 					});
 
 					socket.emit('loginsuccess', {sessionid: sessionid, expires: expires});
-				} else{
-					// wrong password
-					message = "Login Fail. Wrong password.";
-					socket.emit('loginfail', message);
 				}
 			});
 		});
