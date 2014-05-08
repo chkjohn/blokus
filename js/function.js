@@ -57,7 +57,7 @@ function init_waitingroom(socket){
 		var username = getCookie("username");
 		var sessionid = getCookie("sessionid");
 		document.cookie = "username=; expires=Thu, 01 Jan 1970 00:00:00 GMT";
-		document.cookie = "seesionid=; expires=Thu, 01 Jan 1970 00:00:00 GMT";
+		document.cookie = "sessionid=; expires=Thu, 01 Jan 1970 00:00:00 GMT";
 		
 		socket.emit('logout', sessionid);
 		socket.on('logoutsuccess', function(){
