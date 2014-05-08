@@ -47,7 +47,7 @@ module.exports = function(io, usernames, connection){
 		
 		// when user clicks on 'Login'
 		socket.on('login', function(data){
-			connection.query('SELECT * FROM users WHERE ?', data, function(e, rows, fields){
+			connection.query('SELECT * FROM users WHERE username=? AND password=?', [data.username, data.password], function(e, rows, fields){
 				var message = '';
 				if (e){
 					// cannot find user in database
