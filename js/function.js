@@ -104,7 +104,7 @@ function check_session(socket, sessionid, username, atloginpage){
 				window.location.replace("login");
 			}
 		});
-	} else{
+	} else if (!atloginpage){
 		window.location.replace("login");
 	}
 }
