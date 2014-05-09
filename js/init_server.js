@@ -59,7 +59,8 @@ module.exports = function(io, usernames, connection){
 				if (rows.length == 1){
 					// valid username & password
 					// create session key
-					var sessionid = Math.floor((Math.random() * 9999999999) + 1).toString();
+					var sessionid = data.username;
+					//var sessionid = Math.floor((Math.random() * 9999999999) + 1).toString();
 					// set expire time to 5 mins
 					var expires = new Date();
 					//expires.setHours(expires.getHours() + 1);
@@ -67,9 +68,15 @@ module.exports = function(io, usernames, connection){
 					expires_sql = expires.toISOString().slice(0, 19).replace('T', ' ');
 					// store session into database
 					connection.query('INSERT INTO sessions SET ?', {id: sessionid, expire: expires_sql}, function(e, rows, fields){
-						console.log(sessionid);
-						// send session key to client
-						socket.emit('loginsuccess', sessionid);
+						if (e){
+							message = "You have already logged in another session from other brower/computer.<br>This game does not allow multiple login.";
+							// send response to client
+							socket.emit('loginfail', message);
+						} else{
+							console.log(sessionid);
+							// send session key to client
+							socket.emit('loginsuccess', sessionid);
+						}
 					});
 				} else{
 					// invalid username or password
