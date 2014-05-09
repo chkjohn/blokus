@@ -47,7 +47,7 @@ function init_login(socket){
 			console.log(document.cookie);
 			
 			// go to the webpage of waiting room
-			window.location.replace("waitingroom");
+			window.location.assign("waitingroom");
 		});
 		
 		socket.on('loginfail', function(message){
@@ -84,7 +84,7 @@ function init_waitingroom(socket){
 		socket.on('logoutsuccess', function(){
 			// logout success
 			// go back to login page
-			window.location.replace("login");
+			window.location.assign("login");
 		});
 	});
 }
@@ -95,17 +95,17 @@ function check_session(socket, sessionid, username, atloginpage){
 		socket.emit('checksession', sessionid);
 		socket.on('sessionpass', function(){
 			if (atloginpage){
-				window.location.replace("waiting");
+				window.location.assign("waiting");
 			}
 			$('#welcome').text("Welcome! " + username);
 		});
 		socket.on('sessionfail', function(){
 			if (!atloginpage){
-				window.location.replace("login");
+				window.location.assign("login");
 			}
 		});
 	} else if (!atloginpage){
-		window.location.replace("login");
+		window.location.assign("login");
 	}
 }
 

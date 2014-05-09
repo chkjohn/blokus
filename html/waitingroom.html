@@ -15,7 +15,7 @@
 		var sessionid = getCookie("sessionid");
 		var username = getCookie("username");
 		
-		$(check_session(socket, sessionid, username, false));
+		check_session(socket, sessionid, username, false);
 		$(init_waitingroom(socket));
 	</script>
 </html>
