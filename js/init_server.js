@@ -77,4 +77,24 @@ module.exports = function(io, usernames, connection){
 			});
 		});
 	});
+	
+	// for every 5 mins, check if the sessions in database have been expired
+	// delete all the expired session
+	setInterval(function(){
+		connection.query('SELECT * FROM sessions', function(e, rows, fields){
+			var message = '';
+			if (rows.length > 0){
+				for (var i in rows){
+					var sessionid = rows[i].sessionid;
+					var t = rows[i].expire.split(/[- :]/);
+					var expires = new Date(t[0], t[1]-1, t[2], t[3], t[4], t[5]);
+					var currenttime = new Date();
+					
+					if (currenttime.getTime() >= expires){
+						connection.query('DELETE FROM sessions WHERE id=?', sessionid);
+					}
+				}
+			}
+		});
+	}, 300000);
 }
