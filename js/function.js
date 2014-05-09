@@ -38,12 +38,11 @@ function init_login(socket){
 		socket.on('loginsuccess', function(sessionid){
 			// login success
 			var expires = new Date();
-			//expires.setHours(expires.getHours() + 1);
-			expires.setMinutes(expires.getMinutes() + 5);
+			expires.setHours(expires.getHours() + 1);
+			//expires.setMinutes(expires.getMinutes() + 5);
 			
 			// store the session key and username as cookies
 			document.cookie = "sessionid=" + sessionid + "; expires=" + expires.toUTCString() + ";";
-			//document.cookie = "username=" + username + "; expires=" + expires.toUTCString() + ";";
 			console.log(document.cookie);
 			
 			// go to the webpage of waiting room
@@ -72,11 +71,9 @@ function init_waitingroom(socket){
 	// when user clicks 'Logout'
 	$('#logout').click( function() {
 		// get the username and sessionid for cookies
-		//var username = getCookie("username");
 		var sessionid = getCookie("sessionid");
 		
 		// delete all cookies
-		//document.cookie = "username=; expires=Thu, 01 Jan 1970 00:00:00 GMT";
 		document.cookie = "sessionid=; expires=Thu, 01 Jan 1970 00:00:00 GMT";
 		
 		// send 'logout' request to server

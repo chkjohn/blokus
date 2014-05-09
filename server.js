@@ -43,6 +43,10 @@ connection.query('INSERT INTO users SET ?', {username: 'walter', password: 'walt
 app.set('port', osport || 8080); 
 app.set('ipaddress', osipaddress); 
 
+var server = http.createServer(app);
+server.listen(app.get('port'), app.get('ipaddress'));
+var io = require('socket.io').listen(server);
+
 app.use('/js', express.static(__dirname + '/js'));
 app.use('/html', express.static(__dirname + '/html'));
 
@@ -62,10 +66,6 @@ app.get('/login', function(request, response) {
 app.get('/waitingroom', function(request, response) {
     response.sendfile(__dirname + "/html/waitingroom.html");
 });
-
-var server = http.createServer(app);
-server.listen(app.get('port'), app.get('ipaddress'));
-var io = require('socket.io').listen(server);
 
 // usernames which are currently connected to the chat
 var usernames = {};

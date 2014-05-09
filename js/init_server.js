@@ -60,11 +60,10 @@ module.exports = function(io, usernames, connection){
 					// valid username & password
 					// create session key
 					var sessionid = data.username;
-					//var sessionid = Math.floor((Math.random() * 9999999999) + 1).toString();
 					// set expire time to 5 mins
 					var expires = new Date();
-					//expires.setHours(expires.getHours() + 1);
-					expires.setMinutes(expires.getMinutes() + 5);
+					expires.setHours(expires.getHours() + 1);
+					//expires.setMinutes(expires.getMinutes() + 5);
 					expires_sql = expires.toISOString().slice(0, 19).replace('T', ' ');
 					// store session into database
 					connection.query('INSERT INTO sessions SET ?', {id: sessionid, expire: expires_sql}, function(e, rows, fields){
