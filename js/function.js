@@ -95,7 +95,7 @@ function check_session(socket, sessionid, username, atloginpage){
 		socket.emit('sessioncheck', sessionid);
 		socket.on('sessionpass', function(){
 			if (atloginpage){
-				window.location.assign("waiting");
+				window.location.assign("waitingroom");
 			}
 			$('#welcome').text("Welcome! " + username);
 		});
