@@ -53,7 +53,8 @@ module.exports = function(io, usernames, connection){
 					// login success
 					var sessionid = Math.floor((Math.random() * 9999999999) + 1).toString();
 					var expires = new Date();
-					expires.setHours(expires.getHours() + 1);
+					//expires.setHours(expires.getHours() + 1);
+					expires.setMinutes(expires.getMinutes() + 1);
 					expires_sql = expires.toUTCString().slice(0, 19).replace('T', ' ');
 					
 					connection.query('INSERT INTO sessions SET ?', {id: sessionid, expire: expires_sql}, function(e, rows, fields){

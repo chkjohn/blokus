@@ -30,8 +30,9 @@ function init_login(socket){
 		socket.emit('login', {username: username, password: password});
 		socket.on('loginsuccess', function(data){
 			var expires = new Date();
-			expires.setHours(expires.getHours() + 1);
-			document.cookie = "sessionid=" + data.sessionid + "; expires=" + date.toUTCString() + ";";
+			//expires.setHours(expires.getHours() + 1);
+			expires.setMinutes(expires.getMinutes() + 1);
+			document.cookie = "sessionid=" + data.sessionid + "; expires=" + expires.toUTCString() + ";";
 			document.cookie = "username=" + username + "; expires=" + expires.toUTCString() + ";";
 			
 			window.location.replace("waitingroom");
