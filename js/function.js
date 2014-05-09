@@ -53,7 +53,7 @@ function init_login(socket){
 		socket.on('loginfail', function(message){
 			// login fail
 			// display message in the webpage
-			$('#login_text').text(message);
+			$('#login_text').html(message);
 			console.log(message);
 		});
 	});
