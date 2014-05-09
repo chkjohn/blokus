@@ -39,7 +39,7 @@ module.exports = function(io, usernames, connection){
 					message = "Register Fail. The user " + data.username + " already exists.";
 					socket.emit('registerfail', message);
 				} else{
-					message = "Welcome, " + data.username + ". You have registered successfully.\n\nPlease login to play the game.";
+					message = "Welcome, " + data.username + ". You have registered successfully. <br>Please login to play the game.";
 					socket.emit('registersuccess', message);
 				}
 			});

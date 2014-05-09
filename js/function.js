@@ -1,3 +1,4 @@
+// init function for login.html
 function init_login(socket){
 	// when user clicks 'Register'
 	$('#register').click( function() {
@@ -7,13 +8,16 @@ function init_login(socket){
 		$('#username').val('');
 		$('#password').val('');
 		
+		// send 'register' request to server
 		socket.emit('register', {username: username, password: password});
 		socket.on('registersuccess', function(message){
-			$('#login_text').text(message);
+			// register success
+			$('#login_text').html(message);
 			console.log(message);
 		});
 		
 		socket.on('registerfail', function(message){
+			// register fail
 			$('#login_text').text(message);
 			console.log(message);
 		});
@@ -54,22 +58,28 @@ function init_login(socket){
 	});
 }
 
+// init function for waitingroom.html
 function init_waitingroom(socket){
 	// when user clicks 'Logout'
 	$('#logout').click( function() {
-		// get the username and password
+		// get the username and sessionid for cookies
 		var username = getCookie("username");
 		var sessionid = getCookie("sessionid");
+		
+		// delete all cookies
 		document.cookie = "username=; expires=Thu, 01 Jan 1970 00:00:00 GMT";
 		document.cookie = "sessionid=; expires=Thu, 01 Jan 1970 00:00:00 GMT";
 		
+		// send 'logout' request to server
 		socket.emit('logout', sessionid);
 		socket.on('logoutsuccess', function(){
+			// logout success, go back to login page
 			window.location.replace("login");
 		});
 	});
 }
 
+// get the value (string) of cookie
 function getCookie(cname){
 	var name = cname + "=";
 	var ca = document.cookie.split(';');
