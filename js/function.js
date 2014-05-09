@@ -47,7 +47,7 @@ function init_login(socket){
 			console.log(document.cookie);
 			
 			// go to the webpage of waiting room
-			window.location.assign("waitingroom");
+			window.location.replace("waitingroom");
 		});
 		
 		socket.on('loginfail', function(message){
@@ -84,29 +84,9 @@ function init_waitingroom(socket){
 		socket.on('logoutsuccess', function(){
 			// logout success
 			// go back to login page
-			window.location.assign("login");
+			window.location.replace("login");
 		});
 	});
-}
-
-// check if the session key of client matches the record in database
-function check_session(socket, sessionid, username, atloginpage){
-	if (sessionid != "" && username != ""){
-		socket.emit('sessioncheck', sessionid);
-		socket.on('sessionpass', function(){
-			if (atloginpage){
-				window.location.assign("waitingroom");
-			}
-			$('#welcome').text("Welcome! " + username);
-		});
-		socket.on('sessionfail', function(){
-			if (!atloginpage){
-				window.location.assign("login");
-			}
-		});
-	} else if (!atloginpage){
-		window.location.assign("login");
-	}
 }
 
 // get the value (string) of cookie

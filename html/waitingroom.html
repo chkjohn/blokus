@@ -8,19 +8,18 @@
 	</head>
 	<body>
 		<h1 align=center id="welcome"></h1>
+		<script>
+			var sessionid = getCookie("sessionid");
+			if (sessionid != ""){
+				$('#welcome').text("Welcome! " + sessionid);
+			} else{
+				window.location.replace('login');
+			}
+		</script>
 		<input id="logout" class=font type=button value=Logout>
 	</body>
 	<script>
 		var socket = io.connect('csci4140project-chkjohn.rhcloud.com:8000');
-		var sessionid = getCookie("sessionid");
-		//var username = getCookie("username");
-		
-		if (sessionid != ""){
-			$('#welcome').text("Welcome! " + sessionid);
-		} else{
-			window.location.replace('login');
-		}
-		
 		$(init_waitingroom(socket));
 	</script>
 </html>
