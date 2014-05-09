@@ -35,10 +35,10 @@ connection.query('DROP TABLE IF EXISTS sessions');
 connection.query('CREATE TABLE sessions (' +
 					'id varchar(255) NOT NULL PRIMARY KEY,' +
 					'expire datetime)');
-connection.query('INSERT INTO users SET ?', {username: john, password: john});
-connection.query('INSERT INTO users SET ?', {username: danny, password: danny});
-connection.query('INSERT INTO users SET ?', {username: raymond, password: raymond});
-connection.query('INSERT INTO users SET ?', {username: walter, password: walter});
+connection.query('INSERT INTO users SET ?', {username: 'john', password: 'john'});
+connection.query('INSERT INTO users SET ?', {username: 'danny', password: 'danny'});
+connection.query('INSERT INTO users SET ?', {username: 'raymond', password: 'raymond'});
+connection.query('INSERT INTO users SET ?', {username: 'walter', password: 'walter'});
 
 app.set('port', osport || 8080); 
 app.set('ipaddress', osipaddress); 
