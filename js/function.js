@@ -90,14 +90,19 @@ function init_waitingroom(socket){
 }
 
 // check if the session key of client matches the record in database
-function check_session(socket, sessionid, username){
+function check_session(socket, sessionid, username, atloginpage){
 	if (sessionid != "" && username != ""){
 		socket.emit('checksession', sessionid);
 		socket.on('sessionpass', function(){
-			$('#welcome').text("Welcome back! " + username);
+			if (atloginpage){
+				window.location.replace("waiting");
+			}
+			$('#welcome').text("Welcome! " + username);
 		});
 		socket.on('sessionfail', function(){
-			window.location.replace("login");
+			if (!atloginpage){
+				window.location.replace("login");
+			}
 		});
 	} else{
 		window.location.replace("login");
