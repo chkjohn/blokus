@@ -92,7 +92,7 @@ function init_waitingroom(socket){
 // check if the session key of client matches the record in database
 function check_session(socket, sessionid, username, atloginpage){
 	if (sessionid != "" && username != ""){
-		socket.emit('checksession', sessionid);
+		socket.emit('sessioncheck', sessionid);
 		socket.on('sessionpass', function(){
 			if (atloginpage){
 				window.location.assign("waiting");
