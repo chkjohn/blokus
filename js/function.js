@@ -28,12 +28,13 @@ function init_login(socket){
 		$('#password').val('');
 		
 		socket.emit('login', {username: username, password: password});
-		socket.on('loginsuccess', function(data){
+		socket.on('loginsuccess', function(sessionid){
 			var expires = new Date();
 			//expires.setHours(expires.getHours() + 1);
-			expires.setMinutes(expires.getMinutes() + 1);
-			document.cookie = "sessionid=" + data.sessionid + "; expires=" + expires.toUTCString() + ";";
+			expires.setMinutes(expires.getMinutes() + 5);
+			document.cookie = "sessionid=" + sessionid + "; expires=" + expires.toUTCString() + ";";
 			document.cookie = "username=" + username + "; expires=" + expires.toUTCString() + ";";
+			console.log(document.cookie);
 			
 			window.location.replace("waitingroom");
 		});
