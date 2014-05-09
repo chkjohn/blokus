@@ -51,10 +51,9 @@ module.exports = function(io, usernames, connection){
 				var message = '';
 				if (rows.length == 1){
 					// login success
-					var sessionid = Math.floor((Math.random() * 9999999998) + 1).toString();
+					var sessionid = Math.floor((Math.random() * 9999999999) + 1).toString();
 					var expires = new Date();
-					//var expires = data.date;
-					//expires.setHours(expires.getHours() + 1);
+					expires.setHours(expires.getHours() + 1);
 					expires_sql = expires.toUTCString().slice(0, 19).replace('T', ' ');
 					
 					connection.query('INSERT INTO sessions SET ?', {id: sessionid, expire: expires_sql}, function(e, rows, fields){
@@ -62,7 +61,7 @@ module.exports = function(io, usernames, connection){
 						console.log(sessionid);
 					});
 
-					socket.emit('loginsuccess', {sessionid: sessionid, expires: expires});
+					socket.emit('loginsuccess', sessionid);
 				} else{
 					// login fail
 					message = "Login Fail. Please try again.";

@@ -27,12 +27,12 @@ function init_login(socket){
 		$('#username').val('');
 		$('#password').val('');
 		
-		var date = new Date();
-		date.setHours(date.getHours() + 1);
-		socket.emit('login', {username: username, password: password, date: date});
+		socket.emit('login', {username: username, password: password});
 		socket.on('loginsuccess', function(data){
-			document.cookie = "sessionid=" + data.sessionid.toString() + "; expires=" + date.toUTCString() + ";";
-			document.cookie = "username=" + username + "; expires=" + date.toUTCString() + ";";
+			var expires = new Date();
+			expires.setHours(expires.getHours() + 1);
+			document.cookie = "sessionid=" + data.sessionid + "; expires=" + date.toUTCString() + ";";
+			document.cookie = "username=" + username + "; expires=" + expires.toUTCString() + ";";
 			
 			window.location.replace("waitingroom");
 		});
@@ -61,7 +61,7 @@ function init_waitingroom(socket){
 		document.cookie = "username=; expires=Thu, 01 Jan 1970 00:00:00 GMT";
 		document.cookie = "sessionid=; expires=Thu, 01 Jan 1970 00:00:00 GMT";
 		
-		socket.emit('logout', parseInt(sessionid));
+		socket.emit('logout', sessionid);
 		socket.on('logoutsuccess', function(){
 			window.location.replace("login");
 		});
