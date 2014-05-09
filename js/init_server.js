@@ -70,8 +70,8 @@ module.exports = function(io, usernames, connection){
 		});
 		
 		// when user clicks on 'Logout'
-		socket.on('logout', function(data){
-			connection.query('DELETE FROM sessions WHERE id=?', data.sessionid, function(e, rows, fields){
+		socket.on('logout', function(sessionid){
+			connection.query('DELETE FROM sessions WHERE id=?', sessionid, function(e, rows, fields){
 				// logout success
 				socket.emit('logoutsuccess', "logout");
 			});
