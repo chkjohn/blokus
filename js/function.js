@@ -12,12 +12,14 @@ function init_login(socket){
 		socket.emit('register', {username: username, password: password});
 		socket.on('registersuccess', function(message){
 			// register success
+			// display message in the webpage
 			$('#login_text').html(message);
 			console.log(message);
 		});
 		
 		socket.on('registerfail', function(message){
 			// register fail
+			// display message in the webpage
 			$('#login_text').text(message);
 			console.log(message);
 		});
@@ -31,19 +33,26 @@ function init_login(socket){
 		$('#username').val('');
 		$('#password').val('');
 		
+		// send 'login' request to server
 		socket.emit('login', {username: username, password: password});
 		socket.on('loginsuccess', function(sessionid){
+			// login success
 			var expires = new Date();
 			//expires.setHours(expires.getHours() + 1);
 			expires.setMinutes(expires.getMinutes() + 5);
+			
+			// store the session key and username as cookies
 			document.cookie = "sessionid=" + sessionid + "; expires=" + expires.toUTCString() + ";";
 			document.cookie = "username=" + username + "; expires=" + expires.toUTCString() + ";";
 			console.log(document.cookie);
 			
+			// go to the webpage of waiting room
 			window.location.replace("waitingroom");
 		});
 		
 		socket.on('loginfail', function(message){
+			// login fail
+			// display message in the webpage
 			$('#login_text').text(message);
 			console.log(message);
 		});
@@ -73,10 +82,26 @@ function init_waitingroom(socket){
 		// send 'logout' request to server
 		socket.emit('logout', sessionid);
 		socket.on('logoutsuccess', function(){
-			// logout success, go back to login page
+			// logout success
+			// go back to login page
 			window.location.replace("login");
 		});
 	});
+}
+
+// check if the session key of client matches the record in database
+function check_session(socket, sessionid, username){
+	if (sessionid != "" && username != ""){
+		socket.emit('checksession', sessionid);
+		socket.on('sessionpass', function(){
+			$('#welcome').text("Welcome back! " + username);
+		});
+		socket.on('sessionfail', function(){
+			window.location.replace("login");
+		});
+	} else{
+		window.location.replace("login");
+	}
 }
 
 // get the value (string) of cookie
@@ -85,7 +110,8 @@ function getCookie(cname){
 	var ca = document.cookie.split(';');
 	for(var i=0; i<ca.length; i++) {
 		var c = ca[i].trim();
-		if (c.indexOf(name)==0) return c.substring(name.length,c.length);
+		if (c.indexOf(name)==0)
+			return c.substring(name.length,c.length);
 	}
 	return "";
 }

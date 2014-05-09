@@ -1,6 +1,6 @@
 module.exports = function(io, usernames, connection){
 	io.sockets.on('connection', function (socket) {
-
+		/* Code for Chat Room Start*/
 		// when the client emits 'sendchat', this listens and executes
 		socket.on('sendchat', function (data) {
 			// we tell the client to execute 'updatechat' with 2 parameters
@@ -30,16 +30,22 @@ module.exports = function(io, usernames, connection){
 			// echo globally that this client has left
 			socket.broadcast.emit('updatechat', 'SERVER', socket.username + ' has disconnected');
 		});
+		/* Code for Chat Room End*/
 		
+		
+		/* Code for Login System Start*/
 		// when user clicks on 'Register'
 		socket.on('register', function(data){
+			// insert user's info into data
 			connection.query('INSERT INTO users SET ?', data, function(e, rows, fields){
 				var message = '';
-				if (e){
+				if (e){ // the username already exists in database
 					message = "Register Fail. The user " + data.username + " already exists.";
+					// send response to client
 					socket.emit('registerfail', message);
-				} else{
+				} else{ // user's info has been inserted
 					message = "Welcome, " + data.username + ". You have registered successfully. <br>Please login to play the game.";
+					// send response to client
 					socket.emit('registersuccess', message);
 				}
 			});
@@ -47,22 +53,26 @@ module.exports = function(io, usernames, connection){
 		
 		// when user clicks on 'Login'
 		socket.on('login', function(data){
+			// check if the user's inputs match the record in the database
 			connection.query('SELECT * FROM users WHERE username=? AND password=?', [data.username, data.password], function(e, rows, fields){
 				var message = '';
 				if (rows.length == 1){
-					// login success
+					// valid username & password
+					// create session key
 					var sessionid = Math.floor((Math.random() * 9999999999) + 1).toString();
+					// set expire time to 5 mins
 					var expires = new Date();
 					//expires.setHours(expires.getHours() + 1);
 					expires.setMinutes(expires.getMinutes() + 5);
 					expires_sql = expires.toISOString().slice(0, 19).replace('T', ' ');
-					
+					// store session into database
 					connection.query('INSERT INTO sessions SET ?', {id: sessionid, expire: expires_sql}, function(e, rows, fields){
 						console.log(sessionid);
+						// send session key to client
 						socket.emit('loginsuccess', sessionid);
 					});
 				} else{
-					// login fail
+					// invalid username or password
 					message = "Login Fail. Please try again.";
 					socket.emit('loginfail', message);
 				}
@@ -71,15 +81,31 @@ module.exports = function(io, usernames, connection){
 		
 		// when user clicks on 'Logout'
 		socket.on('logout', function(sessionid){
+			// delete the corresponding session from database
 			connection.query('DELETE FROM sessions WHERE id=?', sessionid, function(e, rows, fields){
 				// logout success
 				socket.emit('logoutsuccess', "logout");
 			});
 		});
+		
+		socket.on('sessioncheck', function(sessionid){
+			connection.query('SELECT * FROM sessions WHERE id=?', sessionid, function(e, rows, fields){
+				var message = '';
+				if (rows.length == 1){
+					// valid session key
+					socket.emit('sessionpass', message);
+				} else{
+					// invalid session key
+					socket.emit('sessionfail', message);
+				}
+			});
+		});
+		/* Code for Login System End*/
 	});
 	
+	
 	// for every 5 mins, check if the sessions in database have been expired
-	// delete all the expired session
+	// delete all the expired sessions
 	setInterval(function(){
 		connection.query('SELECT * FROM sessions', function(e, rows, fields){
 			var message = '';
@@ -90,7 +116,9 @@ module.exports = function(io, usernames, connection){
 					var expires = new Date(t[0], t[1]-1, t[2], t[3], t[4], t[5]);
 					var currenttime = new Date();
 					
+					// for each record, check if the current time is beyond the expire time
 					if (currenttime.getTime() >= expires){
+						// if so, delete the record
 						connection.query('DELETE FROM sessions WHERE id=?', sessionid);
 					}
 				}

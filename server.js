@@ -24,9 +24,9 @@ connection.connect(function(e){
 	console.log('Connected to database');
 });
 
-// connection.query('SET GLOBAL time_zone = ?', "+8:00")
+// connection.query('SET GLOBAL time_zone = ?', "+8:00");
 
-// create tables
+// initialize database
 connection.query('DROP TABLE IF EXISTS users');
 connection.query('CREATE TABLE users (' +
 					'username varchar(255) NOT NULL PRIMARY KEY,' +
@@ -35,6 +35,10 @@ connection.query('DROP TABLE IF EXISTS sessions');
 connection.query('CREATE TABLE sessions (' +
 					'id varchar(255) NOT NULL PRIMARY KEY,' +
 					'expire datetime)');
+connection.query('INSERT INTO users SET ?', {username: john, password: john});
+connection.query('INSERT INTO users SET ?', {username: danny, password: danny});
+connection.query('INSERT INTO users SET ?', {username: raymond, password: raymond});
+connection.query('INSERT INTO users SET ?', {username: walter, password: walter});
 
 app.set('port', osport || 8080); 
 app.set('ipaddress', osipaddress); 
@@ -44,10 +48,10 @@ app.use('/html', express.static(__dirname + '/html'));
 
 // routing
 app.get('/', function(request, response) {
-    response.sendfile(__dirname + "/index.html");
+    response.sendfile(__dirname + "/html/index.html");
 });
 app.get('/index', function(request, response) {
-    response.sendfile(__dirname + "/index.html");
+    response.sendfile(__dirname + "/html/index.html");
 });
 app.get('/blokus', function(request, response) {
     response.sendfile(__dirname + "/html/blokus.html");

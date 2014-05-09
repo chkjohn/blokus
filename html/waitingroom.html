@@ -5,18 +5,17 @@
 		<script src="/socket.io/socket.io.js"></script>
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
 		<script src="/js/function.js"></script>
+		<script>
+			var socket = io.connect('csci4140project-chkjohn.rhcloud.com:8000');
+			var sessionid = getCookie("sessionid");
+			var username = getCookie("username");
+			
+			check_session(socket, sessionid, username);
+			$(init_waitingroom(socket));
+		</script>
 	</head>
 	<body>
-		<h1 align=center id="welcome"></h1><input id="logout" class=font type=button value=Logout>
+		<h1 align=center id="welcome"></h1>
+		<input id="logout" class=font type=button value=Logout>
 	</body>
-	<script>
-		var username = getCookie("username");
-		if (username != ""){
-			$('#welcome').text("Welcome back! " + username);
-		} else{
-			window.location.replace("login");
-		}
-		var socket = io.connect('csci4140project-chkjohn.rhcloud.com:8000');
-		init_waitingroom(socket);
-	</script>
 </html>
