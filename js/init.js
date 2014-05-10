@@ -13,7 +13,7 @@ module.exports = {
 		connection.query('INSERT INTO users SET ?', {username: 'danny', password: 'danny'});
 		connection.query('INSERT INTO users SET ?', {username: 'raymond', password: 'raymond'});
 		connection.query('INSERT INTO users SET ?', {username: 'walter', password: 'walter'});
-	}
+	},
 	
 	init_server: function(io, usernames, connection){
 		io.sockets.on('connection', function (socket) {

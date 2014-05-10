@@ -59,6 +59,9 @@ app.get('/login', function(request, response) {
 			if (rows.length == 1){
 				// valid session key
 				response.redirect('/waitingroom');
+			} else{
+				response.clearCookie('sessionid');
+				response.clearCookie('username');
 			}
 		});
 	}
@@ -69,7 +72,9 @@ app.get('/waitingroom', function(request, response) {
 		connection.query('SELECT * FROM sessions WHERE id=?', request.cookies.sessionid, function(e, rows, fields){
 			var message = '';
 			if (rows.length != 1){
-				// valid session key
+				// invalid session key
+				response.clearCookie('sessionid');
+				response.clearCookie('username');
 				response.redirect('/login');
 			}
 		});
