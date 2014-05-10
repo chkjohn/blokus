@@ -54,7 +54,23 @@ app.use('/js', express.static(__dirname + '/js'));
 app.use(express.cookieParser());
 app.use(express.session({secret: 'blokus'}));
 
-router(app);
+// routing
+app.get('/', function(request, response) {
+	response.sendfile(__dirname + "/html/index.html");
+});
+app.get('/index', function(request, response) {
+	response.sendfile(__dirname + "/html/index.html");
+});
+app.get('/blokus', function(request, response) {
+	response.sendfile(__dirname + "/html/blokus.html");
+});
+app.get('/login', function(request, response) {
+	response.cookie('test', 'Hello', { maxAge: 900000 });
+	response.sendfile(__dirname + "/html/login.html");
+});
+app.get('/waitingroom', function(request, response) {
+	response.sendfile(__dirname + "/html/waitingroom.html");
+});
 
 // usernames which are currently connected to the chat
 var usernames = {};
