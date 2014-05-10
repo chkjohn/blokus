@@ -101,7 +101,7 @@ function init_waitingroom(socket){
 	});
 	
 	var g = new Cango3D("cube");
-	var cube = buildCube(g, 500, ['red', 'red', 'red', 'red', 'red', 'red']);
+	var cube = buildCube(g, 200, ['red', 'blue', 'green', 'yello', 'silver', 'grey']);
 	var moved = g.createGroup3D(cube);
 	g.render(moved);
 }
