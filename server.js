@@ -58,7 +58,7 @@ app.get('/login', function(request, response) {
 			var message = '';
 			if (rows.length == 1){
 				// valid session key
-				response.redirect('/waitingroom');
+				response.sendfile(__dirname + "/html/waitingroom.html");
 			} else{
 				response.clearCookie('sessionid');
 				response.clearCookie('username');
@@ -75,7 +75,7 @@ app.get('/waitingroom', function(request, response) {
 				// invalid session key
 				response.clearCookie('sessionid');
 				response.clearCookie('username');
-				response.redirect('/login');
+				response.sendfile(__dirname + "/html/login.html");
 			}
 		});
 	}

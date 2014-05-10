@@ -111,19 +111,6 @@ module.exports = {
 					socket.emit('logoutsuccess', "logout");
 				});
 			});
-			
-			socket.on('sessioncheck', function(sessionid){
-				connection.query('SELECT * FROM sessions WHERE id=?', sessionid, function(e, rows, fields){
-					var message = '';
-					if (rows.length == 1){
-						// valid session key
-						socket.emit('sessionpass', message);
-					} else{
-						// invalid session key
-						socket.emit('sessionfail', message);
-					}
-				});
-			});
 			/* Code for Login System End*/
 		});
 		
