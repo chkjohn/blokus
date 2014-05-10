@@ -52,13 +52,13 @@ app.get('/blokus', function(request, response) {
 	response.sendfile(__dirname + "/html/blokus.html");
 });
 app.get('/login', function(request, response) {
-	response.cookie('test', 'Hello', { maxAge: 900000 });
+	//response.cookie('test', 'Hello', { maxAge: 900000 });
 	if (request.cookies.sessionid != undefined){
 		connection.query('SELECT * FROM sessions WHERE id=?', request.cookies.sessionid, function(e, rows, fields){
 			var message = '';
 			if (rows.length == 1){
 				// valid session key
-				response.sendfile(__dirname + "/html/waitingroom.html");
+				response.redirect('/waitingroom');
 			} else{
 				response.clearCookie('sessionid');
 				response.clearCookie('username');
@@ -75,7 +75,7 @@ app.get('/waitingroom', function(request, response) {
 				// invalid session key
 				response.clearCookie('sessionid');
 				response.clearCookie('username');
-				response.sendfile(__dirname + "/html/login.html");
+				response.redirect('/login');
 			}
 		});
 	}
