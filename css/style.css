@@ -1,3 +1,11 @@
 .font{
 	font-family: Courier New;
 }
+
+.button{
+	background-color: initial;
+}
+
+.button.hover{
+	background-color: blue;
+}
