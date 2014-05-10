@@ -62,14 +62,14 @@ app.get('/login', function(request, response) {
 				response.clearCookie('sessionid');
 				response.clearCookie('username');
 			} else{
-				response.sendfile('/waitingroom');
+				response.sendfile(__dirname + "/html/waitingroom.html");
 			}
 		});
 	} else{
 		console.log("cookies not found!");
 		console.log(request.cookies);
-		response.sendfile(__dirname + "/html/login.html");
 	}
+	response.sendfile(__dirname + "/html/login.html");
 });
 app.get('/waitingroom', function(request, response) {
 	if (request.cookies.sessionid != undefined){
@@ -80,14 +80,14 @@ app.get('/waitingroom', function(request, response) {
 				// invalid session key
 				response.clearCookie('sessionid');
 				response.clearCookie('username');
-				response.sendfile('/login');
+				response.sendfile(_dirname + "/html/login.html");
 			}
 		});
 	}  else{
 		console.log("cookies not found!");
 		console.log(request.cookies);
-		response.sendfile(__dirname + "/html/waitingroom.html");
 	}
+	response.sendfile(__dirname + "/html/waitingroom.html");
 });
 
 // usernames which are currently connected to the chat
