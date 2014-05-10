@@ -5,7 +5,7 @@ var app = express();
 var fs = require('fs');
 var http = require('http');
 var mysql =  require('mysql');
-var init_server = require('./js/init_server');
+var init = require('./js/init');
 
 var osipaddress = process.env.OPENSHIFT_NODEJS_IP; 
 var osport = process.env.OPENSHIFT_NODEJS_PORT;
@@ -24,21 +24,9 @@ connection.connect(function(e){
 	console.log('Connected to database');
 });
 
-// connection.query('SET GLOBAL time_zone = ?', "+8:00");
+init.init_db(connection);
 
-// initialize database
-connection.query('DROP TABLE IF EXISTS users');
-connection.query('CREATE TABLE users (' +
-					'username varchar(255) NOT NULL PRIMARY KEY,' +
-					'password varchar(255) NOT NULL)');
-connection.query('DROP TABLE IF EXISTS sessions');
-connection.query('CREATE TABLE sessions (' +
-					'id varchar(255) NOT NULL PRIMARY KEY,' +
-					'expire datetime)');
-connection.query('INSERT INTO users SET ?', {username: 'john', password: 'john'});
-connection.query('INSERT INTO users SET ?', {username: 'danny', password: 'danny'});
-connection.query('INSERT INTO users SET ?', {username: 'raymond', password: 'raymond'});
-connection.query('INSERT INTO users SET ?', {username: 'walter', password: 'walter'});
+// connection.query('SET GLOBAL time_zone = ?', "+8:00");
 
 app.set('port', osport || 8080); 
 app.set('ipaddress', osipaddress); 
@@ -74,4 +62,4 @@ app.get('/waitingroom', function(request, response) {
 // usernames which are currently connected to the chat
 var usernames = {};
 
-init_server(io, usernames, connection);
+init.init_server(io, usernames, connection);
