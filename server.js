@@ -5,7 +5,6 @@ var app = express();
 var fs = require('fs');
 var http = require('http');
 var mysql =  require('mysql');
-var router = require('./js/router');
 var init_server = require('./js/init_server');
 
 var osipaddress = process.env.OPENSHIFT_NODEJS_IP; 
