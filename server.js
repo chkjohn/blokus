@@ -60,7 +60,7 @@ app.get('/login', function(request, response) {
 				// valid session key
 				response.redirect('/waitingroom');
 			}
-		}
+		});
 	}
 	response.sendfile(__dirname + "/html/login.html");
 });
@@ -72,7 +72,7 @@ app.get('/waitingroom', function(request, response) {
 				// valid session key
 				response.redirect('/login');
 			}
-		}
+		});
 	}
 	response.sendfile(__dirname + "/html/waitingroom.html");
 });
