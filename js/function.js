@@ -101,7 +101,7 @@ function init_waitingroom(socket){
 	});
 	
 	var g = new Cango3D("cube");
-	buildCube(g, 1, [red, red, red, red, red, red]);
+	buildCube(g, 1, ['red', 'red', 'red', 'red', 'red', 'red']);
 }
 
 // get the value (string) of cookie
