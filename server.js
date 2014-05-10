@@ -48,7 +48,7 @@ var server = http.createServer(app);
 server.listen(app.get('port'), app.get('ipaddress'));
 var io = require('socket.io').listen(server);
 
-router(app, connection);
+router(app, express);
 
 // usernames which are currently connected to the chat
 var usernames = {};
