@@ -67,11 +67,13 @@ app.get('/login', function(request, response) {
 		});
 	} else{
 		console.log("cookies not found!");
+		console.log(request.cookies);
 	}
 	response.sendfile(__dirname + "/html/login.html");
 });
 app.get('/waitingroom', function(request, response) {
 	if (request.cookies.sessionid != undefined){
+		console.log(request.cookies.sessionid);
 		connection.query('SELECT * FROM sessions WHERE id=?', request.cookies.sessionid, function(e, rows, fields){
 			var message = '';
 			if (rows.length != 1){
@@ -83,6 +85,7 @@ app.get('/waitingroom', function(request, response) {
 		});
 	}  else{
 		console.log("cookies not found!");
+		console.log(request.cookies);
 	}
 	response.sendfile(__dirname + "/html/waitingroom.html");
 });
