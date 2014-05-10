@@ -54,6 +54,7 @@ app.get('/blokus', function(request, response) {
 app.get('/login', function(request, response) {
 	//response.cookie('test', 'Hello', { maxAge: 900000 });
 	if (request.cookies.sessionid != undefined){
+		console.log(request.cookies.sessionid);
 		connection.query('SELECT * FROM sessions WHERE id=?', request.cookies.sessionid, function(e, rows, fields){
 			var message = '';
 			if (rows.length == 1){
@@ -64,6 +65,8 @@ app.get('/login', function(request, response) {
 				response.clearCookie('username');
 			}
 		});
+	} else{
+		console.log("cookies not found!");
 	}
 	response.sendfile(__dirname + "/html/login.html");
 });
@@ -78,6 +81,8 @@ app.get('/waitingroom', function(request, response) {
 				response.sendfile('/login');
 			}
 		});
+	}  else{
+		console.log("cookies not found!");
 	}
 	response.sendfile(__dirname + "/html/waitingroom.html");
 });
