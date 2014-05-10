@@ -1,5 +1,7 @@
 // init function for login.html
 function init_login(socket){
+	$('#username').focus();
+	
 	// when user clicks 'Register'
 	$('#register').click( function() {
 		// get the username and password
