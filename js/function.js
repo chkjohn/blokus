@@ -8,21 +8,25 @@ function init_login(socket){
 		$('#username').val('');
 		$('#password').val('');
 		
-		// send 'register' request to server
-		socket.emit('register', {username: username, password: password});
-		socket.on('registersuccess', function(message){
-			// register success
-			// display message in the webpage
-			$('#login_text').html(message);
-			console.log(message);
-		});
-		
-		socket.on('registerfail', function(message){
-			// register fail
-			// display message in the webpage
-			$('#login_text').text(message);
-			console.log(message);
-		});
+		if (username == "" || password == ""){
+			$('#login_text').html("Please input username and password.");
+		} else{
+			// send 'register' request to server
+			socket.emit('register', {username: username, password: password});
+			socket.on('registersuccess', function(message){
+				// register success
+				// display message in the webpage
+				$('#login_text').html(message);
+				console.log(message);
+			});
+			
+			socket.on('registerfail', function(message){
+				// register fail
+				// display message in the webpage
+				$('#login_text').text(message);
+				console.log(message);
+			});
+		}
 	});
 	
 	// when user clicks 'Login'
@@ -33,28 +37,32 @@ function init_login(socket){
 		$('#username').val('');
 		$('#password').val('');
 		
-		// send 'login' request to server
-		socket.emit('login', {username: username, password: password});
-		socket.on('loginsuccess', function(sessionid){
-			// login success
-			var expires = new Date();
-			expires.setHours(expires.getHours() + 1);
-			//expires.setMinutes(expires.getMinutes() + 5);
+		if (username == "" || password == ""){
+			$('#login_text').html("Please input username and password.");
+		} else{
+			// send 'login' request to server
+			socket.emit('login', {username: username, password: password});
+			socket.on('loginsuccess', function(sessionid){
+				// login success
+				var expires = new Date();
+				expires.setHours(expires.getHours() + 1);
+				//expires.setMinutes(expires.getMinutes() + 5);
+				
+				// store the session key and username as cookies
+				document.cookie = "sessionid=" + sessionid + "; expires=" + expires.toUTCString() + ";";
+				console.log(document.cookie);
+				
+				// go to the webpage of waiting room
+				window.location.replace("waitingroom");
+			});
 			
-			// store the session key and username as cookies
-			document.cookie = "sessionid=" + sessionid + "; expires=" + expires.toUTCString() + ";";
-			console.log(document.cookie);
-			
-			// go to the webpage of waiting room
-			window.location.replace("waitingroom");
-		});
-		
-		socket.on('loginfail', function(message){
-			// login fail
-			// display message in the webpage
-			$('#login_text').html(message);
-			console.log(message);
-		});
+			socket.on('loginfail', function(message){
+				// login fail
+				// display message in the webpage
+				$('#login_text').html(message);
+				console.log(message);
+			});
+		}
 	});
 
 	// when the client hits ENTER on their keyboard
