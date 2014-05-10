@@ -11,7 +11,8 @@ function init_login(socket){
 		$('#password').val('');
 		
 		if (username == "" || password == ""){
-			$('#login_text').html("Please input username and password.");
+			$('#login_text').html("Please input both username and password.");
+			$('#username').focus();
 		} else{
 			// send 'register' request to server
 			socket.emit('register', {username: username, password: password});
@@ -20,6 +21,7 @@ function init_login(socket){
 				// display message in the webpage
 				$('#login_text').html(message);
 				console.log(message);
+				$('#username').focus();
 			});
 			
 			socket.on('registerfail', function(message){
@@ -27,6 +29,7 @@ function init_login(socket){
 				// display message in the webpage
 				$('#login_text').text(message);
 				console.log(message);
+				$('#username').focus();
 			});
 		}
 	});
@@ -40,7 +43,8 @@ function init_login(socket){
 		$('#password').val('');
 		
 		if (username == "" || password == ""){
-			$('#login_text').html("Please input username and password.");
+			$('#login_text').html("Please input both username and password.");
+			$('#username').focus();
 		} else{
 			// send 'login' request to server
 			socket.emit('login', {username: username, password: password});
@@ -63,6 +67,7 @@ function init_login(socket){
 				// display message in the webpage
 				$('#login_text').html(message);
 				console.log(message);
+				$('#username').focus();
 			});
 		}
 	});
