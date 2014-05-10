@@ -7,5 +7,5 @@
 }
 
 .button.hover{
-	color: blue;
+	border:5px solid red;
 }
