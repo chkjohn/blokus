@@ -57,19 +57,19 @@ app.get('/login', function(request, response) {
 		console.log(request.cookies.sessionid);
 		connection.query('SELECT * FROM sessions WHERE id=?', request.cookies.sessionid, function(e, rows, fields){
 			var message = '';
-			if (rows.length == 1){
-				// valid session key
-				response.sendfile('/waitingroom');
-			} else{
+			if (rows.length != 1){
+				// invalid session key
 				response.clearCookie('sessionid');
 				response.clearCookie('username');
+			} else{
+				response.sendfile('/waitingroom');
 			}
 		});
 	} else{
 		console.log("cookies not found!");
 		console.log(request.cookies);
+		response.sendfile(__dirname + "/html/login.html");
 	}
-	response.sendfile(__dirname + "/html/login.html");
 });
 app.get('/waitingroom', function(request, response) {
 	if (request.cookies.sessionid != undefined){
@@ -86,8 +86,8 @@ app.get('/waitingroom', function(request, response) {
 	}  else{
 		console.log("cookies not found!");
 		console.log(request.cookies);
+		response.sendfile(__dirname + "/html/waitingroom.html");
 	}
-	response.sendfile(__dirname + "/html/waitingroom.html");
 });
 
 // usernames which are currently connected to the chat
