@@ -76,7 +76,7 @@ module.exports = {
 					if (rows.length == 1){
 						// valid username & password
 						// create session key
-						var sessionid = data.username;
+						var sessionid = Math.floor((Math.random() * 9999999998) + 1).toString();
 						// set expire time to 5 mins
 						var expires = new Date();
 						expires.setHours(expires.getHours() + 1);
@@ -90,6 +90,7 @@ module.exports = {
 								socket.emit('loginfail', message);
 							} else{
 								console.log(sessionid);
+								socket.username = data.username;
 								// send session key to client
 								socket.emit('loginsuccess', sessionid);
 							}

@@ -53,9 +53,27 @@ app.get('/blokus', function(request, response) {
 });
 app.get('/login', function(request, response) {
 	response.cookie('test', 'Hello', { maxAge: 900000 });
+	if (request.cookies.sessionid != undefined){
+		connection.query('SELECT * FROM sessions WHERE id=?', request.cookies.sessionid, function(e, rows, fields){
+			var message = '';
+			if (rows.length == 1){
+				// valid session key
+				response.redirect('/waitingroom');
+			}
+		}
+	}
 	response.sendfile(__dirname + "/html/login.html");
 });
 app.get('/waitingroom', function(request, response) {
+	if (request.cookies.sessionid != undefined){
+		connection.query('SELECT * FROM sessions WHERE id=?', request.cookies.sessionid, function(e, rows, fields){
+			var message = '';
+			if (rows.length != 1){
+				// valid session key
+				response.redirect('/login');
+			}
+		}
+	}
 	response.sendfile(__dirname + "/html/waitingroom.html");
 });
 
