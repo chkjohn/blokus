@@ -5,6 +5,7 @@ var app = express();
 var fs = require('fs');
 var http = require('http');
 var mysql =  require('mysql');
+var router = require('./js/router');
 var init_server = require('./js/init_server');
 
 var osipaddress = process.env.OPENSHIFT_NODEJS_IP; 
@@ -47,26 +48,7 @@ var server = http.createServer(app);
 server.listen(app.get('port'), app.get('ipaddress'));
 var io = require('socket.io').listen(server);
 
-app.use('/css', express.static(__dirname + '/css'));
-app.use('/html', express.static(__dirname + '/html'));
-app.use('/js', express.static(__dirname + '/js'));
-
-// routing
-app.get('/', function(request, response) {
-    response.sendfile(__dirname + "/html/index.html");
-});
-app.get('/index', function(request, response) {
-    response.sendfile(__dirname + "/html/index.html");
-});
-app.get('/blokus', function(request, response) {
-    response.sendfile(__dirname + "/html/blokus.html");
-});
-app.get('/login', function(request, response) {
-    response.sendfile(__dirname + "/html/login.html");
-});
-app.get('/waitingroom', function(request, response) {
-    response.sendfile(__dirname + "/html/waitingroom.html");
-});
+router(app, connection);
 
 // usernames which are currently connected to the chat
 var usernames = {};
