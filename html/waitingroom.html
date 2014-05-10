@@ -13,7 +13,7 @@
 			<td><h1 align=right class=font id="welcome"></h1></td>
 			<script>
 				var sessionid = getCookie("sessionid");
-				if (sessionid != ""){
+				if (sessionid != "")
 					$('#welcome').text("Welcome! " + sessionid);
 				else
 					window.location.replace('login');
