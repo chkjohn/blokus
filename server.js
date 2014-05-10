@@ -48,7 +48,13 @@ var server = http.createServer(app);
 server.listen(app.get('port'), app.get('ipaddress'));
 var io = require('socket.io').listen(server);
 
-router(app, express);
+app.use('/css', express.static(__dirname + '/css'));
+app.use('/html', express.static(__dirname + '/html'));
+app.use('/js', express.static(__dirname + '/js'));
+app.use(express.cookieParser());
+app.use(express.session({secret: 'blokus'}));
+
+router(app);
 
 // usernames which are currently connected to the chat
 var usernames = {};
