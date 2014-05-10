@@ -10,15 +10,15 @@
 	<body class=font>
 		<table align=right>
 			<tr>
-			<td><p class=font id="welcome"></p></td>
-			<script>
-				var sessionid = getCookie("sessionid");
-				if (sessionid != "")
-					$('#welcome').text("Welcome! " + sessionid);
-				else
-					window.location.replace('login');
-			</script>
-			<td><input id="logout" class=font type=button value=Logout></td>
+				<td><p class=font id="welcome"></p></td>
+				<script>
+					var sessionid = getCookie("sessionid");
+					if (sessionid != "")
+						$('#welcome').text("Welcome! " + sessionid);
+					else
+						window.location.replace('login');
+				</script>
+				<td><input id="logout" class=font type=button value=Logout></td>
 			</tr>
 		</table>
 	</body>
