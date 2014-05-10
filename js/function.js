@@ -100,7 +100,7 @@ function init_waitingroom(socket){
 		});
 	});
 	
-	var g = new Cango3D(cube);
+	var g = new Cango3D("cube");
 	buildCube(g, 1, [red, red, red, red, red, red]);
 }
 
