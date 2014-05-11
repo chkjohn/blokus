@@ -92,6 +92,7 @@ module.exports = {
 							} else{
 								console.log(sessionid);
 								socket.username = data.username;
+								usernames[data.username] = data.username;
 								// send session key to client
 								socket.emit('loginsuccess', sessionid);
 							}
