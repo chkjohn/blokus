@@ -10,13 +10,15 @@
 		<link rel="stylesheet" href="/css/style.css">
 	</head>
 	<body class=font>
-		<div align=left>Waiting Room</div>
-		<div style="display: inline-block; text-align: right;">
-			<input type="text" size="20" id="data">
-			<input type="button" id="datasend" value="Search Room">
-			<label class=font id="welcome" style="padding-right: 50px"></label>
-			<input id="logout" class=button type=button value=Logout>
-		</div>
+		<table>
+			<tr>
+				<td><h1>Waiting Room</h1></td>
+				<td><input type="text" size="20" id="data"></td>
+				<td><input type="button" id="datasend" value="Search Room"></td>
+				<td><label class=font id="welcome" style="padding-right: 50px"></label></td>
+				<td><input id="logout" class=button type=button value=Logout></td>
+			</tr>
+		</table>
 		<!--canvas id="cube"></canvas-->
 		<div style="float:left;width:100px;border-right:1px solid black;height:300px;padding:10px;overflow:scroll-y;">
 			<b>USERS</b>
