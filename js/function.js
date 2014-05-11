@@ -99,8 +99,6 @@ function init_waitingroom(socket){
 			window.location.replace("login");
 		});
 	});
-	
-	drawCube("cube");
 }
 
 // get the value (string) of cookie
