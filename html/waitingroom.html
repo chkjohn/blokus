@@ -10,20 +10,27 @@
 		<link rel="stylesheet" href="/css/style.css">
 	</head>
 	<body class=font>
-		<table align=right>
-			<tr>
-				<td><p class=font id="welcome"></p></td>
-				<script>
-					var sessionid = getCookie("sessionid");
-					if (sessionid != "")
-						$('#welcome').text("Welcome! " + sessionid);
-					else
-						window.location.replace('login');
-				</script>
-				<td><input id="logout" class=button type=button value=Logout></td>
-			</tr>
-		</table>
-		<canvas id="cube"></canvas>
+		<div align=center>
+			<div style="position: absolute; top: 10px">
+				<div style="float: left"><h1 align=left>Waiting Room</h1></div>
+				<div id="search_room" style="position: relative; top: 10px;">
+					<input id="data" style="width:50%" />
+					<input type="button" id="datasend" value="search room" />
+				</div>
+				<div style="float:right; width: 20%">
+					<p class=font id="welcome"></p>
+					<input id="logout" class=button type=button value=Logout>
+				</div>
+			</div>
+		</div>
+		<!--canvas id="cube"></canvas-->
+		<div style="float:left;width:100px;border-right:1px solid black;height:300px;padding:10px;overflow:scroll-y;">
+			<b>USERS</b>
+			<div id="users"></div>
+		</div>
+		<div>
+			<div id="conversation" style="width:300px;height:250px;overflow:scroll-y;padding:10px;"></div>
+		</div>
 	</body>
 	<script>
 		var socket = io.connect('csci4140project-chkjohn.rhcloud.com:8000');

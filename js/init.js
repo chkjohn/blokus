@@ -41,7 +41,7 @@ module.exports = {
 			// when the user disconnects.. perform this
 			socket.on('disconnect', function(){
 				// remove the username from global usernames list
-				delete usernames[socket.username];
+				//delete usernames[socket.username];
 				// update list of users in chat, client-side
 				io.sockets.emit('updateusers', usernames);
 				// echo globally that this client has left
@@ -92,6 +92,7 @@ module.exports = {
 							} else{
 								console.log(sessionid);
 								socket.username = data.username;
+								usernames[data.username] = data.username;
 								// send session key to client
 								socket.emit('loginsuccess', sessionid);
 							}
@@ -109,6 +110,7 @@ module.exports = {
 				// delete the corresponding session from database
 				connection.query('DELETE FROM sessions WHERE id=?', sessionid, function(e, rows, fields){
 					// logout success
+					delete usernames[socket.username];
 					socket.emit('logoutsuccess', "logout");
 				});
 			});
