@@ -105,7 +105,7 @@ function init_waitingroom(socket){
 		var sessionid = getCookie('sessionid');
 		if (sessionid != ""){
 			// call the server-side function 'adduser' and send one parameter (value of prompt)
-			socket.emit('adduser', getCookie('sessionid'));
+			socket.emit('adduser', sessionid);
 			$('#welcome').text("Welcome! " + sessionid);
 		} else{
 			window.location.replace('login');
