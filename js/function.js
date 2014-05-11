@@ -50,14 +50,12 @@ function init_login(socket){
 			socket.emit('login', {username: username, password: password});
 			socket.on('loginsuccess', function(sessionid){
 				// login success
-				/*
 				var expires = new Date();
 				expires.setHours(expires.getHours() + 1);
 				//expires.setMinutes(expires.getMinutes() + 5);
-				*/
 				
 				// store the session key and username as cookies
-				document.cookie = "sessionid=" + sessionid + ";";
+				document.cookie = "sessionid=" + sessionid + "; expires=" + expires.toUTCString() + ";";
 				console.log(document.cookie);
 				
 				// go to the webpage of waiting room

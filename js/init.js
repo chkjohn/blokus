@@ -79,14 +79,12 @@ module.exports = {
 						var sessionid = data.username;
 						//var sessionid = Math.floor((Math.random() * 9999999998) + 1).toString();
 						// set expire time to 5 mins
-						/*
 						var expires = new Date();
 						expires.setHours(expires.getHours() + 1);
 						//expires.setMinutes(expires.getMinutes() + 5);
 						expires_sql = expires.toISOString().slice(0, 19).replace('T', ' ');
-						* */
 						// store session into database
-						connection.query('INSERT INTO sessions SET ?', {id: sessionid}, function(e, rows, fields){
+						connection.query('INSERT INTO sessions SET ?', {id: sessionid, expire: expires_sql}, function(e, rows, fields){
 							if (e){
 								message = "You have already logged in another session from other brower/computer.<br>This game does not allow multiple login.";
 								// send response to client
@@ -122,7 +120,6 @@ module.exports = {
 		
 		// for every 5 mins, check if the sessions in database have been expired
 		// delete all the expired sessions
-		/*
 		setInterval(function(){
 			connection.query('SELECT * FROM sessions', function(e, rows, fields){
 				var message = '';
@@ -142,6 +139,5 @@ module.exports = {
 				}
 			});
 		}, 300000);
-		*/
 	}
 }
