@@ -102,8 +102,14 @@ function init_waitingroom(socket){
 	
 	// on connection to server, ask for user's name with an anonymous callback
 	socket.on('connect', function(){
-		// call the server-side function 'adduser' and send one parameter (value of prompt)
-		socket.emit('adduser', getCookie('sessionid'));
+		var sessionid = getCookie('sessionid');
+		if (sessionid != ""){
+			// call the server-side function 'adduser' and send one parameter (value of prompt)
+			socket.emit('adduser', getCookie('sessionid'));
+			$('#welcome').text("Welcome! " + sessionid);
+		} else{
+			window.location.replace('login');
+		}
 	});
 
 	// listener, whenever the server emits 'updatechat', this updates the chat body
