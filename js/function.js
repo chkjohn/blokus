@@ -119,6 +119,7 @@ function init_waitingroom(socket){
 
 	// listener, whenever the server emits 'updateusers', this updates the username list
 	socket.on('updateusers', function(data) {
+		console.log(data);
 		$('#users').empty();
 		$.each(data, function(key, value) {
 			$('#users').append('<div>' + key + '</div>').attr('id', key);
