@@ -121,7 +121,7 @@ function init_waitingroom(socket){
 	socket.on('updateusers', function(data) {
 		$('#users').empty();
 		$.each(data, function(key, value) {
-			$('#users').append('<div>' + key + '</div>');
+			$('#users').append('<div>' + key + '</div>').attr('id', key);
 		});
 	});
 

@@ -28,8 +28,10 @@ module.exports = {
 			socket.on('adduser', function(username){
 				// we store the username in the socket session for this client
 				socket.username = username;
-				// add the client's username to the global list
-				usernames[username] = username;
+				if (usernames[username] == undefined){
+					// add the client's username to the global list
+					usernames[username] = username;
+				}
 				// echo to client they've connected
 				socket.emit('updatechat', 'SERVER', 'you have connected');
 				// echo globally (all clients) that a person has connected
@@ -41,7 +43,7 @@ module.exports = {
 			// when the user disconnects.. perform this
 			socket.on('disconnect', function(){
 				// remove the username from global usernames list
-				delete usernames[socket.username];
+				//delete usernames[socket.username];
 				// update list of users in chat, client-side
 				io.sockets.emit('updateusers', usernames);
 				// echo globally that this client has left
