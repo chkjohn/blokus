@@ -146,12 +146,12 @@ function init_waitingroom(socket){
 		});
 		
 		$(window).resize(function(){
-			$(#userlist).css('height', (window.innerHeight - 150) + 'px');
-			$(#gameroomlist).css('height', (window.innerHeight - 150) + 'px');
+			$('#userlist').css('height', (window.innerHeight - 150) + 'px');
+			$('#gameroomlist').css('height', (window.innerHeight - 150) + 'px');
 		});
 		
-		$(#userlist).css('height', (window.innerHeight - 150) + 'px');
-		$(#gameroomlist).css('height', (window.innerHeight - 150) + 'px');
+		$('#userlist').css('height', (window.innerHeight - 150) + 'px');
+		$('#gameroomlist').css('height', (window.innerHeight - 150) + 'px');
 	});
 	//drawCube("cube");
 }
