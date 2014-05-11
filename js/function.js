@@ -114,7 +114,9 @@ function init_waitingroom(socket){
 
 	// listener, whenever the server emits 'updatechat', this updates the chat body
 	socket.on('updatechat', function (username, data) {
-		$('#conversation').append('<b>'+username + ':</b> ' + data + '<br>');
+		var chat = $('<b>'+username + ':</b> ' + data + '<br>');
+		$('#conversation').append(chat);
+		div.css('padding-left', '100px');
 	});
 
 	// listener, whenever the server emits 'updateusers', this updates the username list
