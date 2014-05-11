@@ -12,20 +12,22 @@
 	<body class=font>
 		<table align=center>
 			<tr>
-				<td><h1 style="padding-right: 100px">Waiting Room</h1></td>
+				<td><h1 style="padding-right: 50px">Waiting Room</h1></td>
 				<td><input type="text" size="20" id="data"></td>
 				<td><input type="button" id="datasend" value="Search Room"></td>
-				<td><label class=font id="welcome" style="padding-left: 100px"></label></td>
+				<td><label class=font id="welcome" style="padding-left: 50px"></label></td>
 				<td><input id="logout" class=button type=button value=Logout></td>
 			</tr>
 		</table>
 		<!--canvas id="cube"></canvas-->
-		<div style="float:left;width:100px;border-right:1px solid black;height:300px;padding:10px;overflow:scroll-y;">
-			<b>USERS</b>
-			<div id="users"></div>
-		</div>
 		<div>
-			<div id="conversation" style="width:300px;height:250px;overflow:scroll-y;padding:10px;"></div>
+			<div style="float:left;width:15%;border-right:1px solid black;height:300px;padding:10px;overflow:scroll-y;">
+				<b>USERS</b>
+				<div id="users"></div>
+			</div>
+			<div>
+				<div id="conversation" style="width:85%;height:250px;overflow:scroll-y;padding:10px;"></div>
+			</div>
 		</div>
 	</body>
 	<script>
