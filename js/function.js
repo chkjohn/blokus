@@ -56,7 +56,6 @@ function init_login(socket){
 				
 				// store the session key and username as cookies
 				document.cookie = "sessionid=" + sessionid + "; expires=" + expires.toUTCString() + ";";
-				document.cookie = "username=" + username + "; expires=" + expires.toUTCString() + ";";
 				console.log(document.cookie);
 				
 				// go to the webpage of waiting room
@@ -91,7 +90,6 @@ function init_waitingroom(socket){
 		
 		// delete all cookies
 		document.cookie = "sessionid=; expires=Thu, 01 Jan 1970 00:00:00 GMT";
-		document.cookie = "username=; expires=Thu, 01 Jan 1970 00:00:00 GMT";
 		
 		// send 'logout' request to server
 		socket.emit('logout', sessionid);
@@ -102,10 +100,7 @@ function init_waitingroom(socket){
 		});
 	});
 	
-	var username = getCookie("username");
-	$('#welcome').text("Welcome! " + username);
-	
-	//drawCube("cube");
+	drawCube("cube");
 }
 
 // get the value (string) of cookie

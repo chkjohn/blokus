@@ -39,7 +39,7 @@ app.use('/css', express.static(__dirname + '/css'));
 app.use('/html', express.static(__dirname + '/html'));
 app.use('/js', express.static(__dirname + '/js'));
 app.use(express.cookieParser());
-app.use(express.session());
+app.use(express.session({secret: 'blokus'}));
 
 // routing
 app.get('/', function(request, response) {
@@ -53,40 +53,9 @@ app.get('/blokus', function(request, response) {
 });
 app.get('/login', function(request, response) {
 	//response.cookie('test', 'Hello', { maxAge: 900000 });
-	if (request.cookies.sessionid != undefined){
-		console.log(request.cookies.sessionid);
-		connection.query('SELECT * FROM sessions WHERE id=?', request.cookies.sessionid, function(e, rows, fields){
-			var message = '';
-			if (rows.length != 1){
-				// invalid session key
-				response.clearCookie('sessionid');
-				response.clearCookie('username');
-			} else{
-				response.sendfile(__dirname + "/html/waitingroom.html");
-			}
-		});
-	} else{
-		console.log("cookies not found!");
-		console.log(request.cookies);
-	}
 	response.sendfile(__dirname + "/html/login.html");
 });
 app.get('/waitingroom', function(request, response) {
-	if (request.cookies.sessionid != undefined){
-		console.log(request.cookies.sessionid);
-		connection.query('SELECT * FROM sessions WHERE id=?', request.cookies.sessionid, function(e, rows, fields){
-			var message = '';
-			if (rows.length != 1){
-				// invalid session key
-				response.clearCookie('sessionid');
-				response.clearCookie('username');
-				response.sendfile(_dirname + "/html/login.html");
-			}
-		});
-	}  else{
-		console.log("cookies not found!");
-		console.log(request.cookies);
-	}
 	response.sendfile(__dirname + "/html/waitingroom.html");
 });
 
