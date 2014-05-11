@@ -14,9 +14,9 @@
 			<tr>
 				<td><h1 style="padding-right: 50px">Waiting Room</h1></td>
 				<td><input type="text" size="20" id="data"></td>
-				<td><input type="button" id="datasend" value="Search Room"></td>
+				<td><input type="button" class=button id="datasend" value="Search Room" style="width: 125px"></td>
 				<td><label class=font id="welcome" style="padding-left: 50px"></label></td>
-				<td><input id="logout" class=button type=button value=Logout></td>
+				<td><input id="logout" class=button type=button value=Logout style="width: 100px"></td>
 			</tr>
 		</table>
 		<script>
@@ -38,7 +38,7 @@
 				<div id="gameroomlist" style="width:90%; height:250px; overflow:scroll-y; padding:10px;"></div>
 			</div>
 		</div>
-		<div align=right><input id="createGameRoom" class=button type=button value="Create Game Room"></div>
+		<div align=right><input id="createGameRoom" class=button type=button value="Create Game Room" style="width: 200px"></div>
 	</body>
 	<script>
 		var socket = io.connect('csci4140project-chkjohn.rhcloud.com:8000');
