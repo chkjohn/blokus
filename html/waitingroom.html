@@ -12,13 +12,22 @@
 	<body class=font>
 		<table align=center>
 			<tr>
-				<td><h1 style="width: 300px">Waiting Room</h1></td>
+				<td><h1 style="padding-right: 50px">Waiting Room</h1></td>
 				<td><input type="text" size="20" id="data"></td>
 				<td><input type="button" id="datasend" value="Search Room"></td>
-				<td><label class=font id="welcome" style="width: 300px; text-align: right"></label></td>
+				<td><label class=font id="welcome" style="padding-left: 50px"></label></td>
 				<td><input id="logout" class=button type=button value=Logout></td>
 			</tr>
 		</table>
+		<script>
+			var sessionid = getCookie('sessionid');
+			if (sessionid != ""){
+				// call the server-side function 'adduser' and send one parameter (value of prompt)
+				$('#welcome').text("Welcome! " + sessionid);
+			} else{
+				window.location.replace('login');
+			}
+		</script>
 		<!--canvas id="cube"></canvas-->
 		<div>
 			<div style="float:left; width:10%; border-right:1px solid black; height:300px; padding:10px; overflow: scroll-y;">

@@ -106,9 +106,6 @@ function init_waitingroom(socket){
 		if (sessionid != ""){
 			// call the server-side function 'adduser' and send one parameter (value of prompt)
 			socket.emit('adduser', sessionid);
-			$('#welcome').text("Welcome! " + sessionid);
-		} else{
-			window.location.replace('login');
 		}
 	});
 
