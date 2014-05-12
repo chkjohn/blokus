@@ -2,7 +2,7 @@
 	font-family: Courier New;
 }
 
-#close{
+#closeConfirmMessage{
 	height: 20px;
 	width: 20px;
 	position: absolute;
@@ -10,7 +10,7 @@
 	right: 5px;
 }
 
-.close:hover{
+.closeConfirmMessage:hover{
 	cursor: pointer;
 }
 

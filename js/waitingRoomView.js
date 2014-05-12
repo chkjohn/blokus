@@ -62,6 +62,12 @@ function init_waitingroom(socket){
 			$('#background').css('display', 'initial');
 		});
 		
+		$('#background').click(function(){
+			$('#createGameRoomTable').css('display', 'none');
+			$('#confirmMessage').css('display', 'none');
+			$('#background').css('display', 'none');
+		});
+		
 		$('#cancelCreateGameRoom').click(function(){
 			$('#createGameRoomTable').css('display', 'none');
 			$('#background').css('display', 'none');
@@ -78,7 +84,7 @@ function init_waitingroom(socket){
 			$('#confirmMessage h3').text(message);
 		});
 		
-		$('#close').click(function(){
+		$('#closeConfirmMessage').click(function(){
 			$('#confirmMessage').css('display', 'none');
 			$('#background').css('display', 'none');
 		});
