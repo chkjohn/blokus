@@ -13,12 +13,10 @@ function init_waitingroom(socket){
 	socket.on('updateGameRoomList', function (gameroom, data) {
 		var gameroomTab = $('<div></div>');
 		var table = $('<table></table>');
-		var name = $('<th><h1>' + gameroom + '</h1></th>');
+		var name = $('<tr><td colspan=2><h1>' + gameroom +'</h1></td></tr>');
 
-		var tabContent = ' ';
-		for (var roomconfig in data){
-			tabContent = $('<tr><td>' + 'No. of players: ' + '</td><td>' + roomconfig.numPlayers + '</td></tr>');
-		}
+		var tabContent = tabContent = $('<tr><td>' + 'No. of players: ' + '</td><td>' + data.numPlayers + '</td></tr>');
+
 		table.append(name, tabContent);
 		gameroomTab.append(table);
 		gameroomTab.hide().prependTo('#gameroom').slideDown();
@@ -100,7 +98,7 @@ function init_waitingroom(socket){
 				setTimeout(function(){
 					$('#confirmMessage').fadeOut();
 					$('#background').fadeOut();
-				}, 3000);
+				}, 2000);
 			});
 			socket.on('createGameRoomFail', function(){
 				message = 'Unable to create the game room \"' + name + '\". Please try again.';
@@ -118,6 +116,13 @@ function init_waitingroom(socket){
 			if(e.which == 13) {
 				$(this).blur();
 				$('#datasend').focus().click();
+			}
+		});
+
+		$('#gameRoomName').keypress(function(e) {
+			if(e.which == 13) {
+				$(this).blur();
+				$('#confirmCreateGameRoom').focus().click();
 			}
 		});
 	});
