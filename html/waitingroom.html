@@ -11,14 +11,14 @@
 	<body class=font>
 		<div id="background" style="display: none"></div>
 		<div id="createGameRoomTable" style="display: none">
-			<table align=center>
+			<table align=center style="height: 100%">
 				<tr align=center>
 					<td>Name of Game Room: </td>
 					<td><input type="text" size="20" id="gameRoomName"></td>
 				</tr>
 				<tr align=center>
-					<td align=center><input id="cancelCreateGameRoom" class=button type=button value=Cancel style="width: 100%; font-size: xx-large;"></td>
-					<td align=center><input id="confirmCreateGameRoom" class=button type=button value=Create style="width: 100%; font-size: xx-large;"></td>
+					<td align=center><input id="cancelCreateGameRoom" class=waitingRoomButton type=button value=Cancel style="width: 100%; font-size: xx-large;"></td>
+					<td align=center><input id="confirmCreateGameRoom" class=waitingRoomButton type=button value=Create style="width: 100%; font-size: xx-large;"></td>
 				</tr>
 			</table>
 		</div>
@@ -27,11 +27,11 @@
 				<td><h1>Waiting Room</h1></td>
 				<td align=center>
 					<input type="text" size="20" id="data">
-					<input type="button" class=button id="datasend" value="Search Room" style="width: 125px">
+					<input type="button" class=waitingRoomButton id="datasend" value="Search Room" style="width: 125px">
 				</td>
 				<td align=right>
 					<label class=font id="welcome"></label>
-					<input id="logout" class=button type=button value=Logout style="width: 100px">
+					<input id="logout" class=waitingRoomButton type=button value=Logout style="width: 100px">
 				</td>
 			</tr>
 		</table>
@@ -54,7 +54,7 @@
 				<div id="gameroom"></div>
 			</div>
 		</div>
-		<div align=center><input id="createGameRoom" class=button type=button value="Create Game Room" style="font-size: xx-large;"></div>
+		<div align=center><input id="createGameRoom" class=waitingRoomButton type=button value="Create Game Room" style="font-size: xx-large;"></div>
 	</body>
 	<script>
 		var socket = io.connect('csci4140project-chkjohn.rhcloud.com:8000');
