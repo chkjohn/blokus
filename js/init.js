@@ -4,7 +4,8 @@ module.exports = {
 		connection.query('DROP TABLE IF EXISTS users');
 		connection.query('CREATE TABLE users (' +
 							'username varchar(255) NOT NULL PRIMARY KEY,' +
-							'password varchar(255) NOT NULL)');
+							'password varchar(255) NOT NULL,' +
+							'wintime int(5) UNSIGNED DEFAULT 0' + ')');
 		connection.query('DROP TABLE IF EXISTS sessions');
 		connection.query('CREATE TABLE sessions (' +
 							'id varchar(255) NOT NULL PRIMARY KEY,' +

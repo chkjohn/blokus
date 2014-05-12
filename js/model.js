@@ -23,7 +23,7 @@ function buildCube(g, width, colors) // pass width and array of 6 colors
 function drawCube(cvsID)
 {
   var g = new Cango3D(cvsID),  // create a graphics context
-      width = 100,
+      width = 50,
       colors = ["red", "green", "blue", "yellow", "silver", "sienna"],
       cube, drag, movedCube,
       radius = 50,         // sensitivity of dragging action
@@ -57,7 +57,7 @@ function drawCube(cvsID)
   }
 
   g.clearCanvas();
-  g.setPropertyDefault("backgroundColor", "lightyellow");
+  //g.setPropertyDefault("backgroundColor", "lightyellow");
   g.setWorldCoords3D(-150, -100, 300);
   g.setLightSource(0, 100, 200);
 

@@ -83,38 +83,20 @@ function init_login(socket){
 
 // init function for waitingroom.html
 function init_waitingroom(socket){
-	// when user clicks 'Logout'
-	$('#logout').click( function() {
-		// get the username and sessionid for cookies
-		var sessionid = getCookie("sessionid");
-		
-		// delete all cookies
-		document.cookie = "sessionid=; expires=Thu, 01 Jan 1970 00:00:00 GMT";
-		
-		// send 'logout' request to server
-		socket.emit('logout', sessionid);
-		socket.on('logoutsuccess', function(){
-			// logout success
-			// go back to login page
-			window.location.replace("login");
-		});
-	});
-	
 	// on connection to server, ask for user's name with an anonymous callback
 	socket.on('connect', function(){
 		var sessionid = getCookie('sessionid');
 		if (sessionid != ""){
 			// call the server-side function 'adduser' and send one parameter (value of prompt)
 			socket.emit('adduser', sessionid);
-			$('#welcome').text("Welcome! " + sessionid);
-		} else{
-			window.location.replace('login');
 		}
 	});
 
 	// listener, whenever the server emits 'updatechat', this updates the chat body
 	socket.on('updatechat', function (username, data) {
-		$('#conversation').append('<b>'+username + ':</b> ' + data + '<br>');
+		var chat = $('<b>'+username + ':</b> ' + data + '<br>');
+		$('#gameroomlist').append(chat);
+		chat.css('padding-left', '20px');
 	});
 
 	// listener, whenever the server emits 'updateusers', this updates the username list
@@ -130,6 +112,23 @@ function init_waitingroom(socket){
 
 	// on load of page
 	$(function(){
+		// when user clicks 'Logout'
+		$('#logout').click( function() {
+			// get the username and sessionid for cookies
+			var sessionid = getCookie("sessionid");
+			
+			// delete all cookies
+			document.cookie = "sessionid=; expires=Thu, 01 Jan 1970 00:00:00 GMT";
+			
+			// send 'logout' request to server
+			socket.emit('logout', sessionid);
+			socket.on('logoutsuccess', function(){
+				// logout success
+				// go back to login page
+				window.location.replace("login");
+			});
+		});
+		
 		// when the client clicks SEND
 		$('#datasend').click( function() {
 			var message = $('#data').val();
@@ -146,7 +145,6 @@ function init_waitingroom(socket){
 			}
 		});
 	});
-	
 	//drawCube("cube");
 }
 
