@@ -55,7 +55,9 @@ function init_waitingroom(socket){
 		});
 		
 		$('#createGameRoom').click(function(){
-			$('#createGameRoomTable').css({'display': 'initial', 'top': (window.innerHeight - 300)/2 + 'px', 'left': (window.innerWidth - 400)/2 + 'px'});
+			var height = $('#createGameRoomTable').height();
+			var width = $('#createGameRoomTable').width();
+			$('#createGameRoomTable').css({'display': 'initial', 'top': (window.innerHeight - height)/2 + 'px', 'left': (window.innerWidth - width)/2 + 'px'});
 			
 			$('#background').css('display', 'initial');
 		});
@@ -67,11 +69,13 @@ function init_waitingroom(socket){
 		
 		$('#confirmCreateGameRoom').click(function(){
 			$('#createGameRoomTable').css('display', 'none');
-			$('#confirmMessage').css({'display': 'initial', 'top': (window.innerHeight - 100)/2 + 'px', 'left': (window.innerWidth - 200)/2 + 'px'});
+			var height = $('#confirmMessage').height();
+			var width = $('#confirmMessage').width();
+			$('#confirmMessage').css({'display': 'initial', 'top': (window.innerHeight - height)/2 + 'px', 'left': (window.innerWidth - width)/2 + 'px'});
 			var name = $('#gameRoomName').val();
 			$('#gameRoomName').val('');
 			var message = 'Game Room ' + name + ' has been created.';
-			$('#confirmMessage h2').text(message);
+			$('#confirmMessage h3').text(message);
 		});
 		
 		$('#close').click(function(){

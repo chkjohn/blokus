@@ -40,7 +40,7 @@
 }
 
 #confirmMessage{
-	height: 100px;
+	height: 200px;
 	width: 200px;
 	position: absolute;
 	z-index: 5;
