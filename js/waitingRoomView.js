@@ -55,41 +55,18 @@ function init_waitingroom(socket){
 		});
 		
 		$('#createGameRoom').click(function(){
-			var bg_div = document.createElement('div');
-			var gr_config = document.createElement('div');
-			var table = document.createElement('table');
+			$('#createGameRoomTable').css({'display': 'initial', 'height': '300px', 'width': '300px', 'position': 'absolute', 'top': (window.innerHeight - 150)/2 + 'px', 'left': (window.innerWidth - 150)/2 + 'px', 'z-index': 1});
 			
-			var tr = document.createElement('tr');
-			var label = $('<td>Name of Game Room: </td>')
-			var input = $('<td><input type="text" size="20" id="gameRoomName"></td>');
-			tr.appendChild(label);
-			tr.appendChild(input);
-			table.appendChlid(tr);
-			
-			tr = document.createElement('tr');
-			var cancel = $('<td align=center><input id="register" class=button type=button value=Register style="width: 100%"></td>');
-			var create = $('<td align=center><input id="login" class=button type=button value=Login style="width: 100%"></td>');
-			tr.appendChild(cancel);
-			tr.appendChild(create);
-			table.appendChlid(tr);
-			
-			table.style.height = '300px';
-			table.style.width = '300px';
-			table.style.position = 'absolute';
-			table.style.top = (window.innerHeight - 150)/2 + 'px';
-			table.style.left = (window.innerWidth - 150)/2 + 'px';
-			
-			bg_div.style.height = "100%";
-			bg_div.style.width = "100%";
-			bg_div.style.position = "fixed";
-			bg_div.style.top = 0;
-			bg_div.style.left = 0;
-			bg_div.style.background = "rgba(0,0,0,0.5)";
-			bg_div.style.zIndex = 3;
-			bg_div.id = "background";
-			
-			document.body.appendChild(bg_div);
-			document.body.appendChild(table);
+			$('#background').css({'display': 'initial', 'height': '100%', 'width': '100%', 'position': 'fixed', 'top': '0px', 'left': '0px', 'background': 'rgba(0,0,0,0.5)', 'z-index': 3});
+		});
+		
+		$('#cancelCreateGameRoom').click(function(){
+			$('#createGameRoomTable').css('display', 'hidden');
+			$('#background').css('display', 'hidden');
+		});
+		
+		$('#confirmCreateGameRoom').click(function(){
+			alert("Hello");
 		});
 		
 		// when the client hits ENTER on their keyboard
