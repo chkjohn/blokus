@@ -38,6 +38,7 @@ var io = require('socket.io').listen(server);
 app.use('/css', express.static(__dirname + '/css'));
 app.use('/html', express.static(__dirname + '/html'));
 app.use('/js', express.static(__dirname + '/js'));
+app.use('/images', express.static(__dirname + '/images'));
 app.use(express.cookieParser());
 app.use(express.session({secret: 'blokus'}));
 
