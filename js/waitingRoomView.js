@@ -21,7 +21,7 @@ function init_waitingroom(socket){
 		}
 		table.append(name, tabContent);
 		gameroomTab.append(table);
-		gameroomTab.hide().prependTo('#gameroomlist').slideDown();
+		gameroomTab.hide().prependTo('#gameroom').slideDown();
 		gameroomTab.attr({'id': gameroom + '_tab', 'class': 'gameroomTab'});
 	});
 
@@ -99,6 +99,7 @@ function init_waitingroom(socket){
 				$('#confirmMessage h3').text(message);
 				setTimeout(function(){
 					$('#confirmMessage').fadeOut();
+					$('#background').fadeOut();
 				}, 3000);
 			});
 			socket.on('createGameRoomFail', function(){
