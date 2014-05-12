@@ -10,6 +10,10 @@
 	right: 5px;
 }
 
+.close:hover{
+	cursor: pointer;
+}
+
 #userlist{
 	float:left;
 	width:10%;
@@ -132,4 +136,3 @@
 	position:relative;
 	top:1px;
 }
-/* This button was generated using CSSButtonGenerator.com */
