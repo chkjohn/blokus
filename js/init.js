@@ -117,8 +117,8 @@ module.exports = {
 			});
 			/* Code for Login System End*/
 
-			socket.on('createGameRoom', function(gameroom, username){
-				gamerooms[gameroom] = {numPlayers: 1, players: [username]};
+			socket.on('createGameRoom', function(gameroom){
+				gamerooms[gameroom] = {numPlayers: 1, players: [socket.username]};
 				io.sockets.emit('updateGameRoomList',gameroom, gamerooms[gameroom]);
 				socket.broadcast.emit('updateGameRoomList', gameroom, gamerooms[gameroom]);
 			});

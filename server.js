@@ -64,4 +64,4 @@ app.get('/waitingroom', function(request, response) {
 var usernames = {};
 var gamerooms = {};
 
-init.init_server(io, usernames, connection);
+init.init_server(io, usernames, connection, gamerooms);

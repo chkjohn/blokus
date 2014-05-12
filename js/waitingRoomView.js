@@ -93,7 +93,7 @@ function init_waitingroom(socket){
 			$('#confirmMessage').fadeIn();
 			var message = '';
 
-			socket.emit('createGameRoom', name, getCookie('sessionid'));
+			socket.emit('createGameRoom', name);
 			socket.on('createGameRoomSuccess', function(){
 				message = 'Game Room \"' + name + '\" has been created.';
 				$('#confirmMessage h3').text(message);
