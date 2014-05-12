@@ -106,6 +106,8 @@
 	text-shadow:1px 1px 0px #aade7c;
 }
 .waitingRoomButton:hover {
+	color: red;
+	cursor:pointer;
 	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #5cb811), color-stop(1, #77d42a) );
 	background:-moz-linear-gradient( center top, #5cb811 5%, #77d42a 100% );
 	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#5cb811', endColorstr='#77d42a');
