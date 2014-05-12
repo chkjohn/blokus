@@ -1,22 +1,58 @@
 <!doctype html>
 <html>
 	<head>
-		<title>Waiting Room</title>
+		<title>Blokus - Waiting Room</title>
 		<script src="/socket.io/socket.io.js"></script>
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
 		<script src="/js/function.js"></script>
+		<script src="/js/waitingRoomView.js"></script>
+		<link rel="stylesheet" href="/css/style.css">
 	</head>
-	<body>
-		<h1 align=center id="welcome"></h1>
+	<body class=font>
+		<div id="background" style="display: none"></div>
+		<table id="createGameRoomTable" style="display: none">
+			<tr align=center>
+				<td>Name of Game Room: </td>
+				<td><input type="text" size="20" id="gameRoomName"></td>
+			</tr>
+			<tr align=center style="position: relative; top: 80%">
+				<td align=center><input id="cancelCreateGameRoom" class=button type=button value=Cancel style="width: 100%" style="font-size: xx-large;"></td>
+				<td align=center><input id="confirmCreateGameRoom" class=button type=button value=Create style="width: 100%" style="font-size: xx-large;"></td>
+			</tr>
+		</table>
+		<table align=center style="width: 100%">
+			<tr>
+				<td><h1>Waiting Room</h1></td>
+				<td align=center>
+					<input type="text" size="20" id="data">
+					<input type="button" class=button id="datasend" value="Search Room" style="width: 125px">
+				</td>
+				<td align=right>
+					<label class=font id="welcome"></label>
+					<input id="logout" class=button type=button value=Logout style="width: 100px">
+				</td>
+			</tr>
+		</table>
 		<script>
-			var sessionid = getCookie("sessionid");
+			var sessionid = getCookie('sessionid');
 			if (sessionid != ""){
+				// call the server-side function 'adduser' and send one parameter (value of prompt)
 				$('#welcome').text("Welcome! " + sessionid);
 			} else{
 				window.location.replace('login');
 			}
 		</script>
-		<input id="logout" class=font type=button value=Logout>
+		<!--canvas id="cube"></canvas-->
+		<div>
+			<div id="userlist" style="float:left; width:10%; height:300px; border-right:1px solid black; padding:10px; overflow: scroll-y;">
+				<b>USERS</b>
+				<div id="users"></div>
+			</div>
+			<div id="gameroomlist" style="width:90%; height:450px; overflow: scroll-y; padding:10px;">
+				<div id="gameroom"></div>
+			</div>
+		</div>
+		<div align=center><input id="createGameRoom" class=button type=button value="Create Game Room" style="font-size: xx-large;"></div>
 	</body>
 	<script>
 		var socket = io.connect('blokus-novax.rhcloud.com:8000');

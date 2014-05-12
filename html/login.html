@@ -5,34 +5,39 @@
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
 		<script src="/js/function.js"></script>
 		<script src="/socket.io/socket.io.js"></script>
+		<script src="/js/loginView.js"></script>
 		<script>
 			var sessionid = getCookie("sessionid");
 			if (sessionid != "")
 				window.location.replace('waitingroom');
 		</script>
+		<link rel="stylesheet" href="/css/style.css">
 	</head>
-	<style>
-		.font{
-			font-family: Courier New;
-		}
-	</style>
 	<body class=font>
-		<h2 align="center" class=font>CSCI4140 Project - Blokus<br>Login Interface</h2>
-		<h3 align="center" class=font id="login_text"></h3>
+		<table>
+			<h2 align="center" class=font>CSCI4140 Project - Blokus<br>Login Interface</h2>
+			<h3 align="center" class=font id="login_text" style="color: red"></h3>
+		</table>
 		<table align="center" cellspacing=5pt cellpadding=10pt style="border:5pt solid #7777ff;">
 			<tr>
-			<td>Username</td>
-			<td><input id="username" type=text size=20></td>
+				<td>Username</td>
+				<td><input id="username" type=text></td>
 			</tr>
 
 			<tr>
-			<td>Password</td>
-			<td><input id="password" type=password size=20></td>
+				<td>Password</td>
+				<td><input id="password" type=password></td>
 			</tr>
 
 			<tr align=center>
-			<td align=center><input id="register" class=font type=button value=Register></td>
-			<td align=center><input id="login" class=font type=button value=Login></td>
+				<td colspan=2>
+					<table align=center style="width: 100%">
+						<tr>
+							<td align=center><input id="register" class=button type=button value=Register style="width: 100%"></td>
+							<td align=center><input id="login" class=button type=button value=Login style="width: 100%"></td>
+						</tr>
+					</table>
+				</td>
 			</tr>
 		</table>
 	</body>

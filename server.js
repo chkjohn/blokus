@@ -5,7 +5,7 @@ var app = express();
 var fs = require('fs');
 var http = require('http');
 var mysql =  require('mysql');
-var init_server = require('./js/init_server');
+var init = require('./js/init');
 
 var osipaddress = process.env.OPENSHIFT_NODEJS_IP; 
 var osport = process.env.OPENSHIFT_NODEJS_PORT;
@@ -24,50 +24,42 @@ connection.connect(function(e){
 	console.log('Connected to database');
 });
 
-// connection.query('SET GLOBAL time_zone = ?', "+8:00");
+init.init_db(connection);
 
-// initialize database
-connection.query('DROP TABLE IF EXISTS users');
-connection.query('CREATE TABLE users (' +
-					'username varchar(255) NOT NULL PRIMARY KEY,' +
-					'password varchar(255) NOT NULL)');
-connection.query('DROP TABLE IF EXISTS sessions');
-connection.query('CREATE TABLE sessions (' +
-					'id varchar(255) NOT NULL PRIMARY KEY,' +
-					'expire datetime)');
-connection.query('INSERT INTO users SET ?', {username: 'john', password: 'john'});
-connection.query('INSERT INTO users SET ?', {username: 'danny', password: 'danny'});
-connection.query('INSERT INTO users SET ?', {username: 'raymond', password: 'raymond'});
-connection.query('INSERT INTO users SET ?', {username: 'walter', password: 'walter'});
+// connection.query('SET GLOBAL time_zone = ?', "+8:00");
 
 app.set('port', osport || 8080); 
 app.set('ipaddress', osipaddress); 
-
-app.use('/js', express.static(__dirname + '/js'));
-app.use('/html', express.static(__dirname + '/html'));
-
-// routing
-app.get('/', function(request, response) {
-    response.sendfile(__dirname + "/html/index.html");
-});
-app.get('/index', function(request, response) {
-    response.sendfile(__dirname + "/html/index.html");
-});
-app.get('/blokus', function(request, response) {
-    response.sendfile(__dirname + "/html/blokus.html");
-});
-app.get('/login', function(request, response) {
-    response.sendfile(__dirname + "/html/login.html");
-});
-app.get('/waitingroom', function(request, response) {
-    response.sendfile(__dirname + "/html/waitingroom.html");
-});
 
 var server = http.createServer(app);
 server.listen(app.get('port'), app.get('ipaddress'));
 var io = require('socket.io').listen(server);
 
+app.use('/css', express.static(__dirname + '/css'));
+app.use('/html', express.static(__dirname + '/html'));
+app.use('/js', express.static(__dirname + '/js'));
+app.use(express.cookieParser());
+app.use(express.session({secret: 'blokus'}));
+
+// routing
+app.get('/', function(request, response) {
+	response.sendfile(__dirname + "/html/index.html");
+});
+app.get('/index', function(request, response) {
+	response.sendfile(__dirname + "/html/index.html");
+});
+app.get('/blokus', function(request, response) {
+	response.sendfile(__dirname + "/html/blokus.html");
+});
+app.get('/login', function(request, response) {
+	//response.cookie('test', 'Hello', { maxAge: 900000 });
+	response.sendfile(__dirname + "/html/login.html");
+});
+app.get('/waitingroom', function(request, response) {
+	response.sendfile(__dirname + "/html/waitingroom.html");
+});
+
 // usernames which are currently connected to the chat
 var usernames = {};
 
-init_server(io, usernames, connection);
+init.init_server(io, usernames, connection);
