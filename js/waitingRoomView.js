@@ -97,6 +97,9 @@ function init_waitingroom(socket){
 			socket.on('createGameRoomSuccess', function(){
 				message = 'Game Room \"' + name + '\" has been created.';
 				$('#confirmMessage h3').text(message);
+				setTimeout(function(){
+					$('#confirmMessage').fadeOut();
+				}, 3000);
 			});
 			socket.on('createGameRoomFail', function(){
 				message = 'Unable to create the game room \"' + name + '\". Please try again.';
