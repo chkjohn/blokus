@@ -2,6 +2,24 @@
 	font-family: Courier New;
 }
 
+#createGameRoomtable{
+	height: 300px;
+	width: 400px;
+	position: absolute;
+	z-index: 5;
+	background: white;
+}
+
+#background{
+	height: 100%;
+	width: 100%;
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	background: rgba(0,0,0,0.75);
+	z-index: 3;
+}
+
 .button{
 	font-family: Courier New;
 	-moz-box-shadow:inset 0px 1px 0px 0px #fce2c1;

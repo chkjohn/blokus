@@ -55,9 +55,9 @@ function init_waitingroom(socket){
 		});
 		
 		$('#createGameRoom').click(function(){
-			$('#createGameRoomTable').css({'display': 'initial', 'height': '300px', 'width': '600px', 'position': 'absolute', 'top': (window.innerHeight - 300)/2 + 'px', 'left': (window.innerWidth - 600)/2 + 'px', 'z-index': 5, 'background': 'white'});
+			$('#createGameRoomTable').css({'display': 'initial', 'top': (window.innerHeight - 300)/2 + 'px', 'left': (window.innerWidth - 400)/2 + 'px'});
 			
-			$('#background').css({'display': 'initial', 'height': '100%', 'width': '100%', 'position': 'fixed', 'top': '0px', 'left': '0px', 'background': 'rgba(0,0,0,0.75)', 'z-index': 3});
+			$('#background').css('display', 'initial');
 		});
 		
 		$('#cancelCreateGameRoom').click(function(){
