@@ -14,11 +14,12 @@ function init_waitingroom(socket){
 		var gameroomTab = $('<div></div>');
 		var table = $('<table></table>');
 		var name = $('<tr><td colspan=2><h1>' + gameroom +'</h1></td></tr>');
-
-		var tabContent = tabContent = $('<tr><td>' + 'No. of players: ' + '</td><td>' + data.numPlayers + '</td></tr>');
+		var tabContent = tabContent = $('<tr><td>' + 'No. of players: ' + '</td><td align=right>' + data.numPlayers + '</td></tr>');
 
 		table.append(name, tabContent);
 		gameroomTab.append(table);
+		table.width('75%');
+		table.attr('align', 'center');
 		gameroomTab.hide().prependTo('#gameroom').slideDown();
 		gameroomTab.attr({'id': gameroom + '_tab', 'class': 'gameroomTab'});
 	});
