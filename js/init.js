@@ -16,7 +16,7 @@ module.exports = {
 		connection.query('INSERT INTO users SET ?', {username: 'walter', password: 'walter'});
 	},
 	
-	init_server: function(io, usernames, connection){
+	init_server: function(io, usernames, connection, gamerooms){
 		io.sockets.on('connection', function (socket) {
 			/* Code for Chat Room Start*/
 			// when the client emits 'sendchat', this listens and executes
@@ -116,6 +116,12 @@ module.exports = {
 				});
 			});
 			/* Code for Login System End*/
+
+			socket.on('createGameRoom', function(gameroom){
+				gamerooms[gameroom] = {num_players: 1, players: [socket.username]};
+				io.sockets.emit('updateGameRoomList',gameroom, gamerooms[gameroom]);
+				socket.broadcast.emit('updateGameRoomList', gameroom, gamerooms[gameroom]);
+			});
 		});
 		
 		

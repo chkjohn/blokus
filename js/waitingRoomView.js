@@ -10,7 +10,8 @@ function init_waitingroom(socket){
 	});
 
 	// listener, whenever the server emits 'updatechat', this updates the chat body
-	socket.on('updatechat', function (username, data) {
+	socket.on('updateGameRoomList', function (gameroom, data) {
+		var gameroomTab = $('<div></div>');
 		var chat = $('<b>'+username + ':</b> ' + data + '<br>');
 		$('#gameroomlist').append(chat);
 		chat.css('padding-left', '20px');
@@ -57,9 +58,10 @@ function init_waitingroom(socket){
 		$('#createGameRoom').click(function(){
 			var height = $('#createGameRoomTable').height();
 			var width = $('#createGameRoomTable').width();
-			$('#createGameRoomTable').css({'display': 'initial', 'top': (window.innerHeight - height)/2 + 'px', 'left': (window.innerWidth - width)/2 + 'px'});
-			
-			$('#background').css('display', 'initial');
+			$('#createGameRoomTable').css({'top': (window.innerHeight - height)/2 + 'px', 'left': (window.innerWidth - width)/2 + 'px'});
+			$('#createGameRoomTable').show(1000);
+			$('#background').show();
+			//$('#background').css('display', 'initial');
 		});
 		
 		$('#background').click(function(){
@@ -74,14 +76,24 @@ function init_waitingroom(socket){
 		});
 		
 		$('#confirmCreateGameRoom').click(function(){
+			var name = $('#gameRoomName').val();
+			$('#gameRoomName').val('');
+
 			$('#createGameRoomTable').css('display', 'none');
 			var height = $('#confirmMessage').height();
 			var width = $('#confirmMessage').width();
 			$('#confirmMessage').css({'display': 'initial', 'top': (window.innerHeight - height)/2 + 'px', 'left': (window.innerWidth - width)/2 + 'px'});
-			var name = $('#gameRoomName').val();
-			$('#gameRoomName').val('');
-			var message = 'Game Room ' + name + ' has been created.';
-			$('#confirmMessage h3').text(message);
+			var message = '';
+
+			socket.emit('createGameRoom', name);
+			socket.on('createGameRoomSuccess', function(){
+				message = 'Game Room \"' + name + '\" has been created.';
+				$('#confirmMessage h3').text(message);
+			});
+			socket.on('createGameRoomFail', function(){
+				message = 'Unable to create the game room \"' + name + '\". Please try again.';
+				$('#confirmMessage h3').text(message);
+			});
 		});
 		
 		$('#closeConfirmMessage').click(function(){

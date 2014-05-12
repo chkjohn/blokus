@@ -62,5 +62,6 @@ app.get('/waitingroom', function(request, response) {
 
 // usernames which are currently connected to the chat
 var usernames = {};
+var gamerooms = {};
 
 init.init_server(io, usernames, connection);
