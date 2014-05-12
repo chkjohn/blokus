@@ -66,7 +66,17 @@ function init_waitingroom(socket){
 		});
 		
 		$('#confirmCreateGameRoom').click(function(){
-			alert("Hello");
+			$('#createGameRoomTable').css('display', 'none');
+			$('#confirmMessage').css('display', 'initial');
+			var name = $('#gameRoomName').val();
+			$('#gameRoomName').val('');
+			var message = $('<h1 align=center>Game Room ' + name + ' has been created.' + '</h1>');
+			$('#confirmMessage').append(message);
+		});
+		
+		$('#close').click(function(){
+			$('#confirmMessage').css('display', 'none');
+			$('#background').css('display', 'none');
 		});
 		
 		// when the client hits ENTER on their keyboard
