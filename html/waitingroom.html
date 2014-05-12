@@ -20,7 +20,7 @@
 				<td align=center><input id="confirmCreateGameRoom" class=button type=button value=Create style="width: 100%" style="font-size: xx-large;"></td>
 			</tr>
 		</table>
-		<table align=center style="width: 100%">
+		<table id="head-banner" align=center style="width: 100%">
 			<tr>
 				<td><h1>Waiting Room</h1></td>
 				<td align=center>
@@ -37,18 +37,18 @@
 			var sessionid = getCookie('sessionid');
 			if (sessionid != ""){
 				// call the server-side function 'adduser' and send one parameter (value of prompt)
-				$('#welcome').text("Welcome! " + sessionid);
+				$('#welcome').text("Logined as " + sessionid);
 			} else{
 				window.location.replace('login');
 			}
 		</script>
 		<!--canvas id="cube"></canvas-->
 		<div>
-			<div id="userlist" style="float:left; width:10%; height:300px; border-right:1px solid black; padding:10px; overflow: scroll-y;">
-				<b>USERS</b>
+			<div id="userlist" style="float:left; width:10%; height:300px; border-right:2px solid grey; padding:10px; overflow: scroll-y;">
+				<b>User List</b>
 				<div id="users"></div>
 			</div>
-			<div id="gameroomlist" style="width:90%; height:450px; overflow: scroll-y; padding:10px;">
+			<div id="gameroomlist" style="margin-right=0; margin-left=auto; width:90%; height:450px; overflow: scroll-y; padding:10px;">
 				<div id="gameroom"></div>
 			</div>
 		</div>

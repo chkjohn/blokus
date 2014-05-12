@@ -51,3 +51,10 @@
 	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#fb9e25', endColorstr='#ffc477');
 	background-color:#fb9e25;
 }
+
+#head-banner{
+	background: url('css/banner.jpg');
+	background-repeat: no-repeat;
+	background-size: 100%,100%;
+	border-bottom: 3px solid grey;
+}
