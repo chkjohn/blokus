@@ -67,7 +67,7 @@ function init_waitingroom(socket){
 		
 		$('#confirmCreateGameRoom').click(function(){
 			$('#createGameRoomTable').css('display', 'none');
-			$('#confirmMessage').css('display', 'initial');
+			$('#confirmMessage').css({'display': 'initial', 'top': (window.innerHeight - 300)/2 + 'px', 'left': (window.innerWidth - 200)/2 + 'px'});
 			var name = $('#gameRoomName').val();
 			$('#gameRoomName').val('');
 			var message = $('<h1 align=center>Game Room ' + name + ' has been created.' + '</h1>');

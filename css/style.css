@@ -34,6 +34,14 @@
 	background: white;
 }
 
+#confirmMessage{
+	height: 300px;
+	width: 200px;
+	position: absolute;
+	z-index: 5;
+	background: white;
+}
+
 #background{
 	height: 100%;
 	width: 100%;
