@@ -2,6 +2,22 @@
 	font-family: Courier New;
 }
 
+#userlist{
+	float:left;
+	width:10%;
+	height:300px;
+	border-right:1px solid black;
+	padding:10px;
+	overflow: scroll-y;
+}
+
+#gameroomlist{
+	width:90%;
+	height:450px;
+	overflow: scroll-y;
+	padding:10px;
+}
+
 #createGameRoomTable{
 	height: 300px;
 	width: 400px;

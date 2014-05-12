@@ -10,16 +10,18 @@
 	</head>
 	<body class=font>
 		<div id="background" style="display: none"></div>
-		<table id="createGameRoomTable" style="display: none">
-			<tr align=center>
-				<td>Name of Game Room: </td>
-				<td><input type="text" size="20" id="gameRoomName"></td>
-			</tr>
-			<tr align=center style="position: relative; top: 80%">
-				<td align=center><input id="cancelCreateGameRoom" class=button type=button value=Cancel style="width: 100%" style="font-size: xx-large;"></td>
-				<td align=center><input id="confirmCreateGameRoom" class=button type=button value=Create style="width: 100%" style="font-size: xx-large;"></td>
-			</tr>
-		</table>
+		<div id="createGameRoomTable" style="display: none">
+			<table align=center>
+				<tr align=center>
+					<td>Name of Game Room: </td>
+					<td><input type="text" size="20" id="gameRoomName"></td>
+				</tr>
+				<tr align=center>
+					<td align=center><input id="cancelCreateGameRoom" class=button type=button value=Cancel style="width: 100%; font-size: xx-large;"></td>
+					<td align=center><input id="confirmCreateGameRoom" class=button type=button value=Create style="width: 100%; font-size: xx-large;"></td>
+				</tr>
+			</table>
+		</div>
 		<table align=center style="width: 100%">
 			<tr>
 				<td><h1>Waiting Room</h1></td>
@@ -44,11 +46,11 @@
 		</script>
 		<!--canvas id="cube"></canvas-->
 		<div>
-			<div id="userlist" style="float:left; width:10%; height:300px; border-right:1px solid black; padding:10px; overflow: scroll-y;">
+			<div id="userlist">
 				<b>USERS</b>
 				<div id="users"></div>
 			</div>
-			<div id="gameroomlist" style="width:90%; height:450px; overflow: scroll-y; padding:10px;">
+			<div id="gameroomlist">
 				<div id="gameroom"></div>
 			</div>
 		</div>
