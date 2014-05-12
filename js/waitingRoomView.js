@@ -14,17 +14,18 @@ function init_waitingroom(socket){
 		var gameroomTab = $('<div></div>');
 		var table = $('<table></table>');
 		var name = $('<tr><td colspan=2><h1>' + gameroom +'</h1></td></tr>');
-		var tabContent = tabContent = $('<tr><td>' + 'No. of players: ' + '</td><td>' + data.numPlayers + '</td></tr>');
+		var tabContent = $('<tr><td>' + 'No. of players: ' + '</td><td>' + data.numPlayers + '</td></tr>');
 
 		table.append(name, tabContent);
 		gameroomTab.append(table);
 		table.width('50%');
+		table.css('padding-left', '10%');
 		gameroomTab.hide().prependTo('#gameroom').slideDown();
 		gameroomTab.attr({'id': gameroom + '_tab', 'class': 'gameroomTab'});
 	});
 
 	// listener, whenever the server emits 'updateusers', this updates the username list
-	socket.on('updateusers', function(data) {
+	socket.on('updateusers', function (data) {
 		//console.log(data);
 		$('#users').empty();
 		$.each(data, function(key, value) {
@@ -113,14 +114,14 @@ function init_waitingroom(socket){
 		});
 		
 		// when the client hits ENTER on their keyboard
-		$('#data').keypress(function(e) {
+		$('#data').keypress(function (e) {
 			if(e.which == 13) {
 				$(this).blur();
 				$('#datasend').focus().click();
 			}
 		});
 
-		$('#gameRoomName').keypress(function(e) {
+		$('#gameRoomName').keypress(function (e) {
 			if(e.which == 13) {
 				$(this).blur();
 				$('#confirmCreateGameRoom').focus().click();
