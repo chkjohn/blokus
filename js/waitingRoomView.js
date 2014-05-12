@@ -13,7 +13,7 @@ function init_waitingroom(socket){
 	socket.on('updateGameRoomList', function (gameroom, data) {
 		var gameroomTab = $('<div></div>');
 		var chat = $('<b>'+username + ':</b> ' + data + '<br>');
-		$('#gameroomlist').append(chat);
+		$('#gameroomlist').prepend(chat);
 		chat.css('padding-left', '20px');
 	});
 
@@ -59,30 +59,30 @@ function init_waitingroom(socket){
 			var height = $('#createGameRoomTable').height();
 			var width = $('#createGameRoomTable').width();
 			$('#createGameRoomTable').css({'top': (window.innerHeight - height)/2 + 'px', 'left': (window.innerWidth - width)/2 + 'px'});
-			$('#createGameRoomTable').show(1000);
+			$('#createGameRoomTable').fadeIn();
 			$('#background').show();
-			//$('#background').css('display', 'initial');
 		});
 		
 		$('#background').click(function(){
-			$('#createGameRoomTable').css('display', 'none');
-			$('#confirmMessage').css('display', 'none');
-			$('#background').css('display', 'none');
+			$('#createGameRoomTable').hide();
+			$('#confirmMessage').hide();
+			$('#background').hide();
 		});
 		
 		$('#cancelCreateGameRoom').click(function(){
-			$('#createGameRoomTable').css('display', 'none');
-			$('#background').css('display', 'none');
+			$('#createGameRoomTable').fadeOut();
+			$('#background').fadeOut();
 		});
 		
 		$('#confirmCreateGameRoom').click(function(){
 			var name = $('#gameRoomName').val();
 			$('#gameRoomName').val('');
 
-			$('#createGameRoomTable').css('display', 'none');
+			$('#createGameRoomTable').hide();
 			var height = $('#confirmMessage').height();
 			var width = $('#confirmMessage').width();
-			$('#confirmMessage').css({'display': 'initial', 'top': (window.innerHeight - height)/2 + 'px', 'left': (window.innerWidth - width)/2 + 'px'});
+			$('#confirmMessage').css({'top': (window.innerHeight - height)/2 + 'px', 'left': (window.innerWidth - width)/2 + 'px'});
+			$('#confirmMessage').fadeIn();
 			var message = '';
 
 			socket.emit('createGameRoom', name);
@@ -97,8 +97,8 @@ function init_waitingroom(socket){
 		});
 		
 		$('#closeConfirmMessage').click(function(){
-			$('#confirmMessage').css('display', 'none');
-			$('#background').css('display', 'none');
+			$('#confirmMessage').fadeOut();
+			$('#background').fadeOut();
 		});
 		
 		// when the client hits ENTER on their keyboard
