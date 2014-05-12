@@ -5,7 +5,7 @@ module.exports = {
 		connection.query('CREATE TABLE users (' +
 							'username varchar(255) NOT NULL PRIMARY KEY,' +
 							'password varchar(255) NOT NULL,' +
-							'wintime int(5) UNSIGNED DEFAULT 0'
+							'wintime int(5) UNSIGNED DEFAULT 0' +
 							'state int(5) UNSIGNED DEFAULT 0' + ')');	//0 idle,1 for in-game
 		connection.query('DROP TABLE IF EXISTS sessions');
 		connection.query('CREATE TABLE sessions (' +
