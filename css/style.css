@@ -8,6 +8,7 @@
 	position: absolute;
 	top: 5px;
 	right: 5px;
+	padding-bottom: 50px;
 }
 
 .close:hover{
@@ -39,7 +40,7 @@
 }
 
 #confirmMessage{
-	height: 300px;
+	height: 100px;
 	width: 200px;
 	position: absolute;
 	z-index: 5;
