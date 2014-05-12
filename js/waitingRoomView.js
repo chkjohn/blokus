@@ -71,7 +71,7 @@ function init_waitingroom(socket){
 			var name = $('#gameRoomName').val();
 			$('#gameRoomName').val('');
 			var message = 'Game Room ' + name + ' has been created.';
-			$('#confirmMessage').text(message);
+			$('#confirmMessage h2').text(message);
 		});
 		
 		$('#close').click(function(){
