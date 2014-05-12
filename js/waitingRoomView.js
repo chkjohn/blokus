@@ -72,9 +72,9 @@ function init_waitingroom(socket){
 		});
 		
 		$('#background').click(function(){
-			$('#createGameRoomTable').hide();
-			$('#confirmMessage').hide();
-			$('#background').hide();
+			$('#createGameRoomTable').fadeOut();
+			$('#confirmMessage').fadeOut();
+			$('#background').fadeOut();
 		});
 		
 		$('#cancelCreateGameRoom').click(function(){
@@ -93,7 +93,7 @@ function init_waitingroom(socket){
 			$('#confirmMessage').fadeIn();
 			var message = '';
 
-			socket.emit('createGameRoom', name);
+			socket.emit('createGameRoom', name, getCookie('sessionid'));
 			socket.on('createGameRoomSuccess', function(){
 				message = 'Game Room \"' + name + '\" has been created.';
 				$('#confirmMessage h3').text(message);
