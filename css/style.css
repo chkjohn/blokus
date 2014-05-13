@@ -23,7 +23,6 @@
 	float:left;
 	width:10%;
 	height:300px;
-	border-right:1px solid black;
 	overflow-y: scroll;
 	position: relative;
 }
