@@ -23,8 +23,11 @@ function init_waitingroom(socket){
 		gameroomTab.hide().prependTo('#gameroom').slideDown();
 		gameroomTab.attr({'id': gameroom + '_tab', 'class': 'gameroomTab'});
 		if (!creater){
-			var joinButton = $('<input type=button class=waitingRoomButton id=joinGameRoom value=Join>');
+			var joinButton = $('<input type=button class=waitingRoomButton value=Join>');
 			gameroomTab.append(joinButton);
+			joinButton.click(function(){
+				socket.emit('joinGameRoom', gameroom);
+			});
 		}
 	});
 
@@ -80,12 +83,6 @@ function init_waitingroom(socket){
 			$('#createGameRoomTable').fadeIn();
 			$('#background').fadeIn();
 			$('#gameRoomName').focus();
-		});
-
-		$('#joinGameRoom').click(function(){
-			var gameroom = $('#joinGameRoom').parent().attr('id');
-			gameroom = gameroom.replace('_tab', '');
-			socket.emit('joinGameRoom', gameroom);
 		});
 		
 		$('#background').click(function(){
