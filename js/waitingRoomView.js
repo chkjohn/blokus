@@ -22,7 +22,7 @@ function init_waitingroom(socket){
 		table.css('padding-left', '10%');
 		gameroomTab.hide().prependTo('#gameroom').slideDown();
 		gameroomTab.attr({'id': gameroom + '_tab', 'class': 'gameroomTab'});
-		if (creater){
+		if (!creater){
 			var joinButton = $('<input type=button class=waitingRoomButton value=Join>');
 			gameroomTab.append(joinButton);
 			joinButton.css('display', 'flex');
@@ -38,7 +38,7 @@ function init_waitingroom(socket){
 						lightbox.append(data[i]);
 					}
 					$('#background').fadeIn();
-					lightbox.css({'height': '400px', 'width': '300px', 'top': (window.innerHeight - 400)/2 + 'px', 'left': (window.innerWidth - 300)/2 + 'px', 'z-index': 5});
+					lightbox.css({'height': '400px', 'width': '300px', 'position': 'absolute', 'top': (window.innerHeight - 400)/2 + 'px', 'left': (window.innerWidth - 300)/2 + 'px', 'z-index': 5});
 					lightbox.hide().appendTo('body').fadeIn();
 				});
 			});
