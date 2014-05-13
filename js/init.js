@@ -32,9 +32,9 @@ module.exports = {
 				// add the client's username to the global list
 				usernames[username] = username;
 				// echo to client they've connected
-				socket.emit('updatechat', 'SERVER', 'you have connected');
-				// echo globally (all clients) that a person has connected
-				socket.broadcast.emit('updatechat', 'SERVER', username + ' has connected');
+				for gameroom in Object.keys(gamerooms){
+					socket.emit('updateGameRoomList', gameroom, gamerooms[gameroom], false);
+				}
 				// update the list of users in chat, client-side
 				io.sockets.emit('updateusers', usernames);
 			});
@@ -122,15 +122,15 @@ module.exports = {
 				gamerooms[gameroom] = [socket.username];
 				io.sockets.emit('createGameRoomSuccess');
 				io.sockets.emit('updateGameRoomList',gameroom, gamerooms[gameroom], true);
-				socket.broadcast.emit('updateGameRoomList', gameroom, gamerooms[gameroom], true);
+				socket.broadcast.emit('updateGameRoomList', gameroom, gamerooms[gameroom], false);
 			});
 
 			socket.on('joinGameRoom', function(gameroom){
 				if (gamerooms[gameroom].length < 4){
 					gamerooms[gameroom].push(socket.username);
 					io.sockets.emit('joinGameRoomSuccess');
-					io.sockets.emit('updateGameRoomList',gameroom, gamerooms[gameroom], true);
-					socket.broadcast.emit('updateGameRoomList', gameroom, gamerooms[gameroom], true);
+					io.sockets.emit('updateGameRoom',gameroom, gamerooms[gameroom]);
+					socket.broadcast.emit('updateGameRoom', gameroom, gamerooms[gameroom]);
 				} else{
 					io.sockets.emit('joinGameRoomFail');
 				}

@@ -14,7 +14,7 @@ function init_waitingroom(socket){
 		var gameroomTab = $('<div></div>');
 		var table = $('<table></table>');
 		var name = $('<tr><td colspan=2><h1>' + gameroom +'</h1></td></tr>');
-		var tabContent = $('<tr><td>' + 'No. of players: ' + '</td><td>' + data.length + '</td></tr>');
+		var tabContent = $('<tr><td>' + 'No. of players: ' + '</td><td id=' + gameroom + '_numPlayers>' + data.length + '</td></tr>');
 
 		table.append(name, tabContent);
 		gameroomTab.append(table);
@@ -26,6 +26,13 @@ function init_waitingroom(socket){
 			var joinButton = $('<input type=button class=waitingRoomButton id=joinGameRoom value=Join>');
 			gameroomTab.append(joinButton);
 		}
+	});
+
+	socket.on('updateGameRoom', function (gameroom, data) {
+		var gameroomTab = $('#' + gameroom + '_tab');
+		var numPlayers = $('#' + gameroom + '_numPlayers');
+
+		numPlayers.text(data.length);
 	});
 
 	// listener, whenever the server emits 'updateusers', this updates the username list
