@@ -17,9 +17,9 @@ module.exports = {
 	},
 	
 	init_server: function(io, usernames, connection, gamerooms){
-		var login = io.of('/login');
-		var waitingRoom = io.of('/waitingroom');
-		var blokus = io.of('/blokus');
+		var login = io.of('/loginControl');
+		var waitingRoom = io.of('/waitingRoomControl');
+		var blokus = io.of('/gameControl');
 		
 
 		login.on('connection', function (socket){
