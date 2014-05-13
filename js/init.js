@@ -119,8 +119,7 @@ module.exports = {
 
 			socket.on('createGameRoom', function(gameroom){
 				socket.gameroom = gameroom;
-				var tmp = socket;
-				gamerooms[gameroom] = {players: [tmp], ready: 0};
+				gamerooms[gameroom] = {players: [socket.valueOf()], ready: 0};
 				socket.emit('createGameRoomSuccess');
 				socket.emit('updateGameRoomList', gameroom, gamerooms[gameroom], true);
 				socket.broadcast.emit('updateGameRoomList', gameroom, gamerooms[gameroom], false);
@@ -128,7 +127,7 @@ module.exports = {
 
 			socket.on('joinGameRoom', function(gameroom){
 				if (gamerooms[gameroom].players.length < 4){
-					gamerooms[gameroom].players.push(socket);
+					gamerooms[gameroom].players.push(socket.valueOf());
 					socket.emit('joinGameRoomSuccess', gamerooms[gameroom]);
 					io.sockets.emit('updateGameRoom',gameroom, gamerooms[gameroom]);
 					//socket.broadcast.emit('updateGameRoom', gameroom, gamerooms[gameroom]);
