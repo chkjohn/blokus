@@ -30,12 +30,14 @@ module.exports = {
 			socket.on('adduser', function(username){
 				// we store the username in the socket session for this client
 				socket.username = username;
+				socket.ready = false;
 				// add the client's username to the global list
 				usernames[username] = username;
 				// echo to client they've connected
-				socket.emit('updatechat', 'SERVER', 'you have connected');
-				// echo globally (all clients) that a person has connected
-				socket.broadcast.emit('updatechat', 'SERVER', username + ' has connected');
+				var tmp = Object.keys(gamerooms);
+				for (var i in tmp){
+					socket.emit('updateGameRoomList', tmp[i], gamerooms[tmp[i]].players, false);
+				}
 				// update the list of users in chat, client-side
 				io.sockets.emit('updateusers', usernames);
 			});
@@ -94,6 +96,7 @@ module.exports = {
 							} else{
 								console.log(sessionid);
 								socket.username = data.username;
+								socket.ready = false;
 								usernames[data.username] = data.username;
 								// send session key to client
 								io.sockets.emit('loginsuccess', sessionid);
@@ -120,21 +123,38 @@ module.exports = {
 
 			socket.on('createGameRoom', function(gameroom){
 				socket.gameroom = gameroom;
-				gamerooms[gameroom] = [socket.username];
-				io.sockets.emit('createGameRoomSuccess');
-				io.sockets.emit('updateGameRoomList',gameroom, gamerooms[gameroom], true);
-				socket.broadcast.emit('updateGameRoomList', gameroom, gamerooms[gameroom], true);
+				gamerooms[gameroom] = {sockets: [socket], players: [socket.username], ready: [socket.ready]};
+				socket.emit('createGameRoomSuccess');
+				socket.emit('updateGameRoomList', gameroom, gamerooms[gameroom].players, true);
+				socket.broadcast.emit('updateGameRoomList', gameroom, gamerooms[gameroom].players, false);
 			});
 
 			socket.on('joinGameRoom', function(gameroom){
-				if (gamerooms[gameroom].length < 4){
-					gamerooms[gameroom].push(socket.username);
-					io.sockets.emit('joinGameRoomSuccess');
-					io.sockets.emit('updateGameRoomList',gameroom, gamerooms[gameroom], true);
-					socket.broadcast.emit('updateGameRoomList', gameroom, gamerooms[gameroom], true);
+				if (gamerooms[gameroom].players.length < 4){
+					gamerooms[gameroom].players.push(socket.username);
+					socket.emit('joinGameRoomSuccess', gamerooms[gameroom].players, gamerooms[gameroom].ready);
+					io.sockets.emit('updateGameRoomTab',gameroom, gamerooms[gameroom].players);
 				} else{
 					io.sockets.emit('joinGameRoomFail');
 				}
+			});
+
+			socket.on('gameReady', function(gameroom){
+				gamerooms[gameroom].ready.push(true);
+				socket.ready = true;
+				io.sockets.emit('updateReadyStatus', gamerooms[gameroom].players, gamerooms[gameroom].ready);
+				if (gamerooms[gameroom].ready.length == 4){
+					for (var i in gamerooms[gameroom].sockets){
+						gamerooms[gameroom].sockets[i].emit('gameReady');
+					}
+				}
+			});
+
+			socket.on('gameNotReady', function(gameroom){
+				socket.ready = false;
+				if (gamerooms[gameroom].ready.length > 0)
+					gamerooms[gameroom].ready.pop();
+				io.sockets.emit('updateReadyStatus', gamerooms[gameroom].players, gamerooms[gameroom].ready);
 			});
 		});
 		

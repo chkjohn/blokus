@@ -10,11 +10,11 @@ function init_waitingroom(socket){
 	});
 
 	// listener, whenever the server emits 'updateGameRoomList', this updates the gameroom list
-	socket.on('updateGameRoomList', function (gameroom, data, creater) {
-		var gameroomTab = $('<div></div>');
-		var table = $('<table></table>');
+	socket.on('updateGameRoomList', function (gameroom, players, creater) {
+		var gameroomTab = $('<div />');
+		var table = $('<table />');
 		var name = $('<tr><td colspan=2><h1>' + gameroom +'</h1></td></tr>');
-		var tabContent = $('<tr><td>' + 'No. of players: ' + '</td><td>' + data.length + '</td></tr>');
+		var tabContent = $('<tr><td>' + 'No. of players: ' + '</td><td id=' + gameroom + '_numPlayers>' + players.length + '</td></tr>');
 
 		table.append(name, tabContent);
 		gameroomTab.append(table);
@@ -23,9 +23,57 @@ function init_waitingroom(socket){
 		gameroomTab.hide().prependTo('#gameroom').slideDown();
 		gameroomTab.attr({'id': gameroom + '_tab', 'class': 'gameroomTab'});
 		if (!creater){
-			var joinButton = $('<input type=button class=waitingRoomButton id=joinGameRoom value=Join>');
+			var joinButton = $('<input type=button class=waitingRoomButton value=Join>');
 			gameroomTab.append(joinButton);
+			joinButton.css('display', 'flex');
+			joinButton.click(function(){
+				socket.emit('joinGameRoom', gameroom);
+				socket.on('joinGameRoomSuccess', function(players, ready){
+					$('#gameRoomReady h1').html(gameroom + '<br>');
+
+					for (var i in players){
+						var playerTab = $('<h3 />');
+						$('#playerInTheRoom').empty();
+						$('#playerInTheRoom').append(playerTab);
+						playerTab.html(players[i] + '<br>');
+						if (ready[i])
+							playerTab.css('color', 'green');
+						else
+							playerTab.css('color', 'red');
+					}
+					$('#ready').change(function(){
+						if (this.checked)
+							socket.emit('gameReady', gameroom);
+						else
+							socket.emit('gameNotReady', gameroom);
+					});
+					socket.on('updateReadyStatus', function(players, ready){
+						for (var i in players){
+							var playerTab = $('<h3 />');
+							$('#playerInTheRoom').empty();
+							$('#playerInTheRoom').append(playerTab);
+							playerTab.html(players[i] + '<br>');
+							if (ready[i])
+								playerTab.css('color', 'green');
+							else
+								playerTab.css('color', 'red');
+						}
+					});
+					var height = $('#gameRoomReady').height();
+					var width = $('#gameRoomReady').width();
+					$('#gameRoomReady').css({'top': (window.innerHeight - height)/2 + 'px', 'left': (window.innerWidth - width)/2 + 'px'});
+					$('#background').fadeIn();
+					$('#gameRoomReady').fadeIn();
+				});
+			});
 		}
+	});
+
+	socket.on('updateGameRoomTab', function (gameroom, players) {
+		var gameroomTab = $('#' + gameroom + '_tab');
+		var numPlayers = $('#' + gameroom + '_numPlayers');
+
+		numPlayers.text(players.length);
 	});
 
 	// listener, whenever the server emits 'updateusers', this updates the username list
@@ -37,6 +85,10 @@ function init_waitingroom(socket){
 			$('#users').append(div)
 			div.attr('id', key);
 		});
+	});
+
+	socket.on('gameReady', function(){
+		window.location.replace("blokus");
 	});
 
 	// on load of page
@@ -74,16 +126,11 @@ function init_waitingroom(socket){
 			$('#background').fadeIn();
 			$('#gameRoomName').focus();
 		});
-
-		$('#joinGameRoom').click(function(){
-			var gameroom = $('#joinGameRoom').parent().attr('id');
-			gameroom = gameroom.replace('_tab', '');
-			socket.emit('joinGameRoom', gameroom);
-		});
 		
 		$('#background').click(function(){
 			$('#createGameRoomTable').fadeOut();
 			$('#confirmMessage').fadeOut();
+			$('#gameRoomReady').fadeOut();
 			$('#background').fadeOut();
 		});
 		

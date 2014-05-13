@@ -7,6 +7,18 @@
 	border-radius: 10px;
 }
 
+.gameroomTab:hover{
+	border: 5px solid red;
+}
+
+#gameRoomReady{
+	height: 400px;
+	width: 300px; 
+	position: absolute;
+	z-index: 5;
+	background: white;
+}
+
 #closeConfirmMessage{
 	height: 20px;
 	width: 20px;
