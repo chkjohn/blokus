@@ -59,9 +59,11 @@ function init_waitingroom(socket){
 								playerTab.css('color', 'red');
 						}
 					});
+					var height = $('#gameRoomReady').height();
+					var width = $('#gameRoomReady').width();
+					$('#gameRoomReady').css({'top': (window.innerHeight - height)/2 + 'px', 'left': (window.innerWidth - width)/2 + 'px'});
 					$('#background').fadeIn();
-					$('#gameRoomReady').hide().appendTo('body').fadeIn();
-					$('#gameRoomReady').css({'top': (window.innerHeight - 400)/2 + 'px', 'left': (window.innerWidth - 300)/2 + 'px'});
+					$('#gameRoomReady').fadeIn();
 				});
 			});
 		}
