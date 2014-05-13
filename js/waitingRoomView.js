@@ -130,6 +130,7 @@ function init_waitingroom(socket){
 		$('#background').click(function(){
 			$('#createGameRoomTable').fadeOut();
 			$('#confirmMessage').fadeOut();
+			$('#gameRoomReady').fadeOut();
 			$('#background').fadeOut();
 		});
 		
