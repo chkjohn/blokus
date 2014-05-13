@@ -85,7 +85,9 @@ function init_waitingroom(socket){
 		});
 	});
 
-	socket.on('gameReady', window.location.replace("blokus"));
+	socket.on('gameReady', function(){
+		window.location.replace("blokus");
+	});
 
 	// on load of page
 	$(function(){
