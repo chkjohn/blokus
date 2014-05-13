@@ -94,7 +94,8 @@ module.exports = {
 					socket.emit('updateGameRoomList', tmp[i], gamerooms[tmp[i]].players, false);
 				}
 				// update the list of users in chat, client-side
-				io.sockets.emit('updateusers', usernames);
+				socket.emit('updateusers', usernames);
+				socket.broadcast.emit('updateusers', usernames);
 			});
 
 			// when user clicks on 'Logout'
@@ -120,7 +121,7 @@ module.exports = {
 				if (gamerooms[gameroom].players.length < 4){
 					gamerooms[gameroom].players.push(socket.username);
 					socket.emit('joinGameRoomSuccess', gamerooms[gameroom].players, gamerooms[gameroom].ready);
-					io.sockets.emit('updateGameRoomTab',gameroom, gamerooms[gameroom].players);
+					socket.broadcast.emit('updateGameRoomTab',gameroom, gamerooms[gameroom].players);
 				} else{
 					socket.emit('joinGameRoomFail');
 				}
@@ -129,7 +130,7 @@ module.exports = {
 			socket.on('gameReady', function(gameroom){
 				gamerooms[gameroom].ready.push(true);
 				socket.ready = true;
-				io.sockets.emit('updateReadyStatus', gamerooms[gameroom].players, gamerooms[gameroom].ready);
+				socket.broadcast.emit('updateReadyStatus', gamerooms[gameroom].players, gamerooms[gameroom].ready);
 				if (gamerooms[gameroom].ready.length == 4){
 					for (var i in gamerooms[gameroom].sockets){
 						gamerooms[gameroom].sockets[i].emit('gameReady');
@@ -141,7 +142,7 @@ module.exports = {
 				socket.ready = false;
 				if (gamerooms[gameroom].ready.length > 0)
 					gamerooms[gameroom].ready.pop();
-				io.sockets.emit('updateReadyStatus', gamerooms[gameroom].players, gamerooms[gameroom].ready);
+				socket.broadcast.emit('updateReadyStatus', gamerooms[gameroom].players, gamerooms[gameroom].ready);
 			});
 		});
 
