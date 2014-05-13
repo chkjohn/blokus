@@ -11,8 +11,8 @@ function init_waitingroom(socket){
 
 	// listener, whenever the server emits 'updateGameRoomList', this updates the gameroom list
 	socket.on('updateGameRoomList', function (gameroom, data, creater) {
-		var gameroomTab = $('<div></div>');
-		var table = $('<table></table>');
+		var gameroomTab = $('<div />');
+		var table = $('<table />');
 		var name = $('<tr><td colspan=2><h1>' + gameroom +'</h1></td></tr>');
 		var tabContent = $('<tr><td>' + 'No. of players: ' + '</td><td id=' + gameroom + '_numPlayers>' + data.length + '</td></tr>');
 
@@ -23,11 +23,24 @@ function init_waitingroom(socket){
 		gameroomTab.hide().prependTo('#gameroom').slideDown();
 		gameroomTab.attr({'id': gameroom + '_tab', 'class': 'gameroomTab'});
 		if (!creater){
+			gameroomTab.click(function(){
+				var lightbox = $('<div />');
+				var name = $('<h1 />');
+
+				lightbox.append(name);
+				name.text(gameroom);
+				for (var i in data){
+					lightbox.append(data[i]);
+				}
+			});
+			/*
 			var joinButton = $('<input type=button class=waitingRoomButton value=Join>');
 			gameroomTab.append(joinButton);
+			joinButton.css('display', 'flex');
 			joinButton.click(function(){
 				socket.emit('joinGameRoom', gameroom);
 			});
+			*/
 		}
 	});
 
