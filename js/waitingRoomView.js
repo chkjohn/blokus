@@ -23,24 +23,25 @@ function init_waitingroom(socket){
 		gameroomTab.hide().prependTo('#gameroom').slideDown();
 		gameroomTab.attr({'id': gameroom + '_tab', 'class': 'gameroomTab'});
 		if (creater){
-			gameroomTab.click(function(){
-				var lightbox = $('<div />');
-				var name = $('<h1 />');
-
-				lightbox.append(name);
-				name.text(gameroom);
-				for (var i in data){
-					lightbox.append(data[i]);
-				}
-			});
-			/*
 			var joinButton = $('<input type=button class=waitingRoomButton value=Join>');
 			gameroomTab.append(joinButton);
 			joinButton.css('display', 'flex');
 			joinButton.click(function(){
 				socket.emit('joinGameRoom', gameroom);
+				socket.on('joinGameRoomSuccess', function(data){
+					var lightbox = $('<div />');
+					var name = $('<h1 />');
+
+					lightbox.append(name);
+					name.text(gameroom);
+					for (var i in data){
+						lightbox.append(data[i]);
+					}
+					$('#background').fadeIn();
+					lightbox.hide().appendTo('body').fadeIn();
+					lightbox.css({'height': '400px', 'width': '300px', 'top': (window.innerHeight - 400)/2 + 'px', 'left': (window.innerWidth - 300)/2 + 'px'});
+				});
 			});
-			*/
 		}
 	});
 

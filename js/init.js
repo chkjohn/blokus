@@ -128,7 +128,7 @@ module.exports = {
 			socket.on('joinGameRoom', function(gameroom){
 				if (gamerooms[gameroom].length < 4){
 					gamerooms[gameroom].push(socket.username);
-					socket.emit('joinGameRoomSuccess');
+					socket.emit('joinGameRoomSuccess', gamerooms[gameroom]);
 					io.sockets.emit('updateGameRoom',gameroom, gamerooms[gameroom]);
 					//socket.broadcast.emit('updateGameRoom', gameroom, gamerooms[gameroom]);
 				} else{
