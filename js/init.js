@@ -32,11 +32,11 @@ module.exports = {
 					if (e){ // the username already exists in database
 						message = "Register Fail. The user " + data.username + " already exists.";
 						// send response to client
-						io.sockets.emit('registerfail', message);
+						socket.emit('registerfail', message);
 					} else{ // user's info has been inserted
 						message = "Welcome, " + data.username + ". You have registered successfully. <br>Please login to play the game.";
 						// send response to client
-						io.sockets.emit('registersuccess', message);
+						socket.emit('registersuccess', message);
 					}
 				});
 			});
@@ -61,20 +61,20 @@ module.exports = {
 							if (e){
 								message = "You have already logged in another session from other brower/computer.<br>This game does not allow multiple login.";
 								// send response to client
-								io.sockets.emit('loginfail', message);
+								socket.emit('loginfail', message);
 							} else{
 								console.log(sessionid);
 								socket.username = data.username;
 								socket.ready = false;
 								usernames[data.username] = data.username;
 								// send session key to client
-								io.sockets.emit('loginsuccess', sessionid);
+								socket.emit('loginsuccess', sessionid);
 							}
 						});
 					} else{
 						// invalid username or password
 						message = "Login Fail. Please try again.";
-						io.sockets.emit('loginfail', message);
+						socket.emit('loginfail', message);
 					}
 				});
 			});
@@ -103,7 +103,7 @@ module.exports = {
 				connection.query('DELETE FROM sessions WHERE id=?', sessionid, function(e, rows, fields){
 					// logout success
 					delete usernames[socket.username];
-					io.sockets.emit('logoutsuccess', "logout");
+					socket.emit('logoutsuccess', "logout");
 				});
 			});
 			/* Code for Login System End*/
@@ -122,7 +122,7 @@ module.exports = {
 					socket.emit('joinGameRoomSuccess', gamerooms[gameroom].players, gamerooms[gameroom].ready);
 					io.sockets.emit('updateGameRoomTab',gameroom, gamerooms[gameroom].players);
 				} else{
-					io.sockets.emit('joinGameRoomFail');
+					socket.emit('joinGameRoomFail');
 				}
 			});
 
