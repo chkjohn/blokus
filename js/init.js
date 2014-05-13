@@ -33,8 +33,9 @@ module.exports = {
 				// add the client's username to the global list
 				usernames[username] = username;
 				// echo to client they've connected
-				for (var i in Object.keys(gamerooms)){
-					socket.emit('updateGameRoomList', Object.keys(gamerooms)[i], gamerooms[Object.keys(gamerooms)[i]], false);
+				var tmp = Object.keys(gamerooms);
+				for (var i in tmp){
+					socket.emit('updateGameRoomList', tmp[i], gamerooms[tmp[i]].players, false);
 				}
 				// update the list of users in chat, client-side
 				io.sockets.emit('updateusers', usernames);
