@@ -119,21 +119,37 @@ module.exports = {
 
 			socket.on('createGameRoom', function(gameroom){
 				socket.gameroom = gameroom;
-				gamerooms[gameroom] = [socket.username];
+				gamerooms[gameroom] = {players: [socket], ready: 0};
 				socket.emit('createGameRoomSuccess');
 				socket.emit('updateGameRoomList',gameroom, gamerooms[gameroom], true);
 				socket.broadcast.emit('updateGameRoomList', gameroom, gamerooms[gameroom], false);
 			});
 
 			socket.on('joinGameRoom', function(gameroom){
-				if (gamerooms[gameroom].length < 4){
-					gamerooms[gameroom].push(socket.username);
+				if (gamerooms[gameroom].players.length < 4){
+					gamerooms[gameroom].players.push(socket);
 					socket.emit('joinGameRoomSuccess', gamerooms[gameroom]);
 					io.sockets.emit('updateGameRoom',gameroom, gamerooms[gameroom]);
 					//socket.broadcast.emit('updateGameRoom', gameroom, gamerooms[gameroom]);
 				} else{
 					io.sockets.emit('joinGameRoomFail');
 				}
+			});
+
+			socket.on('gameReady', function(gameroom){
+				gamerooms[gameroom].ready += 1;
+				socket.ready = true;
+				if (gamerooms[gameroom].ready == 4){
+					for (var i in gamerooms[gameroom].players){
+						gamerooms[gameroom].players[i].emit('gameReady');
+					}
+				}
+			});
+
+			socket.on('gameNotReady', function(gameroom){
+				socket.ready = false;
+				if (gamerooms[gameroom].ready > 0)
+					gamerooms[gameroom].ready -= 1;
 			});
 		});
 		

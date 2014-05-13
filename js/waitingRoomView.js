@@ -14,7 +14,7 @@ function init_waitingroom(socket){
 		var gameroomTab = $('<div />');
 		var table = $('<table />');
 		var name = $('<tr><td colspan=2><h1>' + gameroom +'</h1></td></tr>');
-		var tabContent = $('<tr><td>' + 'No. of players: ' + '</td><td id=' + gameroom + '_numPlayers>' + data.length + '</td></tr>');
+		var tabContent = $('<tr><td>' + 'No. of players: ' + '</td><td id=' + gameroom + '_numPlayers>' + data.players.length + '</td></tr>');
 
 		table.append(name, tabContent);
 		gameroomTab.append(table);
@@ -34,9 +34,24 @@ function init_waitingroom(socket){
 
 					lightbox.append(name);
 					name.text(gameroom);
-					for (var i in data){
-						lightbox.append(data[i]);
+					for (var i in data.players){
+						var playerTab = $('<h3 />');
+						lightbox.append(playerTab);
+						playerTab.html(data.players[i].username + '<br>');
+						if (data.players[i].ready)
+							playerTab.css('color', 'green');
+						else
+							playerTab.css('color', 'red');
 					}
+					var ready = $('<input />');
+					lightbox.append(ready);
+					ready.attr({'type': 'checkbox', 'id': 'ready', 'value': 'Ready'});
+					ready.change(function(){
+						if (this.checked)
+							socket.emit('gameReady', gameroom);
+						else
+							socket.emit('gameNotReady', gameroom);
+					});
 					$('#background').fadeIn();
 					lightbox.hide().appendTo('body').fadeIn();
 					lightbox.css({'height': '400px', 'width': '300px', 'position': 'absolute', 'top': (window.innerHeight - 400)/2 + 'px', 'left': (window.innerWidth - 300)/2 + 'px', 'z-index': 5, 'background': 'white'});
@@ -49,7 +64,7 @@ function init_waitingroom(socket){
 		var gameroomTab = $('#' + gameroom + '_tab');
 		var numPlayers = $('#' + gameroom + '_numPlayers');
 
-		numPlayers.text(data.length);
+		numPlayers.text(data.players.length);
 	});
 
 	// listener, whenever the server emits 'updateusers', this updates the username list
