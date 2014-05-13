@@ -17,42 +17,12 @@ module.exports = {
 	},
 	
 	init_server: function(io, usernames, connection, gamerooms){
-		io.sockets.on('connection', function (socket) {
-			/* Code for Chat Room Start*/
-			// when the client emits 'sendchat', this listens and executes
-			socket.on('sendchat', function (data) {
-				// we tell the client to execute 'updatechat' with 2 parameters
-				io.sockets.emit('updatechat', socket.username, data);
-			});
+		var login = io.of('/login');
+		var waitingRoom = io.of('/waitingroom');
+		var blokus = io.of('/blokus');
+		
 
-			// when the client emits 'adduser', this listens and executes
-			socket.on('adduser', function(username){
-				// we store the username in the socket session for this client
-				socket.username = username;
-				socket.ready = false;
-				// add the client's username to the global list
-				usernames[username] = username;
-				// echo to client they've connected
-				var tmp = Object.keys(gamerooms);
-				for (var i in tmp){
-					socket.emit('updateGameRoomList', tmp[i], gamerooms[tmp[i]].players, false);
-				}
-				// update the list of users in chat, client-side
-				io.sockets.emit('updateusers', usernames);
-			});
-
-			// when the user disconnects.. perform this
-			socket.on('disconnect', function(){
-				// remove the username from global usernames list
-				//delete usernames[socket.username];
-				// update list of users in chat, client-side
-				io.sockets.emit('updateusers', usernames);
-				// echo globally that this client has left
-				socket.broadcast.emit('updatechat', 'SERVER', socket.username + ' has disconnected');
-			});
-			/* Code for Chat Room End*/
-			
-			
+		login.on('connection', function (socket){
 			/* Code for Login System Start*/
 			// when user clicks on 'Register'
 			socket.on('register', function(data){
@@ -108,7 +78,25 @@ module.exports = {
 					}
 				});
 			});
-			
+		});
+
+		waitingRoom.on('connection', function (socket){
+			// when the client emits 'adduser', this listens and executes
+			socket.on('adduser', function(username){
+				// we store the username in the socket session for this client
+				socket.username = username;
+				socket.ready = false;
+				// add the client's username to the global list
+				usernames[username] = username;
+				// echo to client they've connected
+				var tmp = Object.keys(gamerooms);
+				for (var i in tmp){
+					socket.emit('updateGameRoomList', tmp[i], gamerooms[tmp[i]].players, false);
+				}
+				// update the list of users in chat, client-side
+				io.sockets.emit('updateusers', usernames);
+			});
+
 			// when user clicks on 'Logout'
 			socket.on('logout', function(sessionid){
 				// delete the corresponding session from database
@@ -155,6 +143,21 @@ module.exports = {
 					gamerooms[gameroom].ready.pop();
 				io.sockets.emit('updateReadyStatus', gamerooms[gameroom].players, gamerooms[gameroom].ready);
 			});
+		});
+
+		io.sockets.on('connection', function (socket) {
+			/* Code for Chat Room Start*/
+
+			// when the user disconnects.. perform this
+			socket.on('disconnect', function(){
+				// remove the username from global usernames list
+				//delete usernames[socket.username];
+				// update list of users in chat, client-side
+				io.sockets.emit('updateusers', usernames);
+				// echo globally that this client has left
+				socket.broadcast.emit('updatechat', 'SERVER', socket.username + ' has disconnected');
+			});
+			/* Code for Chat Room End*/
 		});
 		
 		

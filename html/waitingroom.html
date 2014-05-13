@@ -67,7 +67,7 @@
 		<div align=center><input id="createGameRoom" class=waitingRoomButton type=button value="Create Game Room" style="font-size: xx-large;"></div>
 	</body>
 	<script>
-		var socket = io.connect('csci4140project-chkjohn.rhcloud.com:8000');
+		var socket = io.connect('csci4140project-chkjohn.rhcloud.com:8000/waitingroom');
 		$(init_waitingroom(socket));
 	</script>
 </html>
