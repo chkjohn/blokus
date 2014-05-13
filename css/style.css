@@ -7,6 +7,10 @@
 	border-radius: 10px;
 }
 
+.gameroomTab:hover{
+	border: 5px solid red;
+}
+
 #closeConfirmMessage{
 	height: 20px;
 	width: 20px;

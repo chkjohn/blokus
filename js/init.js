@@ -120,17 +120,17 @@ module.exports = {
 			socket.on('createGameRoom', function(gameroom){
 				socket.gameroom = gameroom;
 				gamerooms[gameroom] = [socket.username];
-				io.sockets.emit('createGameRoomSuccess');
-				io.sockets.emit('updateGameRoomList',gameroom, gamerooms[gameroom], true);
+				socket.emit('createGameRoomSuccess');
+				socket.emit('updateGameRoomList',gameroom, gamerooms[gameroom], true);
 				socket.broadcast.emit('updateGameRoomList', gameroom, gamerooms[gameroom], false);
 			});
 
 			socket.on('joinGameRoom', function(gameroom){
 				if (gamerooms[gameroom].length < 4){
 					gamerooms[gameroom].push(socket.username);
-					io.sockets.emit('joinGameRoomSuccess');
+					socket.emit('joinGameRoomSuccess');
 					io.sockets.emit('updateGameRoom',gameroom, gamerooms[gameroom]);
-					socket.broadcast.emit('updateGameRoom', gameroom, gamerooms[gameroom]);
+					//socket.broadcast.emit('updateGameRoom', gameroom, gamerooms[gameroom]);
 				} else{
 					io.sockets.emit('joinGameRoomFail');
 				}

@@ -22,7 +22,7 @@ function init_waitingroom(socket){
 		table.css('padding-left', '10%');
 		gameroomTab.hide().prependTo('#gameroom').slideDown();
 		gameroomTab.attr({'id': gameroom + '_tab', 'class': 'gameroomTab'});
-		if (!creater){
+		if (creater){
 			gameroomTab.click(function(){
 				var lightbox = $('<div />');
 				var name = $('<h1 />');
