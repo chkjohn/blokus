@@ -10,11 +10,11 @@ function init_waitingroom(socket){
 	});
 
 	// listener, whenever the server emits 'updateGameRoomList', this updates the gameroom list
-	socket.on('updateGameRoomList', function (gameroom, data, creater) {
+	socket.on('updateGameRoomList', function (gameroom, players, creater) {
 		var gameroomTab = $('<div />');
 		var table = $('<table />');
 		var name = $('<tr><td colspan=2><h1>' + gameroom +'</h1></td></tr>');
-		var tabContent = $('<tr><td>' + 'No. of players: ' + '</td><td id=' + gameroom + '_numPlayers>' + data.players.length + '</td></tr>');
+		var tabContent = $('<tr><td>' + 'No. of players: ' + '</td><td id=' + gameroom + '_numPlayers>' + players.length + '</td></tr>');
 
 		table.append(name, tabContent);
 		gameroomTab.append(table);
