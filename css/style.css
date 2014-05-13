@@ -58,3 +58,29 @@
 	background-size: 100%,100%;
 	border-bottom: 3px solid grey;
 }
+
+.user-even,.room-even{
+	background-color: #FFFFFF;
+}
+
+.user-odd,.room-odd{
+	background-color: #888888;
+}
+
+.user-idle,.room-notstart{
+	color: #00CC00;
+}
+
+.user-gameing{
+	color: #FF0000;
+}
+
+#ulist{
+	background-color: #0000FF;
+	color: #FFBF00;
+}
+
+#rlist{
+	background-color: #00FF00;
+	color: #FF0000;
+}
