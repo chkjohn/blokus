@@ -28,43 +28,50 @@ function init_waitingroom(socket){
 			joinButton.css('display', 'flex');
 			joinButton.click(function(){
 				socket.emit('joinGameRoom', gameroom);
-				socket.on('joinGameRoomSuccess', function(data){
-					var lightbox = $('<div />');
-					var name = $('<h1 />');
+				socket.on('joinGameRoomSuccess', function(players, ready){
+					$('#gameRoomReady h1').html(gameroom + '<br>');
 
-					lightbox.append(name);
-					name.text(gameroom);
-					for (var i in data.players){
+					for (var i in players){
 						var playerTab = $('<h3 />');
-						lightbox.append(playerTab);
-						playerTab.html(data.players[i].username + '<br>');
-						if (data.players[i].ready)
+						$('#playerInTheRoom').empty();
+						$('#playerInTheRoom').append(playerTab);
+						playerTab.html(players[i] + '<br>');
+						if (ready[i])
 							playerTab.css('color', 'green');
 						else
 							playerTab.css('color', 'red');
 					}
-					var ready = $('<input />');
-					lightbox.append(ready);
-					ready.attr({'type': 'checkbox', 'id': 'ready', 'value': 'Ready'});
-					ready.change(function(){
+					$('#ready').change(function(){
 						if (this.checked)
 							socket.emit('gameReady', gameroom);
 						else
 							socket.emit('gameNotReady', gameroom);
 					});
+					socket.on('updateReadyStatus', function(players, ready){
+						for (var i in players){
+							var playerTab = $('<h3 />');
+							$('#playerInTheRoom').empty();
+							$('#playerInTheRoom').append(playerTab);
+							playerTab.html(players[i] + '<br>');
+							if (ready[i])
+								playerTab.css('color', 'green');
+							else
+								playerTab.css('color', 'red');
+						}
+					});
 					$('#background').fadeIn();
-					lightbox.hide().appendTo('body').fadeIn();
-					lightbox.css({'height': '400px', 'width': '300px', 'position': 'absolute', 'top': (window.innerHeight - 400)/2 + 'px', 'left': (window.innerWidth - 300)/2 + 'px', 'z-index': 5, 'background': 'white'});
+					$('#gameRoomReady').css({'top': (window.innerHeight - 400)/2 + 'px', 'left': (window.innerWidth - 300)/2 + 'px'});
+					$('#gameRoomReady').hide().appendTo('body').fadeIn();
 				});
 			});
 		}
 	});
 
-	socket.on('updateGameRoom', function (gameroom, data) {
+	socket.on('updateGameRoomTab', function (gameroom, players) {
 		var gameroomTab = $('#' + gameroom + '_tab');
 		var numPlayers = $('#' + gameroom + '_numPlayers');
 
-		numPlayers.text(data.players.length);
+		numPlayers.text(players.length);
 	});
 
 	// listener, whenever the server emits 'updateusers', this updates the username list
@@ -77,6 +84,8 @@ function init_waitingroom(socket){
 			div.attr('id', key);
 		});
 	});
+
+	socket.on('gameReady', window.location.replace("blokus"));
 
 	// on load of page
 	$(function(){
