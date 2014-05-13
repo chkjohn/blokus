@@ -60,8 +60,8 @@ function init_waitingroom(socket){
 						}
 					});
 					$('#background').fadeIn();
-					$('#gameRoomReady').css({'top': (window.innerHeight - 400)/2 + 'px', 'left': (window.innerWidth - 300)/2 + 'px'});
 					$('#gameRoomReady').hide().appendTo('body').fadeIn();
+					$('#gameRoomReady').css({'top': (window.innerHeight - 400)/2 + 'px', 'left': (window.innerWidth - 300)/2 + 'px'});
 				});
 			});
 		}

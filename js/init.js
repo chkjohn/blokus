@@ -139,10 +139,10 @@ module.exports = {
 			});
 
 			socket.on('gameReady', function(gameroom){
-				gamerooms[gameroom].ready += 1;
+				gamerooms[gameroom].ready.push(true);
 				socket.ready = true;
 				io.sockets.emit('updateReadyStatus', gamerooms[gameroom].players, gamerooms[gameroom].ready);
-				if (gamerooms[gameroom].ready == 4){
+				if (gamerooms[gameroom].ready.length == 4){
 					for (var i in gamerooms[gameroom].sockets){
 						gamerooms[gameroom].sockets[i].emit('gameReady');
 					}
@@ -151,8 +151,8 @@ module.exports = {
 
 			socket.on('gameNotReady', function(gameroom){
 				socket.ready = false;
-				if (gamerooms[gameroom].ready > 0)
-					gamerooms[gameroom].ready -= 1;
+				if (gamerooms[gameroom].ready.length > 0)
+					gamerooms[gameroom].ready.pop();
 				io.sockets.emit('updateReadyStatus', gamerooms[gameroom].players, gamerooms[gameroom].ready);
 			});
 		});
