@@ -118,10 +118,22 @@ module.exports = {
 			/* Code for Login System End*/
 
 			socket.on('createGameRoom', function(gameroom){
-				gamerooms[gameroom] = {numPlayers: 1, players: [socket.username]};
+				socket.gameroom = gameroom;
+				gamerooms[gameroom] = [socket.username];
 				io.sockets.emit('createGameRoomSuccess');
-				io.sockets.emit('updateGameRoomList',gameroom, gamerooms[gameroom]);
-				socket.broadcast.emit('updateGameRoomList', gameroom, gamerooms[gameroom]);
+				io.sockets.emit('updateGameRoomList',gameroom, gamerooms[gameroom], true);
+				socket.broadcast.emit('updateGameRoomList', gameroom, gamerooms[gameroom], true);
+			});
+
+			socket.on('joinGameRoom', function(gameroom){
+				if (gamerooms[gameroom].length < 4){
+					gamerooms[gameroom].push(socket.username);
+					io.sockets.emit('joinGameRoomSuccess');
+					io.sockets.emit('updateGameRoomList',gameroom, gamerooms[gameroom], true);
+					socket.broadcast.emit('updateGameRoomList', gameroom, gamerooms[gameroom], true);
+				} else{
+					io.sockets.emit('joinGameRoomFail');
+				}
 			});
 		});
 		
