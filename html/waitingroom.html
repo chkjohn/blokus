@@ -10,26 +10,33 @@
 	</head>
 	<body class=font style="margin:0px;">
 		<div id="background" style="display: none"></div>
-		<table id="createGameRoomTable" style="display: none">
-			<tr align=center>
-				<td>Name of Game Room: </td>
-				<td><input type="text" size="20" id="gameRoomName"></td>
-			</tr>
-			<tr align=center style="position: relative; top: 80%">
-				<td align=center><input id="cancelCreateGameRoom" class=button type=button value=Cancel style="width: 100%" style="font-size: xx-large;"></td>
-				<td align=center><input id="confirmCreateGameRoom" class=button type=button value=Create style="width: 100%" style="font-size: xx-large;"></td>
-			</tr>
-		</table>
-		<table id="head-banner" align=center style="width: 100%">
+		<div id="createGameRoomTable" style="display: none">
+			<table align=center style="height: 100%">
+				<tr align=center>
+					<td>Name of Game Room: </td>
+					<td><input id="gameRoomName" type="text" size="20" id="gameRoomName"></td>
+				</tr>
+				<tr align=center>
+					<td align=center><input id="cancelCreateGameRoom" class=waitingRoomButton type=button value=Cancel style="width: 100%; font-size: xx-large;"></td>
+					<td align=center><input id="confirmCreateGameRoom" class=waitingRoomButton type=button value=Create style="width: 100%; font-size: xx-large;"></td>
+				</tr>
+			</table>
+		</div>
+		<div id="confirmMessage" style="display: none">
+			<img id="closeConfirmMessage" src="/images/delete.png" title="Close">
+			<h3 style="padding-top: 30px; padding: 5px"></h3>
+		</div>
+		
+		<table align=center style="width: 100%">
 			<tr>
 				<td><h1>Waiting Room</h1></td>
 				<td align=center>
 					<input type="text" size="20" id="data">
-					<input type="button" class=button id="datasend" value="Search Room" style="width: 125px">
+					<input type="button" class=waitingRoomButton id="datasend" value="Search Room" style="width: 125px">
 				</td>
 				<td align=right>
 					<label class=font id="welcome"></label>
-					<input id="logout" class=button type=button value=Logout style="width: 100px">
+					<input id="logout" class=waitingRoomButton type=button value=Logout style="width: 100px">
 				</td>
 			</tr>
 		</table>
@@ -43,21 +50,21 @@
 			}
 		</script>
 		<!--canvas id="cube"></canvas-->
-		<div>
-			<div id="userlist" style="float:left; width:10%; height:300px; border-right:2px solid grey; overflow: scroll-y;">
+		<div style="display: flex;">
+			<div id="userlist">
 				<div id="ulist">
-					<b >User List</b>
+					<b>User List</b>
 				</div>
 				<div id="users"></div>
 			</div>
-			<div id="gameroomlist" style="margin-right:0; margin-left:auto; width:90%; height:450px; overflow: scroll-y;">
+			<div id="gameroomlist">
 				<div id="rlist">
-					<b>Room List</b>
+					<b>User List</b>
 				</div>
 				<div id="gameroom"></div>
 			</div>
 		</div>
-		<div align=center><input id="createGameRoom" class=button type=button value="Create Game Room" style="font-size: xx-large;"></div>
+		<div align=center><input id="createGameRoom" class=waitingRoomButton type=button value="Create Game Room" style="font-size: xx-large;"></div>
 	</body>
 	<script>
 		var socket = io.connect('blokus-novax.rhcloud.com:8000');

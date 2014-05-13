@@ -9,15 +9,27 @@ function init_waitingroom(socket){
 		}
 	});
 
-	// listener, whenever the server emits 'updatechat', this updates the chat body
-	socket.on('updatechat', function (username, data) {
-		var chat = $('<b>'+username + ':</b> ' + data + '<br>');
-		$('#gameroomlist').append(chat);
-		chat.css('padding-left', '20px');
+	// listener, whenever the server emits 'updateGameRoomList', this updates the gameroom list
+	socket.on('updateGameRoomList', function (gameroom, data, creater) {
+		var gameroomTab = $('<div></div>');
+		var table = $('<table></table>');
+		var name = $('<tr><td colspan=2><h1>' + gameroom +'</h1></td></tr>');
+		var tabContent = $('<tr><td>' + 'No. of players: ' + '</td><td>' + data.length + '</td></tr>');
+
+		table.append(name, tabContent);
+		gameroomTab.append(table);
+		table.width('50%');
+		table.css('padding-left', '10%');
+		gameroomTab.hide().prependTo('#gameroom').slideDown();
+		gameroomTab.attr({'id': gameroom + '_tab', 'class': 'gameroomTab'});
+		if (!creater){
+			var joinButton = $('<input type=button class=waitingRoomButton id=joinGameRoom value=Join>');
+			gameroomTab.append(joinButton);
+		}
 	});
 
 	// listener, whenever the server emits 'updateusers', this updates the username list
-	socket.on('updateusers', function(data) {
+	socket.on('updateusers', function (data) {
 		//console.log(data);
 		$('#users').empty();
 		$.each(data, function(key, value) {
@@ -55,25 +67,74 @@ function init_waitingroom(socket){
 		});
 		
 		$('#createGameRoom').click(function(){
-			$('#createGameRoomTable').css({'display': 'initial', 'top': (window.innerHeight - 300)/2 + 'px', 'left': (window.innerWidth - 400)/2 + 'px'});
-			
-			$('#background').css('display', 'initial');
+			var height = $('#createGameRoomTable').height();
+			var width = $('#createGameRoomTable').width();
+			$('#createGameRoomTable').css({'top': (window.innerHeight - height)/2 + 'px', 'left': (window.innerWidth - width)/2 + 'px'});
+			$('#createGameRoomTable').fadeIn();
+			$('#background').fadeIn();
+			$('#gameRoomName').focus();
+		});
+
+		$('#joinGameRoom').click(function(){
+			var gameroom = $('#joinGameRoom').parent().attr('id');
+			gameroom = gameroom.replace('_tab', '');
+			socket.emit('joinGameRoom', gameroom);
+		});
+		
+		$('#background').click(function(){
+			$('#createGameRoomTable').fadeOut();
+			$('#confirmMessage').fadeOut();
+			$('#background').fadeOut();
 		});
 		
 		$('#cancelCreateGameRoom').click(function(){
-			$('#createGameRoomTable').css('display', 'none');
-			$('#background').css('display', 'none');
+			$('#createGameRoomTable').fadeOut();
+			$('#background').fadeOut();
 		});
 		
 		$('#confirmCreateGameRoom').click(function(){
-			alert("Hello");
+			var name = $('#gameRoomName').val();
+			$('#gameRoomName').val('');
+
+			$('#createGameRoomTable').hide();
+			var height = $('#confirmMessage').height();
+			var width = $('#confirmMessage').width();
+			$('#confirmMessage').css({'top': (window.innerHeight - height)/2 + 'px', 'left': (window.innerWidth - width)/2 + 'px'});
+			$('#confirmMessage').fadeIn();
+			var message = '';
+
+			socket.emit('createGameRoom', name);
+			socket.on('createGameRoomSuccess', function(){
+				message = 'Game Room \"' + name + '\" has been created.';
+				$('#confirmMessage h3').text(message);
+				setTimeout(function(){
+					$('#confirmMessage').fadeOut();
+					$('#background').fadeOut();
+				}, 2000);
+			});
+			socket.on('createGameRoomFail', function(){
+				message = 'Unable to create the game room \"' + name + '\". Please try again.';
+				$('#confirmMessage h3').text(message);
+			});
+		});
+		
+		$('#closeConfirmMessage').click(function(){
+			$('#confirmMessage').fadeOut();
+			$('#background').fadeOut();
 		});
 		
 		// when the client hits ENTER on their keyboard
-		$('#data').keypress(function(e) {
+		$('#data').keypress(function (e) {
 			if(e.which == 13) {
 				$(this).blur();
 				$('#datasend').focus().click();
+			}
+		});
+
+		$('#gameRoomName').keypress(function (e) {
+			if(e.which == 13) {
+				$(this).blur();
+				$('#confirmCreateGameRoom').focus().click();
 			}
 		});
 	});

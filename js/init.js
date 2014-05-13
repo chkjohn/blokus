@@ -17,7 +17,7 @@ module.exports = {
 		connection.query('INSERT INTO users SET ?', {username: 'walter', password: 'walter'});
 	},
 	
-	init_server: function(io, usernames, connection){
+	init_server: function(io, usernames, connection, gamerooms){
 		io.sockets.on('connection', function (socket) {
 			/* Code for Chat Room Start*/
 			// when the client emits 'sendchat', this listens and executes
@@ -61,11 +61,11 @@ module.exports = {
 					if (e){ // the username already exists in database
 						message = "Register Fail. The user " + data.username + " already exists.";
 						// send response to client
-						socket.emit('registerfail', message);
+						io.sockets.emit('registerfail', message);
 					} else{ // user's info has been inserted
 						message = "Welcome, " + data.username + ". You have registered successfully. <br>Please login to play the game.";
 						// send response to client
-						socket.emit('registersuccess', message);
+						io.sockets.emit('registersuccess', message);
 					}
 				});
 			});
@@ -90,19 +90,19 @@ module.exports = {
 							if (e){
 								message = "You have already logged in another session from other brower/computer.<br>This game does not allow multiple login.";
 								// send response to client
-								socket.emit('loginfail', message);
+								io.sockets.emit('loginfail', message);
 							} else{
 								console.log(sessionid);
 								socket.username = data.username;
 								usernames[data.username] = data.username;
 								// send session key to client
-								socket.emit('loginsuccess', sessionid);
+								io.sockets.emit('loginsuccess', sessionid);
 							}
 						});
 					} else{
 						// invalid username or password
 						message = "Login Fail. Please try again.";
-						socket.emit('loginfail', message);
+						io.sockets.emit('loginfail', message);
 					}
 				});
 			});
@@ -113,10 +113,29 @@ module.exports = {
 				connection.query('DELETE FROM sessions WHERE id=?', sessionid, function(e, rows, fields){
 					// logout success
 					delete usernames[socket.username];
-					socket.emit('logoutsuccess', "logout");
+					io.sockets.emit('logoutsuccess', "logout");
 				});
 			});
 			/* Code for Login System End*/
+
+			socket.on('createGameRoom', function(gameroom){
+				socket.gameroom = gameroom;
+				gamerooms[gameroom] = [socket.username];
+				io.sockets.emit('createGameRoomSuccess');
+				io.sockets.emit('updateGameRoomList',gameroom, gamerooms[gameroom], true);
+				socket.broadcast.emit('updateGameRoomList', gameroom, gamerooms[gameroom], true);
+			});
+
+			socket.on('joinGameRoom', function(gameroom){
+				if (gamerooms[gameroom].length < 4){
+					gamerooms[gameroom].push(socket.username);
+					io.sockets.emit('joinGameRoomSuccess');
+					io.sockets.emit('updateGameRoomList',gameroom, gamerooms[gameroom], true);
+					socket.broadcast.emit('updateGameRoomList', gameroom, gamerooms[gameroom], true);
+				} else{
+					io.sockets.emit('joinGameRoomFail');
+				}
+			});
 		});
 		
 		
