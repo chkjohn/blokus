@@ -8,7 +8,7 @@
 		<script src="/js/waitingRoomView.js"></script>
 		<link rel="stylesheet" href="/css/style.css">
 	</head>
-	<body class=font>
+	<body class=font style="margin:0px;">
 		<div id="background" style="display: none"></div>
 		<table id="createGameRoomTable" style="display: none">
 			<tr align=center>
@@ -44,12 +44,16 @@
 		</script>
 		<!--canvas id="cube"></canvas-->
 		<div>
-			<div id="userlist" style="float:left; width:10%; height:300px; border-right:2px solid grey; padding:10px; overflow: scroll-y;">
-				<b id="ulist">User List</b>
+			<div id="userlist" style="float:left; width:10%; height:300px; border-right:2px solid grey; overflow: scroll-y;">
+				<div id="ulist">
+					<b >User List</b>
+				</div>
 				<div id="users"></div>
 			</div>
-			<div id="gameroomlist" style="margin-right=0; margin-left=auto; width:90%; height:450px; overflow: scroll-y; padding:10px;">
-				<b id="rlist">Room List</b>
+			<div id="gameroomlist" style="margin-right:0; margin-left:auto; width:90%; height:450px; overflow: scroll-y;">
+				<div id="rlist">
+					<b>Room List</b>
+				</div>
 				<div id="gameroom"></div>
 			</div>
 		</div>
