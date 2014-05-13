@@ -38,8 +38,8 @@ function init_waitingroom(socket){
 						lightbox.append(data[i]);
 					}
 					$('#background').fadeIn();
+					lightbox.css({'height': '400px', 'width': '300px', 'top': (window.innerHeight - 400)/2 + 'px', 'left': (window.innerWidth - 300)/2 + 'px', 'z-index': 5});
 					lightbox.hide().appendTo('body').fadeIn();
-					lightbox.css({'height': '400px', 'width': '300px', 'top': (window.innerHeight - 400)/2 + 'px', 'left': (window.innerWidth - 300)/2 + 'px'});
 				});
 			});
 		}
