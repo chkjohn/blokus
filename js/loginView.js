@@ -55,8 +55,8 @@ function init_login(socket){
 				//expires.setMinutes(expires.getMinutes() + 5);
 				
 				// store the session key and username as cookies
-				$.cookie('sessionid', sessionid, {expires: 1});
-				$.cookie('network', "true", {expires: 1});
+				$.cookie('sessionid', sessionid);
+				$.cookie('network', "true");
 				//document.cookie = "sessionid=" + sessionid + "; expires=" + expires.toUTCString() + ";";
 				console.log(document.cookie);
 				
