@@ -43,6 +43,18 @@ function gameEndHandler()
 
 	$(".inline").colorbox({inline:true, width:"50%"});
 	$(".inline").click();
+
+	/* John's code
+	$("#exitGameRoom").click(function(){
+		$.removeCookie(playerIndex_cookie);
+		$.removeCookie(network_cookie);
+		$.removeCookie(gameroom_cookie);
+		if (network)
+			window.location.replace('waitingroom');
+		else
+			window.location.replace('login');
+	});
+	*/
 }
 
 function getNetworkMode()
@@ -51,10 +63,10 @@ function getNetworkMode()
 	if(network!=null)
 	{
 		network = JSON.parse(network);
-		if(network)
+		if(network){
 			console.log("online mode");
-		else
-		{
+			updateStatus();
+		} else {
 			client_index = 0;
 			console.log("offline mode");
 			updateStatus();
@@ -247,22 +259,28 @@ function init()
 				players[client_index].send("empty",null,null,null);
 				
 			players[client_index].stop = true;
+			document.getElementById("rotate_cw").disabled = true;
+			document.getElementById("rotate_counter_cw").disabled = true;
+			document.getElementById("mirror_x").disabled = true;
+			document.getElementById("mirror_y").disabled = true;
+			document.getElementById("next").disabled = true;
+			document.getElementById("picker").removeEventListener('click');
 		}
 		else
 			alert("This is player[" + game.token_index + "]'s round!");
 	},false);
 
-
-	var canvas_picker = document.getElementById("picker");
-	pickerViewUpdate(canvas_picker,players[client_index]);
-
-	canvas_picker.addEventListener('click', function(e) {
+	function pickerHandler(e) {
 		e.preventDefault();
 		e.stopPropagation();
 		var mousePos = getMousePos(canvas_picker, e);
 		pickTile(mousePos,canvas_posture,players[client_index]);
-	},false);
+	}
 
+	var canvas_picker = document.getElementById("picker");
+	pickerViewUpdate(canvas_picker,players[client_index]);
+
+	canvas_picker.addEventListener('click', pickerHandler,false);
 }
 
 window.addEventListener("load",init,false);

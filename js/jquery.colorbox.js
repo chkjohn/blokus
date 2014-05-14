@@ -1060,6 +1060,16 @@
 					settings.get('onClosed');
 				}, 1);
 			});
+
+			/* John's code */
+			$.removeCookie(playerIndex_cookie);
+			$.removeCookie(network_cookie);
+			$.removeCookie(gameroom_cookie);
+			if (network)
+				window.location.replace('waitingroom');
+			else
+				window.location.replace('login');
+			/***************/
 		}
 	};
 
