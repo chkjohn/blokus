@@ -2,6 +2,7 @@
 //  OpenShift sample Node application
 var express = require('express');
 var app = express();
+var util = require("util"),					// Utility resources (logging, object inspection, etc)
 var fs = require('fs');
 var http = require('http');
 var mysql =  require('mysql');
@@ -63,5 +64,6 @@ app.get('/waitingroom', function(request, response) {
 // usernames which are currently connected to the chat
 var usernames = {};
 var gamerooms = {};
+var client_index = 0;
 
-init.init_server(io, usernames, connection, gamerooms);
+init.init_server(io, usernames, connection, gamerooms, client_index);

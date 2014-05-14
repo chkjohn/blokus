@@ -1,3 +1,4 @@
+/* css style for login interface and waiting room */
 .font{
 	font-family: Courier New;
 }
@@ -180,3 +181,14 @@
 	position:relative;
 	top:1px;
 }
+
+body
+{
+	margin: 0px 0px;
+}
+.wrapper
+{
+	margin: 0px auto;
+	width: 660px;
+}
+/***************************************/
