@@ -22,12 +22,12 @@ function updateStatus()
 {
 	if(network)
 	{
-		document.getElementById('status').innerHTML = "Player: " + (client_index + 1) + " current score: " + players[client_index].score;
+		document.getElementById('status').innerHTML = "Player " + players[client_index].username + " current score: " + players[client_index].score;
 		$("#status").attr('class', colorClass[client_index]);
 	}
 	else
 	{
-		document.getElementById('status').innerHTML = "Player: " + ((client_index + 1)%4 + 1) + " current score: " + players[client_index].score;
+		document.getElementById('status').innerHTML = "Player: " + (client_index%4 + 1) + " current score: " + players[client_index].score;
 		$("#status").attr('class', colorClass[(client_index+1)%4]);
 	}
 }
@@ -190,6 +190,7 @@ function init()
 		else if(msg.status == "end")
 		{
 		}
+		updateStatus();
 	};
 
 	/*--------------END------------------------------*/
@@ -257,6 +258,7 @@ function init()
 		}
 		else
 			alert("This is player[" + game.token_index + "]'s round!");
+		updateStatus();
 	},false);
 
 	function pickerHandler(e) {

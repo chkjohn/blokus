@@ -85,6 +85,7 @@ function Player(id)
 	
 	//public
 	var player = this;
+	player.username = $.cookie('sessionid');
 	player.id = id;
 	player.score = 0;
 	player.stop = false;
