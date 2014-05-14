@@ -98,7 +98,7 @@ module.exports = {
 			});
 
 			socket.on('createGameRoom', function(gameroom){
-				connection.query('UPDATE users SET gameroom = :gameroom WHERE username = :username', {gameroom: gameroom, username: socket.username}, function(e, rows, fields){
+				connection.query('UPDATE users SET gameroom = ? WHERE username = ?', [gameroom, socket.username], function(e, rows, fields){
 					socket.gameroom = gameroom;
 					gamerooms[gameroom] = {sockets: [socket], players: [socket.username]};
 					socket.emit('createGameRoomSuccess', gamerooms[gameroom].players);
@@ -111,7 +111,7 @@ module.exports = {
 
 			socket.on('joinGameRoom', function(gameroom){
 				if (gamerooms[gameroom].players.length < 4){
-					connection.query('UPDATE users SET gameroom = :gameroom WHERE username = :username', {gameroom: gameroom, username: socket.username}, function(e, rows, fields){
+					connection.query('UPDATE users SET gameroom = ? WHERE username = ?', [gameroom, socket.username], function(e, rows, fields){
 						socket.gameroom = gameroom;
 						gamerooms[gameroom].players.push(socket.username);
 						gamerooms[gameroom].sockets.push(socket);
@@ -134,22 +134,24 @@ module.exports = {
 			});
 
 			function leaveGameRoom(gameroom){
-				for (var i in gamerooms[gameroom].players){
-					if (gamerooms[gameroom].players[i] == socket.username){
-						gamerooms[gameroom].players.splice(i, 1);
-						gamerooms[gameroom].sockets.splice(i, 1);
-						break;
+				if (gameroom != null || gameroom != undefined){
+					for (var i in gamerooms[gameroom].players){
+						if (gamerooms[gameroom].players[i] == socket.username){
+							gamerooms[gameroom].players.splice(i, 1);
+							gamerooms[gameroom].sockets.splice(i, 1);
+							break;
+						}
 					}
-				}
-				connection.query('UPDATE users SET gameroom = :gameroom WHERE username = :username', {gameroom: null, username: socket.username});
-				//socket.emit('updateReadyStatus', gamerooms[gameroom].players);
-				//socket.broadcast.emit('updateReadyStatus', gamerooms[gameroom].players);
-				for (var i in gamerooms[gameroom].sockets)
-					gamerooms[gameroom].sockets[i].emit('updateReadyStatus', gamerooms[gameroom].players);
-				socket.emit('updateGameRoomTab',gameroom, gamerooms[gameroom].players);
-				socket.broadcast.emit('updateGameRoomTab',gameroom, gamerooms[gameroom].players);
-				if (gamerooms[gameroom].players.length == 0){
-					delete gamerooms[gameroom];
+					connection.query('UPDATE users SET gameroom = ? WHERE username = ?', [null, socket.username]);
+					//socket.emit('updateReadyStatus', gamerooms[gameroom].players);
+					//socket.broadcast.emit('updateReadyStatus', gamerooms[gameroom].players);
+					for (var i in gamerooms[gameroom].sockets)
+						gamerooms[gameroom].sockets[i].emit('updateReadyStatus', gamerooms[gameroom].players);
+					socket.emit('updateGameRoomTab',gameroom, gamerooms[gameroom].players);
+					socket.broadcast.emit('updateGameRoomTab',gameroom, gamerooms[gameroom].players);
+					if (gamerooms[gameroom].players.length == 0){
+						delete gamerooms[gameroom];
+					}
 				}
 			}
 
