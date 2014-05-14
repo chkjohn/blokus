@@ -63,8 +63,8 @@ function getNetworkMode()
 		alert("Network Mode error");
 	
 	//debug
-	network = false;
-	client_index = 0;
+	//network = false;
+	//client_index = 0;
 }
 
 function init()
@@ -76,7 +76,7 @@ function init()
 	console.log('init');
 	//-------------game init---------
 	//if(network)
-		game.init(onSocketConnected,onSocketDisconnect,onSocketMessage);
+	game.init(onSocketConnected,onSocketDisconnect,onSocketMessage);
 	//--------------------------------
 
 	var canvas = document.getElementById("boardCanvas");
