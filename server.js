@@ -2,7 +2,7 @@
 //  OpenShift sample Node application
 var express = require('express');
 var app = express();
-var util = require("util"),					// Utility resources (logging, object inspection, etc)
+var util = require("util");					// Utility resources (logging, object inspection, etc)
 var fs = require('fs');
 var http = require('http');
 var mysql =  require('mysql');
