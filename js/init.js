@@ -195,6 +195,7 @@ module.exports = {
 		
 		// for every 5 mins, check if the sessions in database have been expired
 		// delete all the expired sessions
+		/*
 		setInterval(function(){
 			connection.query('SELECT * FROM sessions', function(e, rows, fields){
 				var message = '';
@@ -206,7 +207,7 @@ module.exports = {
 						var currenttime = new Date();
 						
 						// for each record, check if the current time is beyond the expire time
-						if (currenttime.getTime() >= expires){
+						if (currenttime.getTime() >= expires.getTime()){
 							// if so, delete the record
 							connection.query('DELETE FROM sessions WHERE id=?', sessionid);
 						}
@@ -214,5 +215,6 @@ module.exports = {
 				}
 			});
 		}, 300000);
+		*/
 	}
 }
