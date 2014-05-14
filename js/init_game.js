@@ -40,7 +40,7 @@ function gameEndHandler()
 		scores[i].innerHTML = players[i].score;
 		console.log(players[i].score);
 	}
-	
+
 	$(".inline").colorbox({inline:true, width:"50%"});
 	$(".inline").click();
 }
@@ -74,7 +74,7 @@ function init()
 
 	getNetworkMode();
 
-	console.log('init');
+	//console.log('init');
 	//-------------game init---------
 	//if(network)
 	game.init(onSocketConnected,onSocketDisconnect,onSocketMessage);

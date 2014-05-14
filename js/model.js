@@ -65,8 +65,8 @@ function Game(number_cells,board_size,border_size)
 		if (network){
 			var gameroom = $.cookie(gameroom_cookie);
 			client_socket = io.connect('csci4140project-chkjohn.rhcloud.com:8000/game_' + gameroom);
-			console.log(gameroom);
-			//client_socket.emit('getUserName', $.cookie('sessionid'));
+			//console.log(gameroom);
+			client_socket.emit('getUserName', $.cookie('sessionid'));
 		} else{
 			console.log('guest mode');
 		}
@@ -79,9 +79,10 @@ function Game(number_cells,board_size,border_size)
 			console.log('Client['+ client_index +'] has connected to the server!');
 
 		// Add Event listeners
-		if(onSocketConnected)
+		if(onSocketConnected){
 			client_socket.on('connect',onSocketConnected);
-		else
+			console.log("onSocketConnected ok");
+		} else
 			console.log("no onSocketConnected");
 
 		/*
@@ -91,14 +92,16 @@ function Game(number_cells,board_size,border_size)
 			console.log("no onSocketIndex");
 		*/
 
-		if(onSocketDisconnect)
+		if(onSocketDisconnect){
 			client_socket.on('disconnect',onSocketDisconnect);
-		else
+			console.log("onSocketDisconnected ok");
+		} else
 			console.log("no onSocketDisconnect");
 
-		if(onSocketMessage)
+		if(onSocketMessage){
 			client_socket.on('message',onSocketMessage);
-		else
+			console.log("onSocketMessage ok");
+		} else
 			console.log("no onSocketMessage");
 	};
 	/*----------------------------------------------------------------------------------------*/

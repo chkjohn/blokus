@@ -221,6 +221,12 @@ module.exports = {
 					console.log("Player has disconnected: "+this.id);
 					// Broadcast removed player to connected socket clients
 					this.broadcast.emit("remove player", {id: this.id});
+					// delete the corresponding session from database
+					connection.query('DELETE FROM sessions WHERE id=?', client.username, function(e, rows, fields){
+						// delete user from user list
+						delete usernames[client.username];
+						socket.broadcast.emit('updateusers', usernames);
+					});
 				};
 
 				// New player has joined
@@ -245,12 +251,10 @@ module.exports = {
 					client_index = client_index % 4;
 				}
 
-				// when user close browser/tab
-				/*
+				// when user close browser
 				client.on('getUserName', function(username){
 					client.username = username;
 				});
-				*/
 			});
 		}
 		// for every 5 mins, check if the sessions in database have been expired
