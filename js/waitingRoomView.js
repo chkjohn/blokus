@@ -1,37 +1,22 @@
 // init function for waitingroom.html
 function init_waitingroom(socket){
-	function waitForOtherPlayers(gameroom, players, ready){
+	function waitForOtherPlayers(gameroom, players){
 		$('#gameRoomReady h1').html(gameroom + '<br>');
 
 		console.log(gameroom);
 		console.log(players);
-		console.log(ready);
 		$('#playerInTheRoom').empty();
 		for (var i in players){
 			var playerTab = $('<h3 />');
 			$('#playerInTheRoom').append(playerTab);
 			playerTab.html(players[i] + '<br>');
-			if (ready[i] == true)
-				playerTab.css('color', 'green');
-			else
-				playerTab.css('color', 'red');
 		}
-		$('#ready').change(function(){
-			if (this.checked)
-				socket.emit('gameReady', gameroom);
-			else
-				socket.emit('gameNotReady', gameroom);
-		});
-		socket.on('updateReadyStatus', function(players, ready){
+		socket.on('updateReadyStatus', function(players){
 			$('#playerInTheRoom').empty();
 			for (var i in players){
 				var playerTab = $('<h3 />');
 				$('#playerInTheRoom').append(playerTab);
 				playerTab.html(players[i] + '<br>');
-				if (ready[i] == true)
-					playerTab.css('color', 'green');
-				else
-					playerTab.css('color', 'red');
 			}
 		});
 		var height = $('#gameRoomReady').height();
@@ -76,8 +61,8 @@ function init_waitingroom(socket){
 			joinButton.css({'display': 'flex', 'position': 'absolute', 'right': '50px'});
 			joinButton.click(function(){
 				socket.emit('joinGameRoom', gameroom);
-				socket.on('joinGameRoomSuccess', function (players, ready){
-					waitForOtherPlayers(gameroom, players, ready);
+				socket.on('joinGameRoomSuccess', function (players){
+					waitForOtherPlayers(gameroom, players);
 				});
 			});
 		}
@@ -158,8 +143,8 @@ function init_waitingroom(socket){
 			$('#createGameRoomTable').hide();
 
 			socket.emit('createGameRoom', name);
-			socket.on('createGameRoomSuccess', function (players, ready){
-				waitForOtherPlayers(name, players, ready);
+			socket.on('createGameRoomSuccess', function (players){
+				waitForOtherPlayers(name, players);
 			});
 			socket.on('createGameRoomFail', function(){
 				var height = $('#confirmMessage').height();

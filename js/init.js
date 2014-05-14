@@ -64,7 +64,6 @@ module.exports = {
 							} else{
 								console.log(sessionid);
 								socket.username = data.username;
-								socket.ready = false;
 								usernames[data.username] = data.username;
 								// send session key to client
 								socket.emit('loginsuccess', sessionid);
@@ -85,7 +84,6 @@ module.exports = {
 			socket.on('adduser', function(username){
 				// we store the username in the socket session for this client
 				socket.username = username;
-				socket.ready = false;
 				// add the client's username to the global list
 				usernames[username] = username;
 				// echo to client they've connected
@@ -110,10 +108,11 @@ module.exports = {
 
 			socket.on('createGameRoom', function(gameroom){
 				socket.gameroom = gameroom;
-				gamerooms[gameroom] = {sockets: [socket], players: [socket.username], ready: [socket.ready]};
-				socket.emit('createGameRoomSuccess', gamerooms[gameroom].players, gamerooms[gameroom].ready);
+				gamerooms[gameroom] = {sockets: [socket], players: [socket.username]};
+				socket.emit('createGameRoomSuccess', gamerooms[gameroom].players);
 				socket.emit('updateGameRoomList', gameroom, gamerooms[gameroom].players, true);
 				socket.broadcast.emit('updateGameRoomList', gameroom, gamerooms[gameroom].players, false);
+				socket.emit('updateGameRoomTab', gameroom, gamerooms[gameroom].players);
 				socket.broadcast.emit('updateGameRoomTab', gameroom, gamerooms[gameroom].players);
 			});
 
@@ -121,38 +120,15 @@ module.exports = {
 				if (gamerooms[gameroom].players.length < 4){
 					gamerooms[gameroom].players.push(socket.username);
 					gamerooms[gameroom].sockets.push(socket);
-					socket.emit('joinGameRoomSuccess', gamerooms[gameroom].players, gamerooms[gameroom].ready);
-					socket.broadcast.emit('updateReadyStatus', gamerooms[gameroom].players, gamerooms[gameroom].ready);
+					socket.emit('joinGameRoomSuccess', gamerooms[gameroom].players);
+					socket.broadcast.emit('updateReadyStatus', gamerooms[gameroom].players);
 					socket.broadcast.emit('updateGameRoomTab',gameroom, gamerooms[gameroom].players);
+					if (gamerooms[gameroom].players.length == 4)
+						for (var i in gamerooms[gameroom].players)
+							gamerooms[gameroom].sockets[i].emit('gameReady');
 				} else{
 					socket.emit('joinGameRoomFail');
 				}
-			});
-
-			socket.on('gameReady', function(gameroom){
-				gamerooms[gameroom].ready.push(true);
-				socket.ready = true;
-				socket.emit('updateReadyStatus', gamerooms[gameroom].players, gamerooms[gameroom].ready);
-				socket.broadcast.emit('updateReadyStatus', gamerooms[gameroom].players, gamerooms[gameroom].ready);
-				if (gamerooms[gameroom].ready.length == 4){
-					for (var i in gamerooms[gameroom].sockets){
-						gamerooms[gameroom].sockets[i].emit('gameReady');
-					}
-				}
-			});
-
-			socket.on('gameNotReady', function(gameroom){
-				socket.ready = false;
-				if (gamerooms[gameroom].ready.length > 0){
-					for (var i in gamerooms[gameroom].players){
-						if (gamerooms[gameroom].players[i] == socket.username){
-							gamerooms[gameroom].ready[i] = false;
-							break;
-						}
-					}
-				}
-				socket.emit('updateReadyStatus', gamerooms[gameroom].players, gamerooms[gameroom].ready);
-				socket.broadcast.emit('updateReadyStatus', gamerooms[gameroom].players, gamerooms[gameroom].ready);
 			});
 
 			socket.on('leaveGameRoom', function(gameroom){
@@ -160,14 +136,16 @@ module.exports = {
 					if (gamerooms[gameroom].players[i] == socket.username){
 						gamerooms[gameroom].players.splice(i, 1);
 						gamerooms[gameroom].sockets.splice(i, 1);
-						gamerooms[gameroom].ready.splice(i, 1);
 						break;
 					}
 				}
+				if (gamerooms[gameroom].players.length == 0){
+					delete gamerooms[gameroom];
+				}
 				socket.emit('updateGameRoomTab',gameroom, gamerooms[gameroom].players);
 				socket.broadcast.emit('updateGameRoomTab',gameroom, gamerooms[gameroom].players);
-				socket.emit('updateReadyStatus', gamerooms[gameroom].players, gamerooms[gameroom].ready);
-				socket.broadcast.emit('updateReadyStatus', gamerooms[gameroom].players, gamerooms[gameroom].ready);
+				socket.emit('updateReadyStatus', gamerooms[gameroom].players,);
+				socket.broadcast.emit('updateReadyStatus', gamerooms[gameroom].players);
 			});
 		});
 
