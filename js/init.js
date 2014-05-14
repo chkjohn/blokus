@@ -96,17 +96,6 @@ module.exports = {
 				socket.broadcast.emit('updateusers', usernames);
 			});
 
-			// when user clicks on 'Logout'
-			socket.on('logout', function(sessionid){
-				// delete the corresponding session from database
-				connection.query('DELETE FROM sessions WHERE id=?', sessionid, function(e, rows, fields){
-					// logout success
-					delete usernames[socket.username];
-					socket.emit('logoutsuccess', "logout");
-					socket.broadcast.emit('updateusers', usernames);
-				});
-			});
-
 			socket.on('createGameRoom', function(gameroom){
 				socket.gameroom = gameroom;
 				gamerooms[gameroom] = {sockets: [socket], players: [socket.username]};
@@ -153,10 +142,31 @@ module.exports = {
 					delete gamerooms[gameroom];
 				}
 			});
+
+			// when user clicks on 'Logout'
+			socket.on('logout', function(sessionid){
+				// delete the corresponding session from database
+				connection.query('DELETE FROM sessions WHERE id=?', sessionid, function(e, rows, fields){
+					// logout success
+					delete usernames[socket.username];
+					socket.emit('logoutsuccess', "logout");
+					socket.broadcast.emit('updateusers', usernames);
+				});
+			});
+
+			// when user close browser/tab
+			socket.on('disconnect', function(){
+				// delete the corresponding session from database
+				connection.query('DELETE FROM sessions WHERE id=?', socket.username, function(e, rows, fields){
+					// delete user from user list
+					delete usernames[socket.username];
+					socket.broadcast.emit('updateusers', usernames);
+				});
+			});
 		});
 		
 		gameNamespace.on('connection', function (client) {
-			util.log("New player has connected: " + client.id);
+			console.log("New player has connected: " + client.id);
 			// Listen for client disconnected
 			client.on("disconnect", onClientDisconnect);
 
@@ -167,7 +177,7 @@ module.exports = {
 
 			// Socket client has disconnected
 			function onClientDisconnect() {
-				util.log("Player has disconnected: "+this.id);
+				console.log("Player has disconnected: "+this.id);
 				// Broadcast removed player to connected socket clients
 				this.broadcast.emit("remove player", {id: this.id});
 			};
@@ -175,12 +185,12 @@ module.exports = {
 			// New player has joined
 			function onNewPlayer(msg) {
 				// Broadcast new player to connected socket clients
-				util.log("Yeah!");
-				util.log("msg is: " + msg);
-				util.log(msg.status + " "  + msg.data);
+				console.log("Yeah!");
+				console.log("msg is: " + msg);
+				console.log(msg.status + " "  + msg.data);
 				if(msg.status == "next"){
-					util.log(msg.data.tile);
-					util.log(JSON.stringify(msg.data));
+					console.log(msg.data.tile);
+					console.log(JSON.stringify(msg.data));
 				}
 				//{ status:"next",data:{tile:tile, tile_index:tile_index, mouse_co:mouse_co} }
 				this.broadcast.emit("message", msg);
@@ -189,7 +199,7 @@ module.exports = {
 
 			function onChangeClientIndex(msg){
 				this.emit("client_index", client_index);
-				util.log("The client_index is: " + client_index);
+				console.log("The client_index is: " + client_index);
 				client_index++;
 				client_index = client_index % 4;
 			}
@@ -197,7 +207,7 @@ module.exports = {
 
 		function startGameRoom(gameRoomSocket){
 			gameRoomSocket.on('connection', function (client) {
-				util.log("New player has connected: " + client.id);
+				console.log("New player has connected: " + client.id);
 				// Listen for client disconnected
 				client.on("disconnect", onClientDisconnect);
 
@@ -208,7 +218,7 @@ module.exports = {
 
 				// Socket client has disconnected
 				function onClientDisconnect() {
-					util.log("Player has disconnected: "+this.id);
+					console.log("Player has disconnected: "+this.id);
 					// Broadcast removed player to connected socket clients
 					this.broadcast.emit("remove player", {id: this.id});
 				};
@@ -216,12 +226,12 @@ module.exports = {
 				// New player has joined
 				function onNewPlayer(msg) {
 					// Broadcast new player to connected socket clients
-					util.log("Yeah!");
-					util.log("msg is: " + msg);
-					util.log(msg.status + " "  + msg.data);
+					console.log("Yeah!");
+					console.log("msg is: " + msg);
+					console.log(msg.status + " "  + msg.data);
 					if(msg.status == "next"){
-						util.log(msg.data.tile);
-						util.log(JSON.stringify(msg.data));
+						console.log(msg.data.tile);
+						console.log(JSON.stringify(msg.data));
 					}
 					//{ status:"next",data:{tile:tile, tile_index:tile_index, mouse_co:mouse_co} }
 					this.broadcast.emit("message", msg);
@@ -230,10 +240,25 @@ module.exports = {
 
 				function onChangeClientIndex(msg){
 					this.emit("client_index", client_index);
-					util.log("The client_index is: " + client_index);
+					console.log("The client_index is: " + client_index);
 					client_index++;
 					client_index = client_index % 4;
 				}
+
+				// when user close browser/tab
+				client.on('getUserName', function(username){
+					client.username = username;
+				});
+
+				// when user close browser/tab
+				client.on('disconnect', function(){
+					// delete the corresponding session from database
+					connection.query('DELETE FROM sessions WHERE id=?', client.username, function(e, rows, fields){
+						// delete user from user list
+						delete usernames[client.username];
+						socket.broadcast.emit('updateusers', usernames);
+					});
+				});
 			});
 		}
 		// for every 5 mins, check if the sessions in database have been expired
