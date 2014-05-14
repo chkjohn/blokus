@@ -9,7 +9,7 @@ module.exports = {
 		connection.query('DROP TABLE IF EXISTS sessions');
 		connection.query('CREATE TABLE sessions (' +
 							'id varchar(255) NOT NULL PRIMARY KEY,' +
-							'expire datetime)');
+							'expire varchar(255) NOT NULL' + ')');
 		connection.query('INSERT INTO users SET ?', {username: 'john', password: 'john'});
 		connection.query('INSERT INTO users SET ?', {username: 'danny', password: 'danny'});
 		connection.query('INSERT INTO users SET ?', {username: 'raymond', password: 'raymond'});
@@ -19,7 +19,6 @@ module.exports = {
 	init_server: function(io, util, usernames, connection, gamerooms, client_index){
 		var login = io.of('/login');
 		var waitingRoom = io.of('/waitingRoom');
-		var game = io.of('/game');
 		
 		/* Code for Login System Start*/
 		login.on('connection', function (socket){
@@ -126,9 +125,12 @@ module.exports = {
 					socket.emit('updateGameRoomTab',gameroom, gamerooms[gameroom].players);
 					socket.broadcast.emit('updateReadyStatus', gamerooms[gameroom].players);
 					socket.broadcast.emit('updateGameRoomTab',gameroom, gamerooms[gameroom].players);
-					if (gamerooms[gameroom].players.length == 4)
+					if (gamerooms[gameroom].players.length == 4){
+						var gameRoomSocket = io.of('/gameroom_' + gameroom);
+						startGameRoom(gameRoomSocket);
 						for (var i in gamerooms[gameroom].players)
 							gamerooms[gameroom].sockets[i].emit('gameReady');
+					}
 				} else{
 					socket.emit('joinGameRoomFail');
 				}
@@ -151,48 +153,48 @@ module.exports = {
 				}
 			});
 		});
+		
+		function startGameRoom(gameRoomSocket){
+			gameRoomSocket.on('connection', function (client) {
+				util.log("New player has connected: " + client.id);
+				// Listen for client disconnected
+				client.on("disconnect", onClientDisconnect);
 
-		game.on('connection', function (client) {
-			util.log("New player has connected: " + client.id);
-			// Listen for client disconnected
-			client.on("disconnect", onClientDisconnect);
+				// Listen for new player message
+				client.on("nextTile", onNewPlayer);
 
-			// Listen for new player message
-			client.on("nextTile", onNewPlayer);
+				client.on("client_index", onChangeClientIndex);
 
-			client.on("client_index", onChangeClientIndex);
+				// Socket client has disconnected
+				function onClientDisconnect() {
+					util.log("Player has disconnected: "+this.id);
+					// Broadcast removed player to connected socket clients
+					this.broadcast.emit("remove player", {id: this.id});
+				};
 
-			// Socket client has disconnected
-			function onClientDisconnect() {
-				util.log("Player has disconnected: "+this.id);
-				// Broadcast removed player to connected socket clients
-				this.broadcast.emit("remove player", {id: this.id});
-			};
+				// New player has joined
+				function onNewPlayer(msg) {
+					// Broadcast new player to connected socket clients
+					util.log("Yeah!");
+					util.log("msg is: " + msg);
+					util.log(msg.status + " "  + msg.data);
+					if(msg.status == "next"){
+						util.log(msg.data.tile);
+						util.log(JSON.stringify(msg.data));
+					}
+					//{ status:"next",data:{tile:tile, tile_index:tile_index, mouse_co:mouse_co} }
+					this.broadcast.emit("message", msg);
+					//this.broadcast.emit("message", {status:msg.status});
+				};
 
-			// New player has joined
-			function onNewPlayer(msg) {
-				// Broadcast new player to connected socket clients
-				util.log("Yeah!");
-				util.log("msg is: " + msg);
-				util.log(msg.status + " "  + msg.data);
-				if(msg.status == "next"){
-					util.log(msg.data.tile);
-					util.log(JSON.stringify(msg.data));
+				function onChangeClientIndex(msg){
+					this.emit("client_index", client_index);
+					util.log("The client_index is: " + client_index);
+					client_index++;
+					client_index = client_index % 4;
 				}
-				//{ status:"next",data:{tile:tile, tile_index:tile_index, mouse_co:mouse_co} }
-				this.broadcast.emit("message", msg);
-				//this.broadcast.emit("message", {status:msg.status});
-			};
-
-			function onChangeClientIndex(msg){
-				this.emit("client_index", client_index);
-				util.log("The client_index is: " + client_index);
-				client_index++;
-				client_index = client_index % 4;
-			}
-		});
-		
-		
+			});
+		}
 		// for every 5 mins, check if the sessions in database have been expired
 		// delete all the expired sessions
 		/*

@@ -55,7 +55,9 @@ function init_login(socket){
 				//expires.setMinutes(expires.getMinutes() + 5);
 				
 				// store the session key and username as cookies
-				document.cookie = "sessionid=" + sessionid + "; expires=" + expires.toUTCString() + ";";
+				$.cookie('sessionid', sessionid, {expires: 1});
+				$.cookie('network', "true", {expires: 1});
+				//document.cookie = "sessionid=" + sessionid + "; expires=" + expires.toUTCString() + ";";
 				console.log(document.cookie);
 				
 				// go to the webpage of waiting room
@@ -70,6 +72,10 @@ function init_login(socket){
 				$('#username').focus();
 			});
 		}
+	});
+	
+	$('#guest').click(function(){
+		$.cookie('network', "false");
 	});
 
 	// when the client hits ENTER on their keyboard

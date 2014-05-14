@@ -1,6 +1,39 @@
+function showNotificationBar(message, duration, bgColor, txtColor, height) {
+ 
+    /*set default values*/
+    duration = typeof duration !== 'undefined' ? duration : 1500;
+    bgColor = typeof bgColor !== 'undefined' ? bgColor : "#F4E0E1";
+    txtColor = typeof txtColor !== 'undefined' ? txtColor : "#A42732";
+    height = typeof height !== 'undefined' ? height : 40;
+    /*create the notification bar div if it doesn't exist*/
+    if ($('#notification-bar').size() == 0) {
+        var HTMLmessage = "<div class='notification-message' style='text-align:center; line-height: " + height + "px;'> " + message + " </div>";
+        $('body').prepend("<div id='notification-bar' style='display:none; width:100%; height:" + height + "px; background-color: " + bgColor + "; position: fixed; z-index: 100; color: " + txtColor + ";border-bottom: 1px solid " + txtColor + ";'>" + HTMLmessage + "</div>");
+    }
+    /*animate the bar*/
+    $('#notification-bar').slideDown(function() {
+        setTimeout(function() {
+            $('#notification-bar').slideUp(function() {});
+        }, duration);
+    });
+}
+
+function updateStatus()
+{
+	if(network)
+	{
+		document.getElementById('status').innerHTML = "Player: " + (client_index + 1) + " current score: " + players[client_index].score;
+		$("#status").attr('class', colorClass[client_index]);
+	}
+	else
+	{
+		document.getElementById('status').innerHTML = "Player: " + ((client_index + 1)%4 + 1) + " current score: " + players[client_index].score;
+		$("#status").attr('class', colorClass[(client_index+1)%4]);
+	}
+}
+
 function gameEndHandler()
 {
-	console.log("sdafsd");
 	var scores = document.getElementsByName('score');
 	for(var i=0;i<scores.length;i++)
 	{
@@ -11,19 +44,34 @@ function gameEndHandler()
 	$(".inline").click();
 }
 
-function init(value)
+function getNetworkMode()
 {
-	/*----------------Raymond's change-------------*/
-	if(network)
-		console.log("online mode");
+	network = $.cookie(network_cookie);
+	if(network!=null)
+	{
+		network = JSON.parse(network);
+		if(network)
+			console.log("online mode");
+		else
+		{
+			client_index = 0;
+			console.log("offline mode");
+			updateStatus();
+		}
+	}
 	else
-		console.log("offline mode");
-	/*---------------------------------------------*/
-	$(".inline").colorbox({inline:true, width:"50%"});
-	//-------------game init---------
-	if(network)
-		game.init(onSocketConnected,onSocketDisconnect,onSocketIndex,onSocketMessage); //Danny's change
-	//--------------------------------
+		alert("Network Mode error");
+	
+	//debug
+	network = false;
+	client_index = 0;
+}
+
+function init()
+{	
+	$("#frame1").fadeIn();		//for use frame2
+
+	getNetworkMode();
 
 	var canvas = document.getElementById("boardCanvas");
 	var ctx = canvas.getContext("2d");
@@ -71,8 +119,11 @@ function init(value)
 //Danny's change
 /*-------------Socket IO-------------------------*/
 	function onSocketConnected() {
-		//console.log('Client['+ client_index +'] has connected to the server!');
-		/*----------------Raymond's change-------------*/
+		console.log("all are connected!");
+		
+		$("#frame1").fadeOut("slow");
+		$("#frame2").fadeIn(3000);
+		updateStatus();
 		//send cookies {session_key,..} to server to retrive playerIndex;
 		/*
 		if($.cookie(session_key_name))
@@ -83,16 +134,17 @@ function init(value)
 		else
 			console.log("no value of name" + session_key_name);
 		*/
-		/*--------------------------------------------*/
 	};
 
 	function onSocketDisconnect() {
 		console.log("Disconnected from the socket server");
 	};
 
+	/*
 	function onSocketIndex(){
 		console.log("Entered in onSocketIndex.");
 	};
+	*/
 
 	function onSocketMessage(msg){
 		//{status:next/empty/end,data:{playerID:playerID,tile:tile,tile_index:tile_index,mouse_co:mouse_co}}
@@ -105,13 +157,13 @@ function init(value)
 			if((game.token_index==msg.data.playerIndex))	//danny- change
 			{
 				if(players[game.token_index].nextTile(msg.data.tile,msg.data.mouse_co))
-				{
-					console.log("hiihihi");			
+				{		
 					viewRefresh(canvas);
 					players[game.token_index].removeTile(msg.data.tile_index);
 					game.nextToken(network);
 				}
-			}
+			} else
+				onsole.log("Error: wrong playerIndex " + msg.data.playerIndex);
 		}
 		else if(msg.status == "empty")
 		{/*----------------Raymond's change-------------*/
@@ -137,8 +189,8 @@ function init(value)
 
 	console.log('init');
 	//-------------game init---------
-	/*if(network)
-		game.init(onSocketConnected,onSocketDisconnect,onSocketMessage);*/
+	if(network)
+		game.init(onSocketConnected,onSocketDisconnect,onSocketMessage);
 	//--------------------------------
 	/*--------------END------------------------------*/
 
@@ -212,13 +264,5 @@ function init(value)
 	},false);
 
 }
-//Danny's change
-if(network){
-	//client_socket = io.connect(websocket_server_domain, {port: websocket_server_port, transports: ["websocket"]});
-	client_socket = io.connect('csci4140project-chkjohn.rhcloud.com:8000/game');
-	client_socket.emit("client_index", client_index);
-	client_socket.on('client_index',function(msg){console.log("client_index in function is: " + msg); client_index=msg; 
-		window.addEventListener("load",init(client_index),false);});
-} else{
-	window.addEventListener("load",init,false);
-}
+
+window.addEventListener("load",init,false);

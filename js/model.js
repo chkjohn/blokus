@@ -49,21 +49,38 @@ function Game(number_cells,board_size,border_size)
 		
 		if(!online)	//no network, single PC version
 			client_index = game.token_index;
-	}	
+	}
+
+	function getPlayerIndex()
+	{
+		client_index = parseInt($.cookie(playerIndex_cookie));
+		if(!client_index)
+			alert("playerIndex_cookie error");
+	}
+
 	/*----------------------------------Raymond's change---------------------------------------*/
 	game.init = function(onSocketConnected,onSocketDisconnect,onSocketIndex,onSocketMessage){
 		//client_socket = io.connect(websocket_server_domain, {port: websocket_server_port, transports: ["websocket"]});
-		client_socket = io.connect('csci4140project-chkjohn.rhcloud.com:8000/game');
+		network = Boolean($.cookie(network_cookie) === 'true');
+		var gameroom = $.cookie(gameroom_cookie);
+		client_socket = io.connect('csci4140project-chkjohn.rhcloud.com:8000/game_' + gameroom);
+		if(client_socket==null)
+			alert("Server connection fails");
+		else
+			console.log('Client['+ client_index +'] has connected to the server!');
+
 		// Add Event listeners
 		if(onSocketConnected)
 			client_socket.on('connect',onSocketConnected);
 		else
 			console.log("no onSocketConnected");
 
+		/*
 		if(onSocketIndex)
 			client_socket.on('clientIndex',onSocketIndex);
 		else
 			console.log("no onSocketIndex");
+		*/
 
 		if(onSocketDisconnect)
 			client_socket.on('disconnect',onSocketDisconnect);

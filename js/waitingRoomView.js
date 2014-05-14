@@ -1,6 +1,9 @@
 // init function for waitingroom.html
 function init_waitingroom(socket){
 	function waitForOtherPlayers(gameroom, players){
+		$.cookie("gameroom", gamename, {expires: 1});
+		$.cookie("playerIndex", (players.length - 1).toString(), {expires: 1});
+
 		$('#gameRoomReady h1').html(gameroom + '<br>');
 
 		console.log(gameroom);
@@ -11,6 +14,18 @@ function init_waitingroom(socket){
 			$('#playerInTheRoom').append(playerTab);
 			playerTab.html(players[i] + '<br>');
 		}
+		var height = $('#gameRoomReady').height();
+		var width = $('#gameRoomReady').width();
+		$('#gameRoomReady').css({'top': (window.innerHeight - height)/2 + 'px', 'left': (window.innerWidth - width)/2 + 'px'});
+		$('#background').fadeIn();
+		$('#gameRoomReady').fadeIn();
+		$('#background').click(function(){
+			leaveGameRoom(gameroom);
+		});
+		$('#close').click(function(){
+			leaveGameRoom(gameroom);
+		});
+
 		socket.on('updateReadyStatus', function(players){
 			$('#playerInTheRoom').empty();
 			for (var i in players){
@@ -18,22 +33,16 @@ function init_waitingroom(socket){
 				$('#playerInTheRoom').append(playerTab);
 				playerTab.html(players[i] + '<br>');
 			}
+			$.cookie("playerIndex", (players.length - 1).toString());
 		});
-		var height = $('#gameRoomReady').height();
-		var width = $('#gameRoomReady').width();
-		$('#gameRoomReady').css({'top': (window.innerHeight - height)/2 + 'px', 'left': (window.innerWidth - width)/2 + 'px'});
-		$('#background').fadeIn();
-		$('#gameRoomReady').fadeIn();
-		$('#background').click(function(){
-			$('#gameRoomReady').fadeOut();
-			$('#background').fadeOut();
-			socket.emit('leaveGameRoom', gameroom);
-		});
-		$('#close').click(function(){
-			$('#gameRoomReady').fadeOut();
-			$('#background').fadeOut();
-			socket.emit('leaveGameRoom', gameroom);
-		});
+	}
+
+	function leaveGameRoom(gameroom){
+		$.removeCookie("gameroom");
+		$.removeCookie("playerIndex");
+		$('#gameRoomReady').fadeOut();
+		$('#background').fadeOut();
+		socket.emit('leaveGameRoom', gameroom);
 	}
 
 	// on connection to server, ask for user's name with an anonymous callback
@@ -104,15 +113,15 @@ function init_waitingroom(socket){
 		// when user clicks 'Logout'
 		$('#logout').click( function() {
 			// get the username and sessionid for cookies
-			var sessionid = getCookie("sessionid");
-			
-			// delete all cookies
-			document.cookie = "sessionid=; expires=Thu, 01 Jan 1970 00:00:00 GMT";
-			
+			var sessionid = $.cookie("sessionid");
+
 			// send 'logout' request to server
 			socket.emit('logout', sessionid);
 			socket.on('logoutsuccess', function(){
 				// logout success
+				// delete all cookies
+				//document.cookie = "sessionid=; expires=Thu, 01 Jan 1970 00:00:00 GMT";
+				$.removeCookie('sessionid');
 				// go back to login page
 				window.location.replace("login");
 			});
@@ -145,12 +154,14 @@ function init_waitingroom(socket){
 			$('#background').fadeOut();
 		});
 		
+		// when user clicks 'Create' button
 		$('#confirmCreateGameRoom').click(function(){
 			var name = $('#gameRoomName').val();
 			$('#gameRoomName').val('');
 
 			$('#createGameRoomTable').hide();
 
+			// send 'createGameRoom' request to server
 			socket.emit('createGameRoom', name);
 			socket.on('createGameRoomSuccess', function (players){
 				waitForOtherPlayers(name, players);

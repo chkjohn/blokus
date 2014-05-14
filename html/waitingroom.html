@@ -6,6 +6,7 @@
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
 		<script src="/js/function.js"></script>
 		<script src="/js/waitingRoomView.js"></script>
+		<script src="/js/jquery.cookie.js"></script>
 		<link rel="stylesheet" href="/css/login_waitingroom_style.css">
 	</head>
 	<body class=font>
@@ -45,10 +46,10 @@
 			</tr>
 		</table>
 		<script>
-			var sessionid = getCookie('sessionid');
-			if (sessionid != ""){
+			var sessionid = $.cookie('sessionid');
+			if (sessionid != undefined){
 				// call the server-side function 'adduser' and send one parameter (value of prompt)
-				$('#welcome').text("Welcome! " + sessionid);
+				$('#welcome').text(sessionid);
 			} else{
 				window.location.replace('login');
 			}

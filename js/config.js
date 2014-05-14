@@ -8,21 +8,25 @@ for a total of 400 squares.
 var network = true; 	//multi-player connection version => set true , otherwise set false
 var websocket_server_domain = "http://localhost";
 var websocket_server_port = 8000;
-var client_socket;
-var session_key_name = "session_key";	//session key's cookie name //Raymond's change
+var playerIndex_cookie = "playerIndex";	//session key's cookie name
+var network_cookie = "network";
+var gameroom_cookie = "gameroom";
 /*------------------------------------*/
 
 var tile;
 var tile_index;
-var client_index;//Danny's change
+var client_index = null;//Danny's change
 //Danny's change
+/*
 if(!network)
 	client_index = 0;
+*/
 //default setting
 //B for background color
 //H for hints' color
 //P* for Player color
 var color_set = {'B':"#FF6600",'H1':"#CCCCFF",'H2':"#CCCCFF",'H3':"#CCCCFF",'H4':"#CCCCFF",'P1':"blue",'P2':"yellow",'P3':"red",'P4':"green"};
+var colorClass = ['blue','yellow','red','green'];
 
 //Game(number_cells,board_size,border_size);
 var game = new Game(20,450,1);

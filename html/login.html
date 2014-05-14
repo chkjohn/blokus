@@ -6,9 +6,10 @@
 		<script src="/js/function.js"></script>
 		<script src="/socket.io/socket.io.js"></script>
 		<script src="/js/loginView.js"></script>
+		<script src="/js/jquery.cookie.js"></script>
 		<script>
-			var sessionid = getCookie("sessionid");
-			if (sessionid != "")
+			var sessionid = $.cookie('sessionid');
+			if (sessionid != undefined)
 				window.location.replace('waitingroom');
 		</script>
 		<link rel="stylesheet" href="/css/login_waitingroom_style.css">
@@ -33,6 +34,9 @@
 						<tr>
 							<td align=center><input id="register" class=button type=button value=Register style="width: 100%"></td>
 							<td align=center><input id="login" class=button type=button value=Login style="width: 100%"></td>
+						</tr>
+						<tr>
+							<td align=center><input id="guest" class=button type=button value="Play as Guest" style="width: 100%"></td>
 						</tr>
 					</table>
 				</td>
