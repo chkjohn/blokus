@@ -54,7 +54,7 @@ function Game(number_cells,board_size,border_size)
 	function getPlayerIndex()
 	{
 		client_index = parseInt($.cookie(playerIndex_cookie));
-		if(!client_index)
+		if(client_index == NaN)
 			alert("playerIndex_cookie error");
 	}
 
