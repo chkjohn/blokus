@@ -76,6 +76,7 @@ function init_login(socket){
 	
 	$('#guest').click(function(){
 		$.cookie('network', "false");
+		window.location.replace('blokus');
 	});
 
 	// when the client hits ENTER on their keyboard

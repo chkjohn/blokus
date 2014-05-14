@@ -17,11 +17,12 @@
 	<script>
 		var sessionid = $.cookie('sessionid');
 		var gameroomName = $.cookie('gameroom');
+		var isNetwork = Boolean($.cookie('network') === 'ture');
 		if (sessionid != undefined){
 			// call the server-side function 'adduser' and send one parameter (value of prompt)
 			$('#welcome').text(sessionid);
 			$('title').text('Blokus - ' + gameroomName);
-		} else{
+		} else if (isNetwork){
 			window.location.replace('login');
 		}
 	</script>
