@@ -91,7 +91,6 @@ function init_waitingroom(socket){
 		$('#gameRoomReady').css({'top': (window.innerHeight - height)/2 + 'px', 'left': (window.innerWidth - width)/2 + 'px'});
 		$('#background').fadeIn();
 		$('#gameRoomReady').fadeIn();
-		$('#gameRoomReady').css('display', 'flex');
 		$('#background').click(function(){
 			$('#gameRoomReady').fadeOut();
 			$('#background').fadeOut();
