@@ -19,7 +19,7 @@ module.exports = {
 	init_server: function(io, util, usernames, connection, gamerooms, client_index){
 		var login = io.of('/login');
 		var waitingRoom = io.of('/waitingRoom');
-		var game = io.of('/game');
+		var gameNamespace = io.of('/game');
 		
 		/* Code for Login System Start*/
 		login.on('connection', function (socket){
@@ -155,7 +155,7 @@ module.exports = {
 			});
 		});
 		
-		game.on('connection', function (client) {
+		gameNamespace.on('connection', function (client) {
 			util.log("New player has connected: " + client.id);
 			// Listen for client disconnected
 			client.on("disconnect", onClientDisconnect);

@@ -149,9 +149,7 @@ function init()
 	function onSocketMessage(msg){
 		//{status:next/empty/end,data:{playerID:playerID,tile:tile,tile_index:tile_index,mouse_co:mouse_co}}
 		//var msg = JSON.parse(msgJSON); //no need to parse JSON data  ,since already did it inside
-		console.log("Entered!!!");
-		console.log(JSON.stringify(msg));
-		console.log(msg);
+		
 		if(msg.status == "next")
 		{
 			if((game.token_index==msg.data.playerIndex))	//danny- change
