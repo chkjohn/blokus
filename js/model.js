@@ -73,17 +73,18 @@ function Game(number_cells,board_size,border_size)
 
 		getPlayerIndex();
 
+		/******	John's change ******/
 		if(client_socket==null)
 			alert("Server connection fails");
 		else
 			console.log('Client['+ client_index +'] has connected to the server!');
 
 		// Add Event listeners
-		if(onSocketConnected){
+		//if(onSocketConnected){
 			client_socket.on('connect',onSocketConnected);
 			console.log("onSocketConnected ok");
-		} else
-			console.log("no onSocketConnected");
+		//} else
+			//console.log("no onSocketConnected");
 
 		/*
 		if(onSocketIndex)
@@ -92,17 +93,18 @@ function Game(number_cells,board_size,border_size)
 			console.log("no onSocketIndex");
 		*/
 
-		if(onSocketDisconnect){
+		//if(onSocketDisconnect){
 			client_socket.on('disconnect',onSocketDisconnect);
 			console.log("onSocketDisconnected ok");
-		} else
-			console.log("no onSocketDisconnect");
+		//} else
+			//console.log("no onSocketDisconnect");
 
-		if(onSocketMessage){
+		//if(onSocketMessage){
 			client_socket.on('message',onSocketMessage);
 			console.log("onSocketMessage ok");
-		} else
-			console.log("no onSocketMessage");
+		//} else
+			//console.log("no onSocketMessage");
+		/******************/
 	};
 	/*----------------------------------------------------------------------------------------*/
 	
