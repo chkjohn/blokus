@@ -22,7 +22,7 @@ function updateStatus()
 {
 	if(network)
 	{
-		document.getElementById('status').innerHTML = "Player " + players[players_index++].username + " current score: " + players[client_index].score;
+		document.getElementById('status').innerHTML = "Player " + players[client_index].username + " current score: " + players[client_index].score;
 		$("#status").attr('class', colorClass[client_index]);
 	}
 	else

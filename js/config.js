@@ -16,7 +16,6 @@ var gameroom_cookie = "gameroom";
 
 var tile;
 var tile_index;
-var players_index = 0;	//	index of all players
 var client_index = null;//Danny's change
 //Danny's change
 /*

@@ -5,6 +5,7 @@ module.exports = {
 		connection.query('CREATE TABLE users (' +
 							'username varchar(255) NOT NULL PRIMARY KEY,' +
 							'password varchar(255) NOT NULL,' +
+							'gameroom varchar(255),' +
 							'wintime int(5) UNSIGNED DEFAULT 0' + ')');
 		connection.query('DROP TABLE IF EXISTS sessions');
 		connection.query('CREATE TABLE sessions (' +
@@ -97,38 +98,42 @@ module.exports = {
 			});
 
 			socket.on('createGameRoom', function(gameroom){
-				socket.gameroom = gameroom;
-				gamerooms[gameroom] = {sockets: [socket], players: [socket.username]};
-				socket.emit('createGameRoomSuccess', gamerooms[gameroom].players);
-				socket.emit('updateGameRoomList', gameroom, gamerooms[gameroom].players, true);
-				socket.broadcast.emit('updateGameRoomList', gameroom, gamerooms[gameroom].players, false);
-				socket.emit('updateGameRoomTab', gameroom, gamerooms[gameroom].players);
-				socket.broadcast.emit('updateGameRoomTab', gameroom, gamerooms[gameroom].players);
+				connection.query('UPDATE users SET gameroom = :gameroom WHERE username = :username', {gameroom: gameroom, username: socket.username}, function(e, rows, fields){
+					socket.gameroom = gameroom;
+					gamerooms[gameroom] = {sockets: [socket], players: [socket.username]};
+					socket.emit('createGameRoomSuccess', gamerooms[gameroom].players);
+					socket.emit('updateGameRoomList', gameroom, gamerooms[gameroom].players, true);
+					socket.broadcast.emit('updateGameRoomList', gameroom, gamerooms[gameroom].players, false);
+					socket.emit('updateGameRoomTab', gameroom, gamerooms[gameroom].players);
+					socket.broadcast.emit('updateGameRoomTab', gameroom, gamerooms[gameroom].players);
+				});
 			});
 
 			socket.on('joinGameRoom', function(gameroom){
 				if (gamerooms[gameroom].players.length < 4){
-					socket.gameroom = gameroom;
-					gamerooms[gameroom].players.push(socket.username);
-					gamerooms[gameroom].sockets.push(socket);
-					socket.emit('joinGameRoomSuccess', gamerooms[gameroom].players);
-					//socket.emit('updateReadyStatus', gamerooms[gameroom].players);
-					socket.emit('updateGameRoomTab',gameroom, gamerooms[gameroom].players);
-					//socket.broadcast.emit('updateReadyStatus', gamerooms[gameroom].players);
-					for (var i in gamerooms[gameroom].sockets)
-						gamerooms[gameroom].sockets[i].emit('updateReadyStatus', gamerooms[gameroom].players);
-					if (gamerooms[gameroom].players.length == 4){
-						var gameRoomSocket = io.of('/gameroom_' + gameroom);
-						startGameRoom(gameRoomSocket);
-						for (var i in gamerooms[gameroom].players)
-							gamerooms[gameroom].sockets[i].emit('gameReady');
-					}
+					connection.query('UPDATE users SET gameroom = :gameroom WHERE username = :username', {gameroom: gameroom, username: socket.username}, function(e, rows, fields){
+						socket.gameroom = gameroom;
+						gamerooms[gameroom].players.push(socket.username);
+						gamerooms[gameroom].sockets.push(socket);
+						socket.emit('joinGameRoomSuccess', gamerooms[gameroom].players);
+						//socket.emit('updateReadyStatus', gamerooms[gameroom].players);
+						socket.emit('updateGameRoomTab',gameroom, gamerooms[gameroom].players);
+						//socket.broadcast.emit('updateReadyStatus', gamerooms[gameroom].players);
+						for (var i in gamerooms[gameroom].sockets)
+							gamerooms[gameroom].sockets[i].emit('updateReadyStatus', gamerooms[gameroom].players);
+						if (gamerooms[gameroom].players.length == 4){
+							var gameRoomSocket = io.of('/gameroom_' + gameroom);
+							startGameRoom(gameRoomSocket);
+							for (var i in gamerooms[gameroom].players)
+								gamerooms[gameroom].sockets[i].emit('gameReady');
+						}
+					});
 				} else{
 					socket.emit('joinGameRoomFail');
 				}
 			});
 
-			socket.on('leaveGameRoom', function(gameroom){
+			function leaveGameRoom(gameroom){
 				for (var i in gamerooms[gameroom].players){
 					if (gamerooms[gameroom].players[i] == socket.username){
 						gamerooms[gameroom].players.splice(i, 1);
@@ -136,6 +141,7 @@ module.exports = {
 						break;
 					}
 				}
+				connection.query('UPDATE users SET gameroom = :gameroom WHERE username = :username', {gameroom: null, username: socket.username});
 				//socket.emit('updateReadyStatus', gamerooms[gameroom].players);
 				//socket.broadcast.emit('updateReadyStatus', gamerooms[gameroom].players);
 				for (var i in gamerooms[gameroom].sockets)
@@ -145,10 +151,14 @@ module.exports = {
 				if (gamerooms[gameroom].players.length == 0){
 					delete gamerooms[gameroom];
 				}
-			});
+			}
+
+			socket.on('leaveGameRoom', leaveGameRoom);
 
 			// when user clicks on 'Logout'
 			socket.on('logout', function(sessionid){
+				if (socket.gameroom != undefined)
+					leaveGameRoom(socket.gameroom);
 				// delete the corresponding session from database
 				connection.query('DELETE FROM sessions WHERE id=?', sessionid, function(e, rows, fields){
 					// logout success
@@ -158,8 +168,10 @@ module.exports = {
 				});
 			});
 
-			// when user close browser/tab
+			// when user close browser
 			socket.on('disconnect', function(){
+				if (socket.gameroom != undefined)
+					leaveGameRoom(socket.gameroom);
 				// delete the corresponding session from database
 				connection.query('DELETE FROM sessions WHERE id=?', socket.username, function(e, rows, fields){
 					// delete user from user list
@@ -226,11 +238,13 @@ module.exports = {
 					// Broadcast removed player to connected socket clients
 					this.broadcast.emit("remove player", {id: this.id});
 					// delete the corresponding session from database
+					/*
 					connection.query('DELETE FROM sessions WHERE id=?', client.username, function(e, rows, fields){
 						// delete user from user list
 						delete usernames[client.username];
 						socket.broadcast.emit('updateusers', usernames);
 					});
+					*/
 				};
 
 				// New player has joined
@@ -256,8 +270,9 @@ module.exports = {
 				}
 
 				// when user close browser
-				client.on('getUserName', function(username){
+				client.on('getUserInfo', function(username, playerIndex){
 					client.username = username;
+					client.playerIndex = playerIndex;
 				});
 			});
 		}
