@@ -73,6 +73,12 @@ function init()
 
 	getNetworkMode();
 
+	console.log('init');
+	//-------------game init---------
+	if(network)
+		game.init(onSocketConnected,onSocketDisconnect,onSocketMessage);
+	//--------------------------------
+
 	var canvas = document.getElementById("boardCanvas");
 	var ctx = canvas.getContext("2d");
 
@@ -185,11 +191,6 @@ function init()
 		}
 	};
 
-	console.log('init');
-	//-------------game init---------
-	if(network)
-		game.init(onSocketConnected,onSocketDisconnect,onSocketMessage);
-	//--------------------------------
 	/*--------------END------------------------------*/
 
 	var canvas_posture = document.getElementById("posture");
