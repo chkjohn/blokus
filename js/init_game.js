@@ -92,35 +92,35 @@ function init()
 	viewRefresh(canvas);
 
 	canvas.addEventListener('click', function(e) {
-	        var mousePos = getMousePos(canvas, e);
-			if(game.token_index==client_index)
+		var mousePos = getMousePos(canvas, e);
+		if(game.token_index==client_index)
+		{
+			if(players[client_index].nextTile(tile,mousePos))
 			{
-				if(players[client_index].nextTile(tile,mousePos))
-				{
-					viewRefresh(canvas);
-					//send to server
-					if(network)
-						players[client_index].send("next",tile,tile_index,mousePos);
-					players[client_index].removeTile(null);
-					
-					game.nextToken(network);	//next player
-					
-					postureViewUpdate(canvas_posture,tile,players[client_index].id);
-					pickerViewUpdate(canvas_picker,players[client_index]);
-					
-					
-					console.log("success");
-				}
-				else
-					console.log("fail");
+				viewRefresh(canvas);
+				//send to server
+				if(network)
+					players[client_index].send("next",tile,tile_index,mousePos);
+				players[client_index].removeTile(null);
+				
+				game.nextToken(network);	//next player
+				
+				postureViewUpdate(canvas_posture,tile,players[client_index].id);
+				pickerViewUpdate(canvas_picker,players[client_index]);
+				
+				console.log("success");
 			}
 			else
-				alert("This is player[" + game.token_index + "]'s round!");
+				console.log("fail");
+		}
+		else
+			alert("This is player[" + game.token_index + "]'s round!");
+		updateStatus();
 	}, false);
 
 	canvas.addEventListener('mousemove', function(e) {
 	        var mousePos = getMousePos(canvas, e);
-			topLayerView_transform(canvas,mousePos,tile,players[client_index].id)
+			topLayerView_transform(canvas,mousePos,tile,players[client_index].id);
 	}, false);
 
 //Danny's change
