@@ -144,7 +144,7 @@ module.exports = {
 				}
 				socket.emit('updateGameRoomTab',gameroom, gamerooms[gameroom].players);
 				socket.broadcast.emit('updateGameRoomTab',gameroom, gamerooms[gameroom].players);
-				socket.emit('updateReadyStatus', gamerooms[gameroom].players,);
+				socket.emit('updateReadyStatus', gamerooms[gameroom].players);
 				socket.broadcast.emit('updateReadyStatus', gamerooms[gameroom].players);
 			});
 		});
