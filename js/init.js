@@ -111,7 +111,7 @@ module.exports = {
 			socket.on('createGameRoom', function(gameroom){
 				socket.gameroom = gameroom;
 				gamerooms[gameroom] = {sockets: [socket], players: [socket.username], ready: [socket.ready]};
-				socket.emit('createGameRoomSuccess');
+				socket.emit('createGameRoomSuccess', gamerooms[gameroom].players, gamerooms[gameroom].ready);
 				socket.emit('updateGameRoomList', gameroom, gamerooms[gameroom].players, true);
 				socket.broadcast.emit('updateGameRoomList', gameroom, gamerooms[gameroom].players, false);
 				socket.broadcast.emit('updateGameRoomTab', gameroom, gamerooms[gameroom].players);
