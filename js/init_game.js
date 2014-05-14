@@ -53,11 +53,11 @@ function getNetworkMode()
 		network = JSON.parse(network);
 		if(network){
 			console.log("online mode");
-			updateStatus();
+			//updateStatus();
 		} else {
 			client_index = 0;
 			console.log("offline mode");
-			updateStatus();
+			//updateStatus();
 		}
 	}
 	else
@@ -79,6 +79,7 @@ function init()
 	//if(network)
 	game.init(onSocketConnected,onSocketDisconnect,onSocketMessage);
 	//--------------------------------
+	updateStatus();
 
 	var canvas = document.getElementById("boardCanvas");
 	var ctx = canvas.getContext("2d");
@@ -144,6 +145,9 @@ function init()
 	};
 
 	function onSocketDisconnect() {
+		$.removeCookie(playerIndex_cookie);
+		$.removeCookie(network_cookie);
+		$.removeCookie(gameroom_cookie);
 		console.log("Disconnected from the socket server");
 	};
 

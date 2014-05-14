@@ -103,7 +103,7 @@ module.exports = {
 				socket.emit('updateGameRoomList', gameroom, gamerooms[gameroom].players, true);
 				socket.broadcast.emit('updateGameRoomList', gameroom, gamerooms[gameroom].players, false);
 				socket.emit('updateGameRoomTab', gameroom, gamerooms[gameroom].players);
-				socket.broadcast.emit('updateGameRoomTab', gameroom, gamerooms[gameroom].players);
+				//socket.broadcast.emit('updateGameRoomTab', gameroom, gamerooms[gameroom].players);
 			});
 
 			socket.on('joinGameRoom', function(gameroom){
@@ -112,9 +112,10 @@ module.exports = {
 					gamerooms[gameroom].sockets.push(socket);
 					socket.emit('joinGameRoomSuccess', gamerooms[gameroom].players);
 					socket.emit('updateReadyStatus', gamerooms[gameroom].players);
-					socket.emit('updateGameRoomTab',gameroom, gamerooms[gameroom].players);
+					//socket.emit('updateGameRoomTab',gameroom, gamerooms[gameroom].players);
 					socket.broadcast.emit('updateReadyStatus', gamerooms[gameroom].players);
-					socket.broadcast.emit('updateGameRoomTab',gameroom, gamerooms[gameroom].players);
+					for (var i in gamerooms[gameroom].sockets)
+						gamerooms[gameroom].sockets[i].emit('updateGameRoomTab',gameroom, gamerooms[gameroom].players);
 					if (gamerooms[gameroom].players.length == 4){
 						var gameRoomSocket = io.of('/gameroom_' + gameroom);
 						startGameRoom(gameRoomSocket);
@@ -136,8 +137,9 @@ module.exports = {
 				}
 				socket.emit('updateReadyStatus', gamerooms[gameroom].players);
 				socket.broadcast.emit('updateReadyStatus', gamerooms[gameroom].players);
-				socket.emit('updateGameRoomTab',gameroom, gamerooms[gameroom].players);
-				socket.broadcast.emit('updateGameRoomTab',gameroom, gamerooms[gameroom].players);
+				//socket.emit('updateGameRoomTab',gameroom, gamerooms[gameroom].players);
+				for (var i in gamerooms[gameroom].sockets)
+					gamerooms[gameroom].sockets[i].emit('updateGameRoomTab',gameroom, gamerooms[gameroom].players);
 				if (gamerooms[gameroom].players.length == 0){
 					delete gamerooms[gameroom];
 				}
