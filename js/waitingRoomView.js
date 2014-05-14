@@ -1,7 +1,7 @@
 // init function for waitingroom.html
 function init_waitingroom(socket){
 	function waitForOtherPlayers(gameroom, players){
-		$.cookie("gameroom", gamename, {expires: 1});
+		$.cookie("gameroom", gameroom, {expires: 1});
 		$.cookie("playerIndex", (players.length - 1).toString(), {expires: 1});
 
 		$('#gameRoomReady h1').html(gameroom + '<br>');
