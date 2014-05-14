@@ -103,6 +103,7 @@ module.exports = {
 					// logout success
 					delete usernames[socket.username];
 					socket.emit('logoutsuccess', "logout");
+					socket.broadcast.emit('updateusers', usernames);
 				});
 			});
 
@@ -121,6 +122,8 @@ module.exports = {
 					gamerooms[gameroom].players.push(socket.username);
 					gamerooms[gameroom].sockets.push(socket);
 					socket.emit('joinGameRoomSuccess', gamerooms[gameroom].players);
+					socket.emit('updateReadyStatus', gamerooms[gameroom].players);
+					socket.emit('updateGameRoomTab',gameroom, gamerooms[gameroom].players);
 					socket.broadcast.emit('updateReadyStatus', gamerooms[gameroom].players);
 					socket.broadcast.emit('updateGameRoomTab',gameroom, gamerooms[gameroom].players);
 					if (gamerooms[gameroom].players.length == 4)
@@ -142,10 +145,10 @@ module.exports = {
 				if (gamerooms[gameroom].players.length == 0){
 					delete gamerooms[gameroom];
 				}
-				socket.emit('updateGameRoomTab',gameroom, gamerooms[gameroom].players);
-				socket.broadcast.emit('updateGameRoomTab',gameroom, gamerooms[gameroom].players);
 				socket.emit('updateReadyStatus', gamerooms[gameroom].players);
 				socket.broadcast.emit('updateReadyStatus', gamerooms[gameroom].players);
+				socket.emit('updateGameRoomTab',gameroom, gamerooms[gameroom].players);
+				socket.broadcast.emit('updateGameRoomTab',gameroom, gamerooms[gameroom].players);
 			});
 		});
 

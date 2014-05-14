@@ -72,7 +72,10 @@ function init_waitingroom(socket){
 		var gameroomTab = $('#' + gameroom + '_tab');
 		var numPlayers = $('#' + gameroom + '_numPlayers');
 
-		numPlayers.text(players.length);
+		if (players.length == 0)
+			gameroomTab.remove();
+		else
+			numPlayers.text(players.length);
 	});
 
 	// listener, whenever the server emits 'updateusers', this updates the username list
