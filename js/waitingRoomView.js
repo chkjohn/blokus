@@ -3,12 +3,15 @@ function init_waitingroom(socket){
 	function waitForOtherPlayers(gameroom, players, ready){
 		$('#gameRoomReady h1').html(gameroom + '<br>');
 
+		console.log(gameroom);
+		console.log(players);
+		console.log(ready);
+		$('#playerInTheRoom').empty();
 		for (var i in players){
 			var playerTab = $('<h3 />');
-			$('#playerInTheRoom').empty();
 			$('#playerInTheRoom').append(playerTab);
 			playerTab.html(players[i] + '<br>');
-			if (ready[i])
+			if (ready[i] == true)
 				playerTab.css('color', 'green');
 			else
 				playerTab.css('color', 'red');
@@ -20,12 +23,12 @@ function init_waitingroom(socket){
 				socket.emit('gameNotReady', gameroom);
 		});
 		socket.on('updateReadyStatus', function(players, ready){
+			$('#playerInTheRoom').empty();
 			for (var i in players){
 				var playerTab = $('<h3 />');
-				$('#playerInTheRoom').empty();
 				$('#playerInTheRoom').append(playerTab);
 				playerTab.html(players[i] + '<br>');
-				if (ready[i])
+				if (ready[i] == true)
 					playerTab.css('color', 'green');
 				else
 					playerTab.css('color', 'red');
@@ -42,7 +45,7 @@ function init_waitingroom(socket){
 			socket.emit('leaveGameRoom', gameroom);
 		});
 	}
-	
+
 	// on connection to server, ask for user's name with an anonymous callback
 	socket.on('connect', function(){
 		var sessionid = getCookie('sessionid');

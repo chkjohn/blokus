@@ -122,6 +122,7 @@ module.exports = {
 					gamerooms[gameroom].players.push(socket.username);
 					gamerooms[gameroom].sockets.push(socket);
 					socket.emit('joinGameRoomSuccess', gamerooms[gameroom].players, gamerooms[gameroom].ready);
+					socket.broadcast.emit('updateReadyStatus', gamerooms[gameroom].players, gamerooms[gameroom].ready);
 					socket.broadcast.emit('updateGameRoomTab',gameroom, gamerooms[gameroom].players);
 				} else{
 					socket.emit('joinGameRoomFail');
