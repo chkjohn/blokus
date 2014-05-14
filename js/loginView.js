@@ -76,6 +76,7 @@ function init_login(socket){
 	
 	$('#guest').click(function(){
 		$.cookie('network', "false");
+		$.cookie('playerIndex', "0");
 		window.location.replace('blokus');
 	});
 
