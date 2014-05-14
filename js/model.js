@@ -52,7 +52,8 @@ function Game(number_cells,board_size,border_size)
 	}	
 	/*----------------------------------Raymond's change---------------------------------------*/
 	game.init = function(onSocketConnected,onSocketDisconnect,onSocketIndex,onSocketMessage){
-		client_socket = io.connect(websocket_server_domain, {port: websocket_server_port, transports: ["websocket"]});
+		//client_socket = io.connect(websocket_server_domain, {port: websocket_server_port, transports: ["websocket"]});
+		client_socket = io.connect('csci4140project-chkjohn.rhcloud.com:8000/game');
 		// Add Event listeners
 		if(onSocketConnected)
 			client_socket.on('connect',onSocketConnected);

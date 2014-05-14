@@ -1,3 +1,4 @@
+/* css style for game room */
 body
 {
 	margin: 0px 0px;
@@ -120,7 +121,6 @@ body
 	position:relative;
 	top:1px;
 }
-/* This button was generated using CSSButtonGenerator.com */
 
 .mirror {
 	-moz-box-shadow:inset 0px 1px 0px 0px #fce2c1;
@@ -164,7 +164,6 @@ body
 	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#fb9e25', endColorstr='#ffc477');
 	background-color:#fb9e25;
 }
-/* This button was generated using CSSButtonGenerator.com */
 
 .control
 {
@@ -212,4 +211,4 @@ body
 	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#eeaf41', endColorstr='#ffce79');
 	background-color:#eeaf41;
 }
-/* This button was generated using CSSButtonGenerator.com */
+/***************************************/

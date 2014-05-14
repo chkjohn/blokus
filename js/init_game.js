@@ -212,10 +212,11 @@ function init(value)
 }
 //Danny's change
 if(network){
-	client_socket = io.connect(websocket_server_domain, {port: websocket_server_port, transports: ["websocket"]});
+	//client_socket = io.connect(websocket_server_domain, {port: websocket_server_port, transports: ["websocket"]});
+	client_socket = io.connect('csci4140project-chkjohn.rhcloud.com:8000/game');
 	client_socket.emit("client_index", client_index);
 	client_socket.on('client_index',function(msg){console.log("client_index in function is: " + msg); client_index=msg; 
 		window.addEventListener("load",init(client_index),false);});
-}
-else
+} else{
 	window.addEventListener("load",init,false);
+}
