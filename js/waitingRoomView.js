@@ -6,6 +6,7 @@ function init_waitingroom(socket){
 		if (sessionid != ""){
 			// call the server-side function 'adduser' and send one parameter (value of prompt)
 			socket.emit('adduser', sessionid);
+			socket.username = sessionid;
 		}
 	});
 
@@ -18,52 +19,19 @@ function init_waitingroom(socket){
 
 		table.append(name, tabContent);
 		gameroomTab.append(table);
-		table.width('50%');
+		table.width('30%');
 		table.css('padding-left', '10%');
 		gameroomTab.hide().prependTo('#gameroom').slideDown();
 		gameroomTab.attr({'id': gameroom + '_tab', 'class': 'gameroomTab'});
 		if (!creater){
 			var joinButton = $('<input type=button class=waitingRoomButton value=Join>');
 			gameroomTab.append(joinButton);
+			joinButton.attr({'id': 'joinButton', 'align: right'});
 			joinButton.css('display', 'flex');
 			joinButton.click(function(){
 				socket.emit('joinGameRoom', gameroom);
-				socket.on('joinGameRoomSuccess', function(players, ready){
-					$('#gameRoomReady h1').html(gameroom + '<br>');
-
-					for (var i in players){
-						var playerTab = $('<h3 />');
-						$('#playerInTheRoom').empty();
-						$('#playerInTheRoom').append(playerTab);
-						playerTab.html(players[i] + '<br>');
-						if (ready[i])
-							playerTab.css('color', 'green');
-						else
-							playerTab.css('color', 'red');
-					}
-					$('#ready').change(function(){
-						if (this.checked)
-							socket.emit('gameReady', gameroom);
-						else
-							socket.emit('gameNotReady', gameroom);
-					});
-					socket.on('updateReadyStatus', function(players, ready){
-						for (var i in players){
-							var playerTab = $('<h3 />');
-							$('#playerInTheRoom').empty();
-							$('#playerInTheRoom').append(playerTab);
-							playerTab.html(players[i] + '<br>');
-							if (ready[i])
-								playerTab.css('color', 'green');
-							else
-								playerTab.css('color', 'red');
-						}
-					});
-					var height = $('#gameRoomReady').height();
-					var width = $('#gameRoomReady').width();
-					$('#gameRoomReady').css({'top': (window.innerHeight - height)/2 + 'px', 'left': (window.innerWidth - width)/2 + 'px'});
-					$('#background').fadeIn();
-					$('#gameRoomReady').fadeIn();
+				socket.on('joinGameRoomSuccess', function (players, ready){
+					waitForOtherPlayers(gameroom, players, ready);
 				});
 			});
 		}
@@ -86,6 +54,50 @@ function init_waitingroom(socket){
 			div.attr('id', key);
 		});
 	});
+
+	function waitForOtherPlayers(gameroom, players, ready){
+		$('#gameRoomReady h1').html(gameroom + '<br>');
+
+		for (var i in players){
+			var playerTab = $('<h3 />');
+			$('#playerInTheRoom').empty();
+			$('#playerInTheRoom').append(playerTab);
+			playerTab.html(players[i] + '<br>');
+			if (ready[i])
+				playerTab.css('color', 'green');
+			else
+				playerTab.css('color', 'red');
+		}
+		$('#ready').change(function(){
+			if (this.checked)
+				socket.emit('gameReady', gameroom);
+			else
+				socket.emit('gameNotReady', gameroom);
+		});
+		socket.on('updateReadyStatus', function(players, ready){
+			for (var i in players){
+				var playerTab = $('<h3 />');
+				$('#playerInTheRoom').empty();
+				$('#playerInTheRoom').append(playerTab);
+				playerTab.html(players[i] + '<br>');
+				if (ready[i])
+					playerTab.css('color', 'green');
+				else
+					playerTab.css('color', 'red');
+			}
+		});
+		var height = $('#gameRoomReady').height();
+		var width = $('#gameRoomReady').width();
+		$('#gameRoomReady').css({'top': (window.innerHeight - height)/2 + 'px', 'left': (window.innerWidth - width)/2 + 'px'});
+		$('#background').fadeIn();
+		$('#gameRoomReady').fadeIn();
+		$('#gameRoomReady').css('display', 'flex');
+		$('#background').click(function(){
+			$('#gameRoomReady').fadeOut();
+			$('#background').fadeOut();
+			socket.emit('leaveGameRoom', gameroom);
+		});
+	}
 
 	socket.on('gameReady', function(){
 		window.location.replace("blokus");
@@ -125,13 +137,11 @@ function init_waitingroom(socket){
 			$('#createGameRoomTable').fadeIn();
 			$('#background').fadeIn();
 			$('#gameRoomName').focus();
-		});
-		
-		$('#background').click(function(){
-			$('#createGameRoomTable').fadeOut();
-			$('#confirmMessage').fadeOut();
-			$('#gameRoomReady').fadeOut();
-			$('#background').fadeOut();
+
+			$('#background').click(function(){
+				$('#createGameRoomTable').fadeOut();
+				$('#background').fadeOut();
+			});
 		});
 		
 		$('#cancelCreateGameRoom').click(function(){
@@ -144,29 +154,25 @@ function init_waitingroom(socket){
 			$('#gameRoomName').val('');
 
 			$('#createGameRoomTable').hide();
-			var height = $('#confirmMessage').height();
-			var width = $('#confirmMessage').width();
-			$('#confirmMessage').css({'top': (window.innerHeight - height)/2 + 'px', 'left': (window.innerWidth - width)/2 + 'px'});
-			$('#confirmMessage').fadeIn();
-			var message = '';
 
 			socket.emit('createGameRoom', name);
-			socket.on('createGameRoomSuccess', function(){
-				message = 'Game Room \"' + name + '\" has been created.';
-				$('#confirmMessage h3').text(message);
-				setTimeout(function(){
-					$('#confirmMessage').fadeOut();
-					$('#background').fadeOut();
-				}, 2000);
+			socket.on('createGameRoomSuccess', function (players, ready){
+				waitForOtherPlayers(name, players, ready);
 			});
 			socket.on('createGameRoomFail', function(){
-				message = 'Unable to create the game room \"' + name + '\". Please try again.';
+				var height = $('#confirmMessage').height();
+				var width = $('#confirmMessage').width();
+				$('#confirmMessage').css({'top': (window.innerHeight - height)/2 + 'px', 'left': (window.innerWidth - width)/2 + 'px'});
+				$('#confirmMessage').fadeIn();
+				var message = 'Unable to create the game room \"' + name + '\". Please try again.';
 				$('#confirmMessage h3').text(message);
 			});
 		});
 		
-		$('#closeConfirmMessage').click(function(){
+		$('#close').click(function(){
+			$('#createGameRoomTable').fadeOut();
 			$('#confirmMessage').fadeOut();
+			$('#gameRoomReady').fadeOut();
 			$('#background').fadeOut();
 		});
 		

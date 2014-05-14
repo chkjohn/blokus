@@ -119,6 +119,7 @@ module.exports = {
 			socket.on('joinGameRoom', function(gameroom){
 				if (gamerooms[gameroom].players.length < 4){
 					gamerooms[gameroom].players.push(socket.username);
+					gamerooms[gameroom].sockets.push(socket);
 					socket.emit('joinGameRoomSuccess', gamerooms[gameroom].players, gamerooms[gameroom].ready);
 					socket.broadcast.emit('updateGameRoomTab',gameroom, gamerooms[gameroom].players);
 				} else{
@@ -139,9 +140,20 @@ module.exports = {
 
 			socket.on('gameNotReady', function(gameroom){
 				socket.ready = false;
-				if (gamerooms[gameroom].ready.length > 0)
-					gamerooms[gameroom].ready.pop();
+				if (gamerooms[gameroom].ready.length > 0){
+					if (gamerooms[gameroom].players[i] == socket.username)
+						gamerooms[gameroom].ready.splice(i, 1);
+				}
 				socket.broadcast.emit('updateReadyStatus', gamerooms[gameroom].players, gamerooms[gameroom].ready);
+			});
+
+			socket.on('leaveGameRoom', function(gameroom){
+				for (var i in gamerooms[gameroom].players){
+					if (gamerooms[gameroom].players[i] == socket.username){
+						gamerooms[gameroom].players.splice(i, 1);
+						gamerooms[gameroom].sockets.splice(i, 1);
+					}
+				}
 			});
 		});
 
