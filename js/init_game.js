@@ -41,6 +41,7 @@ function gameEndHandler()
 		console.log(players[i].score);
 	}
 	
+	$(".inline").colorbox({inline:true, width:"50%"});
 	$(".inline").click();
 }
 
