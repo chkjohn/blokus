@@ -43,18 +43,6 @@ function gameEndHandler()
 
 	$(".inline").colorbox({inline:true, width:"50%"});
 	$(".inline").click();
-
-	/* John's code
-	$("#exitGameRoom").click(function(){
-		$.removeCookie(playerIndex_cookie);
-		$.removeCookie(network_cookie);
-		$.removeCookie(gameroom_cookie);
-		if (network)
-			window.location.replace('waitingroom');
-		else
-			window.location.replace('login');
-	});
-	*/
 }
 
 function getNetworkMode()
@@ -242,6 +230,7 @@ function init()
 		if(game.token_index==client_index)
 		{
 			game.pass_num++;
+			players[game.token_index].stop = true;	// John's change
 			if(game.isGameEnd())
 			{
 				gameEndHandler();
@@ -258,7 +247,7 @@ function init()
 			if(network)
 				players[client_index].send("empty",null,null,null);
 				
-			//players[client_index].stop = true;
+			//players[client_index].stop = true;	John's change
 			document.getElementById("rotate_cw").disabled = true;
 			document.getElementById("rotate_counter_cw").disabled = true;
 			document.getElementById("mirror_x").disabled = true;
