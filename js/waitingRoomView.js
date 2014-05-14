@@ -29,6 +29,11 @@ function init_waitingroom(socket){
 			$('#background').fadeOut();
 			socket.emit('leaveGameRoom', gameroom);
 		});
+		$('#close').click(function(){
+			$('#gameRoomReady').fadeOut();
+			$('#background').fadeOut();
+			socket.emit('leaveGameRoom', gameroom);
+		});
 	}
 
 	// on connection to server, ask for user's name with an anonymous callback
@@ -58,8 +63,8 @@ function init_waitingroom(socket){
 			var joinButton = $('<input type=button class=waitingRoomButton value=Join>');
 			gameroomTab.append(joinButton);
 			joinButton.attr('id', 'joinButton');
-			joinButton.css({'display': 'flex', 'position': 'absolute', 'right': '50px'});
-			joinButton.click(function(){
+			joinButton.css({'display': 'flex', 'position': 'relative', 'right': '50px'});
+			$('#joinButton').click(function(){
 				console.log('join');
 				socket.emit('joinGameRoom', gameroom);
 				socket.on('joinGameRoomSuccess', function (players){

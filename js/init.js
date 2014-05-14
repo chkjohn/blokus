@@ -142,13 +142,13 @@ module.exports = {
 						break;
 					}
 				}
-				if (gamerooms[gameroom].players.length == 0){
-					delete gamerooms[gameroom];
-				}
 				socket.emit('updateReadyStatus', gamerooms[gameroom].players);
 				socket.broadcast.emit('updateReadyStatus', gamerooms[gameroom].players);
 				socket.emit('updateGameRoomTab',gameroom, gamerooms[gameroom].players);
 				socket.broadcast.emit('updateGameRoomTab',gameroom, gamerooms[gameroom].players);
+				if (gamerooms[gameroom].players.length == 0){
+					delete gamerooms[gameroom];
+				}
 			});
 		});
 
