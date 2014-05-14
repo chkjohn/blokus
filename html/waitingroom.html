@@ -35,7 +35,7 @@
 		
 		<table align=center style="width: 100%" id="head-banner">
 			<tr>
-				<td><h1>Waiting Room</h1></td>
+				<td><h1 id="toptext">Waiting Room</h1></td>
 				<td align=center>
 					<input type="text" size="20" id="data">
 					<input type="button" class=waitingRoomButton id="datasend" value="Search Room" style="width: 125px">
@@ -56,7 +56,7 @@
 			}
 		</script>
 		<!--canvas id="cube"></canvas-->
-		<div style="display: flex;">
+		<div id="mainarea" style="display: flex;">
 			<div id="userlist">
 				<div id="ulist">
 					<b>User List</b>
@@ -70,7 +70,7 @@
 				<div id="gameroom"></div>
 			</div>
 		</div>
-		<div align=center><input id="createGameRoom" class=waitingRoomButton type=button value="Create Game Room" style="font-size: xx-large;"></div>
+		<div id="botarea" align=center><input id="createGameRoom" class=waitingRoomButton type=button value="Create Game Room" style="font-size: xx-large;"></div>
 	</body>
 	<script>
 		var socket = io.connect('blokus-novax.rhcloud.com:8000/waitingRoom');
