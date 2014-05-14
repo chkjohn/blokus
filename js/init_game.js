@@ -71,9 +71,10 @@ function init(value)
 //Danny's change
 /*-------------Socket IO-------------------------*/
 	function onSocketConnected() {
-		console.log('Client['+ client_index +'] has connected to the server!');
+		//console.log('Client['+ client_index +'] has connected to the server!');
 		/*----------------Raymond's change-------------*/
 		//send cookies {session_key,..} to server to retrive playerIndex;
+		/*
 		if($.cookie(session_key_name))
 		{
 			client_socket.emit("cookies",{cookies:{sid:$.cookie(session_key_name)}});	//for server side to get, msg.cookies.sid ....
@@ -81,6 +82,7 @@ function init(value)
 		}
 		else
 			console.log("no value of name" + session_key_name);
+		*/
 		/*--------------------------------------------*/
 	};
 
