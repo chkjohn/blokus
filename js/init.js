@@ -16,7 +16,7 @@ module.exports = {
 		connection.query('INSERT INTO users SET ?', {username: 'walter', password: 'walter'});
 	},
 	
-	init_server: function(io, usernames, connection, gamerooms, client_index){
+	init_server: function(io, util, usernames, connection, gamerooms, client_index){
 		var login = io.of('/login');
 		var waitingRoom = io.of('/waitingRoom');
 		var game = io.of('/game');

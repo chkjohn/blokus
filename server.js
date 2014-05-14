@@ -66,4 +66,4 @@ var usernames = {};
 var gamerooms = {};
 var client_index = 0;
 
-init.init_server(io, usernames, connection, gamerooms, client_index);
+init.init_server(io, util, usernames, connection, gamerooms, client_index);
