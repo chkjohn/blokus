@@ -75,7 +75,7 @@ function init()
 
 	console.log('init');
 	//-------------game init---------
-	if(network)
+	//if(network)
 		game.init(onSocketConnected,onSocketDisconnect,onSocketMessage);
 	//--------------------------------
 

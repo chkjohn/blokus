@@ -8,7 +8,7 @@ for a total of 400 squares.
 var network = true; 	//multi-player connection version => set true , otherwise set false
 var websocket_server_domain = "http://localhost";
 var websocket_server_port = 8000;
-var client_socket;
+var client_socket = null;
 var playerIndex_cookie = "playerIndex";	//session key's cookie name
 var network_cookie = "network";
 var gameroom_cookie = "gameroom";
