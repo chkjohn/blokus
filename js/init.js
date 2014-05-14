@@ -131,6 +131,7 @@ module.exports = {
 			socket.on('gameReady', function(gameroom){
 				gamerooms[gameroom].ready.push(true);
 				socket.ready = true;
+				socket.emit('updateReadyStatus', gamerooms[gameroom].players, gamerooms[gameroom].ready);
 				socket.broadcast.emit('updateReadyStatus', gamerooms[gameroom].players, gamerooms[gameroom].ready);
 				if (gamerooms[gameroom].ready.length == 4){
 					for (var i in gamerooms[gameroom].sockets){
@@ -149,6 +150,7 @@ module.exports = {
 						}
 					}
 				}
+				socket.emit('updateReadyStatus', gamerooms[gameroom].players, gamerooms[gameroom].ready);
 				socket.broadcast.emit('updateReadyStatus', gamerooms[gameroom].players, gamerooms[gameroom].ready);
 			});
 
