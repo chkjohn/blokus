@@ -258,7 +258,7 @@ function init()
 			if(network)
 				players[client_index].send("empty",null,null,null);
 				
-			players[client_index].stop = true;
+			//players[client_index].stop = true;
 			document.getElementById("rotate_cw").disabled = true;
 			document.getElementById("rotate_counter_cw").disabled = true;
 			document.getElementById("mirror_x").disabled = true;

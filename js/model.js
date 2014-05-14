@@ -47,10 +47,8 @@ function Game(number_cells,board_size,border_size)
 			counter++;
 		}while(players[game.token_index].stop && counter<4);
 		
-		/* John's change
 		if(!online)	//no network, single PC version
 			client_index = game.token_index;
-		*/
 	}
 
 	function getPlayerIndex()
