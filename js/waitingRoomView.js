@@ -60,6 +60,7 @@ function init_waitingroom(socket){
 			joinButton.attr('id', 'joinButton');
 			joinButton.css({'display': 'flex', 'position': 'absolute', 'right': '50px'});
 			joinButton.click(function(){
+				console.log('join');
 				socket.emit('joinGameRoom', gameroom);
 				socket.on('joinGameRoomSuccess', function (players){
 					waitForOtherPlayers(gameroom, players);
