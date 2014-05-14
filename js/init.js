@@ -146,7 +146,7 @@ module.exports = {
 				if (gamerooms[gameroom].ready.length > 0){
 					for (var i in gamerooms[gameroom].players){
 						if (gamerooms[gameroom].players[i] == socket.username){
-							gamerooms[gameroom].ready.splice(i, 1);
+							gamerooms[gameroom].ready[i] = false;
 							break;
 						}
 					}
@@ -160,9 +160,14 @@ module.exports = {
 					if (gamerooms[gameroom].players[i] == socket.username){
 						gamerooms[gameroom].players.splice(i, 1);
 						gamerooms[gameroom].sockets.splice(i, 1);
+						gamerooms[gameroom].ready.splice(i, 1);
 						break;
 					}
 				}
+				socket.emit('updateGameRoomTab',gameroom, gamerooms[gameroom].players);
+				socket.broadcast.emit('updateGameRoomTab',gameroom, gamerooms[gameroom].players);
+				socket.emit('updateReadyStatus', gamerooms[gameroom].players, gamerooms[gameroom].ready);
+				socket.broadcast.emit('updateReadyStatus', gamerooms[gameroom].players, gamerooms[gameroom].ready);
 			});
 		});
 

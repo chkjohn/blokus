@@ -73,7 +73,7 @@ function init_waitingroom(socket){
 			var joinButton = $('<input type=button class=waitingRoomButton value=Join>');
 			gameroomTab.append(joinButton);
 			joinButton.attr('id', 'joinButton');
-			joinButton.css({'display': 'flex', 'position': 'absolute', 'right': '50px', 'height': '50%'});
+			joinButton.css({'display': 'flex', 'position': 'absolute', 'right': '50px'});
 			joinButton.click(function(){
 				socket.emit('joinGameRoom', gameroom);
 				socket.on('joinGameRoomSuccess', function (players, ready){
