@@ -64,7 +64,7 @@ function Game(number_cells,board_size,border_size)
 		client_socket = io.connect('csci4140project-chkjohn.rhcloud.com:8000/game');
 		if (network){
 			var gameroom = $.cookie(gameroom_cookie);
-			client_socket = io.connect('csci4140project-chkjohn.rhcloud.com:8000/game_' + gameroom);
+			client_socket = io.connect('csci4140project-chkjohn.rhcloud.com:8000/gameroom_' + gameroom);
 			//console.log(gameroom);
 			client_socket.emit('getUserName', $.cookie('sessionid'));
 		} else{
