@@ -246,19 +246,11 @@ module.exports = {
 				}
 
 				// when user close browser/tab
+				/*
 				client.on('getUserName', function(username){
 					client.username = username;
 				});
-
-				// when user close browser/tab
-				client.on('disconnect', function(){
-					// delete the corresponding session from database
-					connection.query('DELETE FROM sessions WHERE id=?', client.username, function(e, rows, fields){
-						// delete user from user list
-						delete usernames[client.username];
-						socket.broadcast.emit('updateusers', usernames);
-					});
-				});
+				*/
 			});
 		}
 		// for every 5 mins, check if the sessions in database have been expired
