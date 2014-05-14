@@ -19,6 +19,7 @@ module.exports = {
 	init_server: function(io, util, usernames, connection, gamerooms, client_index){
 		var login = io.of('/login');
 		var waitingRoom = io.of('/waitingRoom');
+		var game = io.of('/game');
 		
 		/* Code for Login System Start*/
 		login.on('connection', function (socket){
@@ -154,6 +155,46 @@ module.exports = {
 			});
 		});
 		
+		game.on('connection', function (client) {
+			util.log("New player has connected: " + client.id);
+			// Listen for client disconnected
+			client.on("disconnect", onClientDisconnect);
+
+			// Listen for new player message
+			client.on("nextTile", onNewPlayer);
+
+			client.on("client_index", onChangeClientIndex);
+
+			// Socket client has disconnected
+			function onClientDisconnect() {
+				util.log("Player has disconnected: "+this.id);
+				// Broadcast removed player to connected socket clients
+				this.broadcast.emit("remove player", {id: this.id});
+			};
+
+			// New player has joined
+			function onNewPlayer(msg) {
+				// Broadcast new player to connected socket clients
+				util.log("Yeah!");
+				util.log("msg is: " + msg);
+				util.log(msg.status + " "  + msg.data);
+				if(msg.status == "next"){
+					util.log(msg.data.tile);
+					util.log(JSON.stringify(msg.data));
+				}
+				//{ status:"next",data:{tile:tile, tile_index:tile_index, mouse_co:mouse_co} }
+				this.broadcast.emit("message", msg);
+				//this.broadcast.emit("message", {status:msg.status});
+			};
+
+			function onChangeClientIndex(msg){
+				this.emit("client_index", client_index);
+				util.log("The client_index is: " + client_index);
+				client_index++;
+				client_index = client_index % 4;
+			}
+		});
+
 		function startGameRoom(gameRoomSocket){
 			gameRoomSocket.on('connection', function (client) {
 				util.log("New player has connected: " + client.id);

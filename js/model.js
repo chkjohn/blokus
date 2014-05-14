@@ -61,9 +61,15 @@ function Game(number_cells,board_size,border_size)
 	/*----------------------------------Raymond's change---------------------------------------*/
 	game.init = function(onSocketConnected,onSocketDisconnect,onSocketIndex,onSocketMessage){
 		//client_socket = io.connect(websocket_server_domain, {port: websocket_server_port, transports: ["websocket"]});
-		network = Boolean($.cookie(network_cookie) === 'true');
-		var gameroom = $.cookie(gameroom_cookie);
-		client_socket = io.connect('csci4140project-chkjohn.rhcloud.com:8000/game_' + gameroom);
+		if (network){
+			//var gameroom = $.cookie(gameroom_cookie);
+			client_socket = io.connect('csci4140project-chkjohn.rhcloud.com:8000/game_' + gameroom);
+			console.log(gameroom);
+		} else{
+			client_socket = io.connect('csci4140project-chkjohn.rhcloud.com:8000/game');
+			console.log('guest mode');
+		}
+
 		if(client_socket==null)
 			alert("Server connection fails");
 		else
