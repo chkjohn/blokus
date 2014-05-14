@@ -142,8 +142,12 @@ module.exports = {
 			socket.on('gameNotReady', function(gameroom){
 				socket.ready = false;
 				if (gamerooms[gameroom].ready.length > 0){
-					if (gamerooms[gameroom].players[i] == socket.username)
-						gamerooms[gameroom].ready.splice(i, 1);
+					for (var i in gamerooms[gameroom].players){
+						if (gamerooms[gameroom].players[i] == socket.username){
+							gamerooms[gameroom].ready.splice(i, 1);
+							break;
+						}
+					}
 				}
 				socket.broadcast.emit('updateReadyStatus', gamerooms[gameroom].players, gamerooms[gameroom].ready);
 			});
@@ -153,6 +157,7 @@ module.exports = {
 					if (gamerooms[gameroom].players[i] == socket.username){
 						gamerooms[gameroom].players.splice(i, 1);
 						gamerooms[gameroom].sockets.splice(i, 1);
+						break;
 					}
 				}
 			});
