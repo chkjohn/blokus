@@ -1,5 +1,5 @@
 {
-  "name": "CSCI4140 Project - Blokus",
+  "name": "OpenShift-Sample-App",
   "version": "1.0.0",
   "description": "csci4140 project - blokus",
   "main": "server.js",
