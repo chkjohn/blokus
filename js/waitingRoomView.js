@@ -2,7 +2,7 @@
 function init_waitingroom(socket){
 	function waitForOtherPlayers(gameroom, players){
 		$.cookie("gameroom", gameroom, {expires: 1});
-		$.cookie("playerIndex", (players.length - 1).toString(), {expires: 1});
+		$.cookie("playerIndex", checkPlayerIndex(players), {expires: 1});
 
 		$('#gameRoomReady h1').html(gameroom + '<br>');
 
@@ -33,8 +33,17 @@ function init_waitingroom(socket){
 				$('#playerInTheRoom').append(playerTab);
 				playerTab.html(players[i] + '<br>');
 			}
-			$.cookie("playerIndex", (players.length - 1).toString());
+			$.cookie("playerIndex", checkPlayerIndex(players), {expires: 1});
 		});
+	}
+
+	function checkPlayerIndex(players){
+		var sessionid = $.cookie('sessionid');
+		for (var i in players){
+			if (players[i] == sessionid)
+				return i.toString();
+		}
+		return null;
 	}
 
 	function leaveGameRoom(gameroom){

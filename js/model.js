@@ -70,6 +70,8 @@ function Game(number_cells,board_size,border_size)
 			console.log('guest mode');
 		}
 
+		getPlayerIndex();
+
 		if(client_socket==null)
 			alert("Server connection fails");
 		else
