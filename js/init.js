@@ -19,11 +19,10 @@ module.exports = {
 	init_server: function(io, usernames, connection, gamerooms){
 		var login = io.of('/login');
 		var waitingRoom = io.of('/waitingRoom');
-		var blokus = io.of('/game');
+		var game = io.of('/game');
 		
-
+		/* Code for Login System Start*/
 		login.on('connection', function (socket){
-			/* Code for Login System Start*/
 			// when user clicks on 'Register'
 			socket.on('register', function(data){
 				// insert user's info into data
@@ -79,6 +78,7 @@ module.exports = {
 				});
 			});
 		});
+		/* Code for Login System End*/
 
 		waitingRoom.on('connection', function (socket){
 			// when the client emits 'adduser', this listens and executes
@@ -107,7 +107,6 @@ module.exports = {
 					socket.emit('logoutsuccess', "logout");
 				});
 			});
-			/* Code for Login System End*/
 
 			socket.on('createGameRoom', function(gameroom){
 				socket.gameroom = gameroom;
@@ -146,9 +145,7 @@ module.exports = {
 			});
 		});
 
-		io.sockets.on('connection', function (socket) {
-			/* Code for Chat Room Start*/
-
+		game.on('connection', function (socket) {
 			// when the user disconnects.. perform this
 			socket.on('disconnect', function(){
 				// remove the username from global usernames list
@@ -158,7 +155,6 @@ module.exports = {
 				// echo globally that this client has left
 				socket.broadcast.emit('updatechat', 'SERVER', socket.username + ' has disconnected');
 			});
-			/* Code for Chat Room End*/
 		});
 		
 		
