@@ -11,7 +11,7 @@ function viewRefresh(canvas)
 		{
 			if(hint_p.test(game.board[i][j]))
 			{
-				if(client_index!==null)
+				if(h_p.test(game.board[i][j]))
 					context.fillStyle = color_set[hid];
 				else
 					context.fillStyle = color_set['B'];

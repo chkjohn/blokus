@@ -22,12 +22,12 @@ function updateStatus()
 {
 	if(network)
 	{
-		document.getElementById('status').innerHTML = "Player " + players[client_index].username + " current score: " + players[client_index].score;
+		document.getElementById('status').innerHTML = "Player " + (client_index + 1) + " current score: " + players[client_index].score;
 		$("#status").attr('class', colorClass[client_index]);
 	}
 	else
 	{
-		document.getElementById('status').innerHTML = "Player: " + (client_index%4 + 1) + " current score: " + players[client_index].score;
+		document.getElementById('status').innerHTML = "Player: " + ((client_index + 1)%4 + 1) + " current score: " + players[client_index].score;
 		$("#status").attr('class', colorClass[(client_index)%4]);
 	}
 }
@@ -41,7 +41,6 @@ function gameEndHandler()
 		console.log(players[i].score);
 	}
 
-	$(".inline").colorbox({inline:true, width:"50%"});
 	$(".inline").click();
 }
 
@@ -57,7 +56,7 @@ function getNetworkMode()
 		} else {
 			client_index = 0;
 			console.log("offline mode");
-			//updateStatus();
+			updateStatus();
 		}
 	}
 	else
@@ -74,12 +73,7 @@ function init()
 
 	getNetworkMode();
 
-	//console.log('init');
-	//-------------game init---------
-	//if(network)
-	game.init(onSocketConnected,onSocketDisconnect,onSocketMessage);
-	//--------------------------------
-	updateStatus();
+	$(".inline").colorbox({inline:true, width:"50%"});
 
 	var canvas = document.getElementById("boardCanvas");
 	var ctx = canvas.getContext("2d");
@@ -112,11 +106,11 @@ function init()
 				console.log("success");
 			}
 			else
-				console.log("fail");
+				showNotificationBar("Wrong placement!");
 		}
 		else
 			alert("This is player[" + game.token_index + "]'s round!");
-		updateStatus();
+		//updateStatus();
 	}, false);
 
 	canvas.addEventListener('mousemove', function(e) {
@@ -202,8 +196,11 @@ function init()
 		}
 		updateStatus();
 	};
-
-	/*--------------END------------------------------*/
+	//-------------game init---------
+ 	if(network)
+ 		game.init(onSocketConnected,onSocketDisconnect,onSocketIndex,onSocketMessage);
+ 	//--------------------------------
+ /*---------------END-------------------*/
 
 	var canvas_posture = document.getElementById("posture");
 	var ctx_posture = canvas_posture.getContext("2d");
@@ -258,13 +255,15 @@ function init()
 			if(network)
 				players[client_index].send("empty",null,null,null);
 				
-			//players[client_index].stop = true;	John's change
+			players[client_index].stop = true;	//John's change
+			/*
 			document.getElementById("rotate_cw").disabled = true;
 			document.getElementById("rotate_counter_cw").disabled = true;
 			document.getElementById("mirror_x").disabled = true;
 			document.getElementById("mirror_y").disabled = true;
 			document.getElementById("next").disabled = true;
 			document.getElementById("picker").removeEventListener('click');
+			*/
 		}
 		else
 			alert("This is player[" + game.token_index + "]'s round!");
