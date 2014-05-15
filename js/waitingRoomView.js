@@ -96,6 +96,10 @@ function init_waitingroom(socket){
 					$('#background').fadeIn();
 					var message = 'Game room \"' + gameroom + '\" is already full.';
 					$('#confirmMessage h3').text(message);
+					$('#background').click(function(){
+						$('#confirmMessage').fadeOut();
+						$('#background').fadeOut();
+					});
 				});
 			});
 		}
@@ -182,6 +186,10 @@ function init_waitingroom(socket){
 						$('#background').fadeIn();
 						var message = 'Game room \"' + gameroom + '\" is already full.';
 						$('#confirmMessage h3').text(message);
+							$('#background').click(function(){
+							$('#confirmMessage').fadeOut();
+							$('#background').fadeOut();
+						});
 					});
 				});
 			});
@@ -193,6 +201,10 @@ function init_waitingroom(socket){
 				$('#background').fadeIn();
 				var message = 'Game room \"' + gameroom + '\" not found.';
 				$('#confirmMessage h3').text(message);
+				$('#background').click(function(){
+					$('#confirmMessage').fadeOut();
+					$('#background').fadeOut();
+				});
 			});
 		});
 		
@@ -235,6 +247,10 @@ function init_waitingroom(socket){
 				$('#background').fadeIn();
 				var message = 'Unable to create the game room \"' + name + '\". Please try again.';
 				$('#confirmMessage h3').text(message);
+				$('#background').click(function(){
+					$('#confirmMessage').fadeOut();
+					$('#background').fadeOut();
+				});
 			});
 		});
 		
