@@ -244,7 +244,7 @@ function init_waitingroom(socket){
 			// send 'createGameRoom' request to server
 			socket.emit('createGameRoom', name);
 			socket.on('createGameRoomSuccess', function (players){
-				$('#' + gameroom + '_tab').css('color', 'red');
+				$('#' + name + '_tab').css('color', 'red');
 				waitForOtherPlayers(name, players);
 			});
 			socket.on('createGameRoomFail', function(){
@@ -281,6 +281,13 @@ function init_waitingroom(socket){
 			if(e.which == 13) {
 				$(this).blur();
 				$('#confirmCreateGameRoom').focus().click();
+			}
+		});
+
+		$('#searchRoomName').keypress(function (e) {
+			if(e.which == 13) {
+				$(this).blur();
+				$('#searchRoom').focus().click();
 			}
 		});
 	});
