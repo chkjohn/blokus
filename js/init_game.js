@@ -26,7 +26,7 @@ function updateStatus()
 		if (players[client_index].stop)
 			pass = " Pass!"
 		document.getElementById('own').innerHTML = "You: " + (client_index + 1) + " current score: " + players[client_index].score + pass;
-		$("#status").attr('class', colorClass[client_index]);
+		$("#own").attr('class', colorClass[client_index]);
 		document.getElementById('status').innerHTML = "Current Player: " + (game.token_index + 1) + " current score: " + players[game.token_index].score;
 		$("#status").attr('class', colorClass[game.token_index]);
 	}
