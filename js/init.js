@@ -106,7 +106,7 @@ module.exports = {
 					socket.broadcast.emit('updateGameRoomList', gameroom, gamerooms[gameroom].players, false);
 					socket.emit('updateGameRoomTab', gameroom, gamerooms[gameroom].players);
 					socket.broadcast.emit('updateGameRoomTab', gameroom, gamerooms[gameroom].players);
-					usernames[username].status = 'red';
+					usernames[socket.username].status = 'red';
 					socket.emit('updateusers', usernames);
 					socket.broadcast.emit('updateusers', usernames);
 				//});
@@ -122,7 +122,7 @@ module.exports = {
 						//socket.emit('updateReadyStatus', gamerooms[gameroom].players);
 						socket.emit('updateGameRoomTab',gameroom, gamerooms[gameroom].players);
 						socket.broadcast.emit('updateGameRoomTab',gameroom, gamerooms[gameroom].players);
-						usernames[username].status = 'red';
+						usernames[socket.username].status = 'red';
 						socket.emit('updateusers', usernames);
 						socket.broadcast.emit('updateusers', usernames);
 						//socket.broadcast.emit('updateReadyStatus', gamerooms[gameroom].players);
@@ -156,6 +156,9 @@ module.exports = {
 						gamerooms[gameroom].sockets[i].emit('updateReadyStatus', gamerooms[gameroom].players);
 					socket.emit('updateGameRoomTab',gameroom, gamerooms[gameroom].players);
 					socket.broadcast.emit('updateGameRoomTab',gameroom, gamerooms[gameroom].players);
+					usernames[socket.username].status = 'green';
+					socket.emit('updateusers', usernames);
+					socket.broadcast.emit('updateusers', usernames);
 					if (gamerooms[gameroom].players.length == 0){
 						delete gamerooms[gameroom];
 					}
