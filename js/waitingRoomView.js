@@ -143,6 +143,9 @@ function init_waitingroom(socket){
 			// delete all cookies
 			//document.cookie = "sessionid=; expires=Thu, 01 Jan 1970 00:00:00 GMT";
 			$.removeCookie('sessionid');
+			$.removeCookie("gameroom");
+			$.removeCookie("playerIndex");
+			$.removeCookie("network");
 
 			// send 'logout' request to server
 			socket.emit('logout', sessionid);
