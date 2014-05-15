@@ -65,7 +65,7 @@ module.exports = {
 							} else{
 								console.log(sessionid);
 								socket.username = data.username;
-								usernames[data.username] = {username: data.username, status: 'green'};
+								usernames[data.username] = {username: data.username, status: 'lime'};
 								// send session key to client
 								socket.emit('loginsuccess', sessionid);
 							}
@@ -86,7 +86,7 @@ module.exports = {
 				// we store the username in the socket session for this client
 				socket.username = username;
 				// add the client's username to the global list
-				usernames[username] = {username: username, status: 'green'};
+				usernames[username] = {username: username, status: 'lime'};
 				// echo to client they've connected
 				var tmp = Object.keys(gamerooms);
 				for (var i in tmp){
