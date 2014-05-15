@@ -248,6 +248,7 @@ function init()
 			}
 			else
 			{
+				updateStatus();
 				game.nextToken(network);	//next player		
 			}
 			
@@ -270,7 +271,7 @@ function init()
 		}
 		else
 			alert("This is player[" + game.token_index + "]'s round!");
-		updateStatus();
+		//updateStatus();
 	},false);
 
 	function pickerHandler(e) {
