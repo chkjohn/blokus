@@ -51,9 +51,11 @@ function getNetworkMode()
 	{
 		network = JSON.parse(network);
 		if(network){
+			$("#frame1").fadeIn();		//for use frame2
 			console.log("online mode");
 			//updateStatus();
 		} else {
+			$("#frame2").fadeIn();
 			client_index = 0;
 			console.log("offline mode");
 			updateStatus();
@@ -69,8 +71,6 @@ function getNetworkMode()
 
 function init()
 {	
-	$("#frame1").fadeIn();		//for use frame2
-
 	getNetworkMode();
 
 	$(".inline").colorbox({inline:true, width:"50%"});
