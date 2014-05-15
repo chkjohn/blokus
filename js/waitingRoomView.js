@@ -172,6 +172,7 @@ function init_waitingroom(socket){
 				var width = $('#confirmMessage').width();
 				$('#confirmMessage').css({'top': (window.innerHeight - height)/2 + 'px', 'left': (window.innerWidth - width)/2 + 'px'});
 				$('#confirmMessage').fadeIn();
+				$('#background').fadeIn();
 				var message = 'Game room \"' + gameroom + '\" not found. Please try again.';
 				$('#confirmMessage h3').text(message);
 			});
@@ -213,6 +214,7 @@ function init_waitingroom(socket){
 				var width = $('#confirmMessage').width();
 				$('#confirmMessage').css({'top': (window.innerHeight - height)/2 + 'px', 'left': (window.innerWidth - width)/2 + 'px'});
 				$('#confirmMessage').fadeIn();
+				$('#background').fadeIn();
 				var message = 'Unable to create the game room \"' + name + '\". Please try again.';
 				$('#confirmMessage h3').text(message);
 			});
