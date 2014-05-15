@@ -13,7 +13,6 @@ body{
 }
 */
 #login_table{
-	background: #3914AF;
 	border: 5px solid #FFD300;
 	border-radius: 25px;
 }
@@ -67,6 +66,16 @@ body{
 
 .gameroomTab:hover{
 	border: 5px solid red;
+}
+
+#ulist{
+	background-color: #C0C0C0;
+	color: #00FFFF;
+}
+
+#rlist{
+	background-color: #C0C0C0;
+	color: #00FFFF;
 }
 
 #joinButton{
