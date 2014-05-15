@@ -54,15 +54,16 @@ function Game(number_cells,board_size,border_size)
 
 	function getPlayerIndex()
 	{
+		/*
 		client_index = parseInt($.cookie(playerIndex_cookie));
  		if(!client_index)
  			alert("playerIndex_cookie error");
+ 		*/
 		if (network){
 			client_index = parseInt($.cookie(playerIndex_cookie));
-			if(client_index == NaN)
+			if ($.cookie(playerIndex_cookie) == null)
 				alert("playerIndex_cookie error");
-		} else
-			client_index = 0;
+		}
 	}
 
 	/*----------------------------------Raymond's change---------------------------------------*/
