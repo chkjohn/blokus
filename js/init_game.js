@@ -201,7 +201,7 @@ function init()
 	};
 	//-------------game init---------
  	if(network)
- 		game.init(onSocketConnected,onSocketDisconnect,onSocketIndex,onSocketMessage);
+ 		game.init(onSocketConnected,onSocketDisconnect,onSocketMessage);
  	//--------------------------------
  /*---------------END-------------------*/
 
