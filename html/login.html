@@ -15,36 +15,38 @@
 	</head>
 	<body class="font" id="login_back">
 		<!--h2 align="center" class=font>CSCI4140 Project - Blokus<br>Login Interface</h2-->
-		<div align="center" class="wrapper">
-			<h2>Blokus Online</h2><br>
-			By JDRW<br>
+		<div class="wrapper" align=center>
+			<div align="center" class=font>
+				<h2>Blokus Online</h2><br>
+				By JDRW<br>
+			</div>
+			<h3 align="center" class=font id="login_text" style="color: red"></h3>
+			<table align="center" cellspacing=5pt cellpadding=10pt style="border:5pt solid #7777ff;">
+				<tr>
+					<td class="loginlabel">Username</td>
+					<td><input id="username" type=text></td>
+				</tr>
+
+				<tr>
+					<td class="loginlabel">Password</td>
+					<td><input id="password" type=password></td>
+				</tr>
+
+				<tr align=center>
+					<td colspan=2>
+						<table align=center style="width: 100%">
+							<tr>
+								<td align=center><input id="register" class=button type=button value=Register style="width: 100%"></td>
+								<td align=center><input id="login" class=button type=button value=Login style="width: 100%"></td>
+							</tr>
+							<tr>
+								<td align=center colspan=2><input id="guest" class=button type=button value="Play as Guest" style="width: 100%"></td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+			</table>
 		</div>
-		<h3 align="center" class=font id="login_text" style="color: red"></h3>
-		<table align="center" cellspacing=5pt cellpadding=10pt style="border:5pt solid #7777ff;">
-			<tr>
-				<td class="loginlabel">Username</td>
-				<td><input id="username" type=text></td>
-			</tr>
-
-			<tr>
-				<td class="loginlabel">Password</td>
-				<td><input id="password" type=password></td>
-			</tr>
-
-			<tr align=center>
-				<td colspan=2>
-					<table align=center style="width: 100%">
-						<tr>
-							<td align=center><input id="register" class=button type=button value=Register style="width: 100%"></td>
-							<td align=center><input id="login" class=button type=button value=Login style="width: 100%"></td>
-						</tr>
-						<tr>
-							<td align=center colspan=2><input id="guest" class=button type=button value="Play as Guest" style="width: 100%"></td>
-						</tr>
-					</table>
-				</td>
-			</tr>
-		</table>
 	</body>
 	<script>
 		var socket = io.connect('csci4140project-chkjohn.rhcloud.com:8000/login');

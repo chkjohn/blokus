@@ -195,6 +195,7 @@ function init()
 		{
 		}
 		if(game.token_index==client_index){;
+			$('#turn').text(colorClass[client_index] + "'s turn");
 			$('#turn').css('color', colorClass[client_index]);
 			$('#turn').fadeIn();
 			$('#turn').fadeOut(3000);
