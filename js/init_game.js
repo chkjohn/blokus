@@ -167,7 +167,7 @@ function init()
 					game.nextToken(network);
 				}
 			} else
-				onsole.log("Error: wrong playerIndex " + msg.data.playerIndex);
+				console.log("Error: wrong playerIndex " + msg.data.playerIndex);
 		}
 		else if(msg.status == "empty")
 		{/*----------------Raymond's change-------------*/
