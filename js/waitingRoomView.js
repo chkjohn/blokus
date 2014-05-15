@@ -85,10 +85,6 @@ function init_waitingroom(socket){
 				console.log('join');
 				socket.emit('joinGameRoom', gameroom);
 				socket.on('joinGameRoomSuccess', function (players){
-					if (players.length < 4)
-						$('#' + gameroom + '_tab').css('color', 'lime');
-					else
-						$('#' + gameroom + '_tab').css('color', 'red');
 					waitForOtherPlayers(gameroom, players);
 				});
 				socket.on('joinGameRoomFail', function (){
@@ -112,10 +108,14 @@ function init_waitingroom(socket){
 		var gameroomTab = $('#' + gameroom + '_tab');
 		var numPlayers = $('#' + gameroom + '_numPlayers');
 
-		if (players.length == 0)
+		numPlayers.text(players.length);
+		if (players.length == 0){
 			gameroomTab.remove();
-		else
-			numPlayers.text(players.length);
+		} else if (players.length == 4){
+			gameroomTab.css('color', 'red');
+		} else{
+			gameroomTab.css('color', 'lime');
+		}
 	});
 
 	// listener, whenever the server emits 'updateusers', this updates the username list
@@ -171,6 +171,10 @@ function init_waitingroom(socket){
 				table.css('padding-left', '10%');
 				gameroomTab.hide().prependTo('#gameroom').slideDown();
 				gameroomTab.attr({'id': gameroom + '_tab', 'class': 'gameroomTab'});
+				if (players.length < 4)
+					gameroomTab.css('color', 'lime');
+				else
+					gameroomTab.css('color', 'red');
 				var joinButton = $('<input type=button class=waitingRoomButton value=Join>');
 				gameroomTab.append(joinButton);
 				joinButton.attr({'id': 'joinButton', 'align': 'right'});
@@ -179,10 +183,6 @@ function init_waitingroom(socket){
 					console.log('join');
 					socket.emit('joinGameRoom', gameroom);
 					socket.on('joinGameRoomSuccess', function (players){
-						if (players.length < 4)
-							$('#' + gameroom + '_tab').css('color', 'lime');
-						else
-							$('#' + gameroom + '_tab').css('color', 'red');
 						waitForOtherPlayers(gameroom, players);
 					});
 					socket.on('joinGameRoomFail', function (){
@@ -244,7 +244,6 @@ function init_waitingroom(socket){
 			// send 'createGameRoom' request to server
 			socket.emit('createGameRoom', name);
 			socket.on('createGameRoomSuccess', function (players){
-				$('#' + name + '_tab').css('color', 'red');
 				waitForOtherPlayers(name, players);
 			});
 			socket.on('createGameRoomFail', function(){
