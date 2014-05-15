@@ -27,7 +27,7 @@ function updateStatus()
 	}
 	else
 	{
-		document.getElementById('status').innerHTML = "Player: " + ((client_index + 1)%4 + 1) + " current score: " + players[client_index+1].score;
+		document.getElementById('status').innerHTML = "Player: " + ((client_index + 1)%4 + 1) + " current score: " + players[(client_index+1)%4].score;
 		$("#status").attr('class', colorClass[(client_index+1)%4]);
 	}
 }
