@@ -69,19 +69,18 @@ function init_waitingroom(socket){
 		var gameroomTab = $('<div />');
 		var table = $('<table />');
 		var name = $('<tr><td colspan=2><h1>' + gameroom +'</h1></td></tr>');
-		var tabContent = $('<tr><td>' + 'No. of players: ' + '</td><td id=' + gameroom + '_numPlayers>' + players.length + '</td></tr>');
+		var tabContent = $('<tr><td>' + 'No. of players: ' + '</td><td id=' + gameroom + '_numPlayers style="weight: 50%">' + players.length + '</td></tr>');
 
 		table.append(name, tabContent);
 		gameroomTab.append(table);
-		table.width('30%');
-		table.css('padding-left', '10%');
+		table.width('60%');
 		gameroomTab.hide().prependTo('#gameroom').slideDown();
 		gameroomTab.attr({'id': gameroom + '_tab', 'class': 'gameroomTab'});
 		if (!creater){
 			var joinButton = $('<input type=button class=waitingRoomButton value=Join>');
 			gameroomTab.append(joinButton);
-			joinButton.attr({'id': 'joinButton', 'align': 'right'});
-			joinButton.css({'position': 'relative', 'padding-left': '50px'});
+			joinButton.attr({'id': 'joinButton'});
+			joinButton.css({'position': 'relative', 'width': '40%', 'font-size': 'xx-large'});
 			$('#joinButton').click(function(){
 				console.log('join');
 				socket.emit('joinGameRoom', gameroom);
