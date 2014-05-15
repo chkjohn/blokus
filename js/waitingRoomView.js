@@ -88,6 +88,15 @@ function init_waitingroom(socket){
 				socket.on('joinGameRoomSuccess', function (players){
 					waitForOtherPlayers(gameroom, players);
 				});
+				socket.on('joinGameRoomFail', function (){
+					var height = $('#confirmMessage').height();
+					var width = $('#confirmMessage').width();
+					$('#confirmMessage').css({'top': (window.innerHeight - height)/2 + 'px', 'left': (window.innerWidth - width)/2 + 'px'});
+					$('#confirmMessage').fadeIn();
+					$('#background').fadeIn();
+					var message = 'Game room \"' + gameroom + '\" is already full.';
+					$('#confirmMessage h3').text(message);
+				});
 			});
 		}
 	});
@@ -165,6 +174,15 @@ function init_waitingroom(socket){
 					socket.on('joinGameRoomSuccess', function (players){
 						waitForOtherPlayers(gameroom, players);
 					});
+					socket.on('joinGameRoomFail', function (){
+						var height = $('#confirmMessage').height();
+						var width = $('#confirmMessage').width();
+						$('#confirmMessage').css({'top': (window.innerHeight - height)/2 + 'px', 'left': (window.innerWidth - width)/2 + 'px'});
+						$('#confirmMessage').fadeIn();
+						$('#background').fadeIn();
+						var message = 'Game room \"' + gameroom + '\" is already full.';
+						$('#confirmMessage h3').text(message);
+					});
 				});
 			});
 			socket.on('noGameRoom', function(){
@@ -173,7 +191,7 @@ function init_waitingroom(socket){
 				$('#confirmMessage').css({'top': (window.innerHeight - height)/2 + 'px', 'left': (window.innerWidth - width)/2 + 'px'});
 				$('#confirmMessage').fadeIn();
 				$('#background').fadeIn();
-				var message = 'Game room \"' + gameroom + '\" not found. Please try again.';
+				var message = 'Game room \"' + gameroom + '\" not found.';
 				$('#confirmMessage h3').text(message);
 			});
 		});
