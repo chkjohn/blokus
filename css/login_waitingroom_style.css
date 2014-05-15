@@ -4,13 +4,14 @@ body{
 	width: 100%;
 	height: 100%;
 	margin: 0px 0px;
+	background:#ffffff url("../images/background.jpg") repeat right top;
 }
-
+/*
 #login_back{
 	background: url('../images/grid.jpg') center center fixed;
 	background-size: cover;
 }
-
+*/
 #login_table{
 	background: #3914AF;
 	border: 5px solid #FFD300;
@@ -214,6 +215,9 @@ body{
 .wrapper
 {
 	margin: 0px auto;
-	width: 660px;
+	width: 710px;
+	box-shadow: 10px 10px 5px #333131;
+	background: #ffffff url("../images/layer.jpg") repeat right top;
+	padding: 8% 0px;
 }
 /***************************************/
