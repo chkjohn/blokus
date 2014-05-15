@@ -137,12 +137,44 @@ function init_waitingroom(socket){
 			});
 		});
 		
-		// when the client clicks SEND
-		$('#datasend').click( function() {
-			var message = $('#data').val();
-			$('#data').val('');
-			// tell server to execute 'sendchat' and send along one parameter
-			socket.emit('sendchat', message);
+		// when the client clicks 'Search Room'
+		$('#searchRoom').click( function() {
+			var gameroom = $('#searchRoomName').val();
+			$('#searchRoomName').val('');
+			socket.emit('searchGameRoom', gameroom);
+			socket.on('foundGameRoom', function(players){
+				$('#gameroom').empty();
+				var gameroomTab = $('<div />');
+				var table = $('<table />');
+				var name = $('<tr><td colspan=2><h1>' + gameroom +'</h1></td></tr>');
+				var tabContent = $('<tr><td>' + 'No. of players: ' + '</td><td id=' + gameroom + '_numPlayers>' + players.length + '</td></tr>');
+
+				table.append(name, tabContent);
+				gameroomTab.append(table);
+				table.width('30%');
+				table.css('padding-left', '10%');
+				gameroomTab.hide().prependTo('#gameroom').slideDown();
+				gameroomTab.attr({'id': gameroom + '_tab', 'class': 'gameroomTab'});
+				var joinButton = $('<input type=button class=waitingRoomButton value=Join>');
+				gameroomTab.append(joinButton);
+				joinButton.attr({'id': 'joinButton', 'align': 'right'});
+				joinButton.css({'position': 'relative', 'padding-left': '50px'});
+				$('#joinButton').click(function(){
+					console.log('join');
+					socket.emit('joinGameRoom', gameroom);
+					socket.on('joinGameRoomSuccess', function (players){
+						waitForOtherPlayers(gameroom, players);
+					});
+				});
+			});
+			socket.on('noGameRoom', function(){
+				var height = $('#confirmMessage').height();
+				var width = $('#confirmMessage').width();
+				$('#confirmMessage').css({'top': (window.innerHeight - height)/2 + 'px', 'left': (window.innerWidth - width)/2 + 'px'});
+				$('#confirmMessage').fadeIn();
+				var message = 'Game room \"' + gameroom + '\" not found. Please try again.';
+				$('#confirmMessage h3').text(message);
+			});
 		});
 		
 		$('#createGameRoom').click(function(){

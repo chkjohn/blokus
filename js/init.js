@@ -97,18 +97,30 @@ module.exports = {
 				socket.broadcast.emit('updateusers', usernames);
 			});
 
+			socket.on('searchGameRoom', function(gameroom){
+				if (gamerooms[gameroom] != undefined){
+					socket.emit('foundGameRoom', gamerooms[gameroom].players);
+				} else{
+					socket.emit('noGameRoom');
+				}
+			})
+
 			socket.on('createGameRoom', function(gameroom){
 				//connection.query('UPDATE users SET gameroom = ? WHERE username = ?', [gameroom, socket.username], function(e, rows, fields){
-					socket.gameroom = gameroom;
-					gamerooms[gameroom] = {sockets: [socket], players: [socket.username]};
-					socket.emit('createGameRoomSuccess', gamerooms[gameroom].players);
-					socket.emit('updateGameRoomList', gameroom, gamerooms[gameroom].players, true);
-					socket.broadcast.emit('updateGameRoomList', gameroom, gamerooms[gameroom].players, false);
-					socket.emit('updateGameRoomTab', gameroom, gamerooms[gameroom].players);
-					socket.broadcast.emit('updateGameRoomTab', gameroom, gamerooms[gameroom].players);
-					usernames[socket.username].status = 'red';
-					socket.emit('updateusers', usernames);
-					socket.broadcast.emit('updateusers', usernames);
+					if (gamerooms[gameroom] == undefined){
+						socket.gameroom = gameroom;
+						gamerooms[gameroom] = {sockets: [socket], players: [socket.username]};
+						socket.emit('createGameRoomSuccess', gamerooms[gameroom].players);
+						socket.emit('updateGameRoomList', gameroom, gamerooms[gameroom].players, true);
+						socket.broadcast.emit('updateGameRoomList', gameroom, gamerooms[gameroom].players, false);
+						socket.emit('updateGameRoomTab', gameroom, gamerooms[gameroom].players);
+						socket.broadcast.emit('updateGameRoomTab', gameroom, gamerooms[gameroom].players);
+						usernames[socket.username].status = 'red';
+						socket.emit('updateusers', usernames);
+						socket.broadcast.emit('updateusers', usernames);
+					} else{
+						socket.emit('createGameRoomFail');
+					}
 				//});
 			});
 
