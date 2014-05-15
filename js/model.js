@@ -54,8 +54,8 @@ function Game(number_cells,board_size,border_size)
 	function getPlayerIndex()
 	{
 		client_index = parseInt($.cookie(playerIndex_cookie));
- -		if(!client_index)
- -			alert("playerIndex_cookie error");
+ 		if(!client_index)
+ 			alert("playerIndex_cookie error");
 		if (network){
 			client_index = parseInt($.cookie(playerIndex_cookie));
 			if(client_index == NaN)
@@ -68,7 +68,7 @@ function Game(number_cells,board_size,border_size)
 	game.init = function(onSocketConnected,onSocketDisconnect,onSocketMessage){
 		//client_socket = io.connect(websocket_server_domain, {port: websocket_server_port, transports: ["websocket"]});
 		getPlayerIndex();
-		
+
 		client_socket = io.connect('csci4140project-chkjohn.rhcloud.com:8000/game');
 		if (network){
 			var gameroom = $.cookie(gameroom_cookie);
