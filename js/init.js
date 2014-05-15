@@ -155,6 +155,7 @@ module.exports = {
 
 			function leaveGameRoom(gameroom){
 				//if (gameroom != null || gameroom != undefined){
+					socket.gameroom = null;
 					for (var i in gamerooms[gameroom].players){
 						if (gamerooms[gameroom].players[i] == socket.username){
 							gamerooms[gameroom].players.splice(i, 1);
