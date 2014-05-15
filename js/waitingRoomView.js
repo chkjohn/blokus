@@ -56,8 +56,8 @@ function init_waitingroom(socket){
 
 	// on connection to server, ask for user's name with an anonymous callback
 	socket.on('connect', function(){
-		var sessionid = getCookie('sessionid');
-		if (sessionid != ""){
+		var sessionid = $.cookie('sessionid');
+		if (sessionid != undefined){
 			// call the server-side function 'adduser' and send one parameter (value of prompt)
 			socket.emit('adduser', sessionid);
 			socket.username = sessionid;
