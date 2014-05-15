@@ -91,6 +91,7 @@ module.exports = {
 				var tmp = Object.keys(gamerooms);
 				for (var i in tmp){
 					socket.emit('updateGameRoomList', tmp[i], gamerooms[tmp[i]].players, false);
+					socket.emit('updateGameRoomTab', tmp[i], gamerooms[tmp[i]].players);
 				}
 				// update the list of users in chat, client-side
 				socket.emit('updateusers', usernames);
