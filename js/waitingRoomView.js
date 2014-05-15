@@ -69,7 +69,7 @@ function init_waitingroom(socket){
 		var gameroomTab = $('<div />');
 		var table = $('<table />');
 		var name = $('<tr><td colspan=2><h1>' + gameroom +'</h1></td></tr>');
-		var tabContent = $('<tr><td>' + 'No. of players: ' + '</td><td id=' + gameroom + '_numPlayers style="weight: 50%">' + players.length + '</td></tr>');
+		var tabContent = $('<tr><td>' + 'No. of players: ' + '</td><td id=' + gameroom + '_numPlayers style="width: 50%; font-size: xx-large">' + players.length + '</td></tr>');
 
 		table.append(name, tabContent);
 		gameroomTab.append(table);
@@ -85,6 +85,10 @@ function init_waitingroom(socket){
 				console.log('join');
 				socket.emit('joinGameRoom', gameroom);
 				socket.on('joinGameRoomSuccess', function (players){
+					if (players.length < 4)
+						$('#' + gameroom + '_tab').css('color', 'lime');
+					else
+						$('#' + gameroom + '_tab').css('color', 'red');
 					waitForOtherPlayers(gameroom, players);
 				});
 				socket.on('joinGameRoomFail', function (){
@@ -175,6 +179,10 @@ function init_waitingroom(socket){
 					console.log('join');
 					socket.emit('joinGameRoom', gameroom);
 					socket.on('joinGameRoomSuccess', function (players){
+						if (players.length < 4)
+							$('#' + gameroom + '_tab').css('color', 'lime');
+						else
+							$('#' + gameroom + '_tab').css('color', 'red');
 						waitForOtherPlayers(gameroom, players);
 					});
 					socket.on('joinGameRoomFail', function (){
@@ -236,6 +244,7 @@ function init_waitingroom(socket){
 			// send 'createGameRoom' request to server
 			socket.emit('createGameRoom', name);
 			socket.on('createGameRoomSuccess', function (players){
+				$('#' + gameroom + '_tab').css('color', 'red');
 				waitForOtherPlayers(name, players);
 			});
 			socket.on('createGameRoomFail', function(){
