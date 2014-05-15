@@ -80,8 +80,8 @@ function init_waitingroom(socket){
 		if (!creater){
 			var joinButton = $('<input type=button class=waitingRoomButton value=Join>');
 			gameroomTab.append(joinButton);
-			joinButton.attr('id', 'joinButton');
-			joinButton.css({'display': 'flex', 'position': 'relative', 'right': '50px'});
+			joinButton.attr({'id': 'joinButton', 'align': 'right'});
+			joinButton.css({'position': 'relative', 'padding-left': '50px'});
 			$('#joinButton').click(function(){
 				console.log('join');
 				socket.emit('joinGameRoom', gameroom);
@@ -110,7 +110,7 @@ function init_waitingroom(socket){
 			var div = $('<div>' + key + '</div>');
 			$('#users').append(div)
 			div.attr('id', key);
-			div.css('color', value.status);
+			div.css({'color': value.status, 'font-size': 'large', 'font-weight': '200%'});
 		});
 	});
 

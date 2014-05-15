@@ -70,12 +70,10 @@ body{
 
 #ulist{
 	background-color: #C0C0C0;
-	color: #00FFFF;
 }
 
 #rlist{
 	background-color: #C0C0C0;
-	color: #00FFFF;
 }
 
 #joinButton{
@@ -114,6 +112,8 @@ body{
 	height:100%;
 	overflow-y: scroll;
 	position: relative;
+	margin: 0px auto;
+	background: #ffffff url("../images/layer.jpg");
 }
 
 #createGameRoomTable{
