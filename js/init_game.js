@@ -58,7 +58,8 @@ function getNetworkMode()
 			$("#frame2").fadeIn();
 			client_index = 0;
 			console.log("offline mode");
-			updateStatus();
+			document.getElementById('status').innerHTML = "Player " + (client_index + 1) + " current score: " + players[client_index].score;
+			$("#status").attr('class', colorClass[client_index]);
 		}
 	}
 	else
