@@ -65,7 +65,7 @@ module.exports = {
 							} else{
 								console.log(sessionid);
 								socket.username = data.username;
-								usernames[data.username] = data.username;
+								usernames[data.username] = {username: data.username, status: 'green'};
 								// send session key to client
 								socket.emit('loginsuccess', sessionid);
 							}
@@ -86,7 +86,7 @@ module.exports = {
 				// we store the username in the socket session for this client
 				socket.username = username;
 				// add the client's username to the global list
-				usernames[username] = username;
+				usernames[username] = {username: username, status: 'green'};
 				// echo to client they've connected
 				var tmp = Object.keys(gamerooms);
 				for (var i in tmp){
@@ -106,6 +106,9 @@ module.exports = {
 					socket.broadcast.emit('updateGameRoomList', gameroom, gamerooms[gameroom].players, false);
 					socket.emit('updateGameRoomTab', gameroom, gamerooms[gameroom].players);
 					socket.broadcast.emit('updateGameRoomTab', gameroom, gamerooms[gameroom].players);
+					usernames[username].status = 'red';
+					socket.emit('updateusers', usernames);
+					socket.broadcast.emit('updateusers', usernames);
 				//});
 			});
 
@@ -119,6 +122,9 @@ module.exports = {
 						//socket.emit('updateReadyStatus', gamerooms[gameroom].players);
 						socket.emit('updateGameRoomTab',gameroom, gamerooms[gameroom].players);
 						socket.broadcast.emit('updateGameRoomTab',gameroom, gamerooms[gameroom].players);
+						usernames[username].status = 'red';
+						socket.emit('updateusers', usernames);
+						socket.broadcast.emit('updateusers', usernames);
 						//socket.broadcast.emit('updateReadyStatus', gamerooms[gameroom].players);
 						for (var i in gamerooms[gameroom].sockets)
 							gamerooms[gameroom].sockets[i].emit('updateReadyStatus', gamerooms[gameroom].players);
