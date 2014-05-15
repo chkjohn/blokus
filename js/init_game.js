@@ -96,6 +96,7 @@ function init()
 		var mousePos = getMousePos(canvas, e);
 		if(game.token_index==client_index)
 		{
+			$('#turn').
 			if(players[client_index].nextTile(tile,mousePos))
 			{
 				viewRefresh(canvas);
@@ -193,6 +194,11 @@ function init()
 		}
 		else if(msg.status == "end")
 		{
+		}
+		if(game.token_index==client_index){;
+			$('#turn').css('color', colorClass[client_index]);
+			$('#turn').fadeIn();
+			$('#turn').fadeOut(3000);
 		}
 		updateStatus();
 	};

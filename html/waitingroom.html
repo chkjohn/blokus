@@ -8,7 +8,7 @@
 		<script src="/js/jquery.cookie.js"></script>
 		<link rel="stylesheet" href="/css/login_waitingroom_style.css">
 	</head>
-	<body class=font>
+	<body class=font style="margin:0px;">
 		<div id="background" style="display: none"></div>
 		<div id="createGameRoomTable" style="display: none">
 			<table align=center style="height: 100%">
@@ -31,9 +31,11 @@
 			<div align=center id="playerInTheRoom"></div>
 		</div>
 		
-		<table align=center style="width: 100%">
+		<table align=center style="width: 100%" id="head-banner">
 			<tr>
-				<td><h1>Waiting Room</h1></td>
+				<td align=left>
+					<h1 id="toptext">Waiting Room</h1>
+				</td>
 				<td align=center>
 					<input type="text" size="20" id="data">
 					<input type="button" class=waitingRoomButton id="datasend" value="Search Room" style="width: 125px">
@@ -63,7 +65,7 @@
 				<div id="gameroom"></div>
 			</div>
 		</div>
-		<div align=center><input id="createGameRoom" class=waitingRoomButton type=button value="Create Game Room" style="font-size: xx-large;"></div>
+		<div id="botarea" align=center><input id="createGameRoom" class=waitingRoomButton type=button value="Create Game Room" style="font-size: xx-large;"></div>
 	</body>
 	<script>
 		var socket = io.connect('csci4140project-chkjohn.rhcloud.com:8000/waitingRoom');

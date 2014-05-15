@@ -1,4 +1,59 @@
 /* css style for login interface and waiting room */
+body{
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	margin: 0px 0px;
+}
+
+#login_back{
+	background: url('../images/grid.jpg') center center fixed;
+	background-size: cover;
+}
+
+#login_table{
+	background: #3914AF;
+	border: 5px solid #FFD300;
+	border-radius: 25px;
+}
+
+.loginlabel{
+	color: #FFD300;
+}
+
+#username,#password{
+	border-radius: 10px;
+}
+
+#head-banner{
+	position: absolute;
+	width: 100%;
+	height: 10%;
+	background: url('../images/colorful-grid-lg.jpg');
+	background-repeat: repeat;
+	border-bottom: 3px solid grey;
+}
+
+#toptext{
+	margin: 0;
+}
+
+#mainarea{
+	position: absolute;
+	top: 10%;
+	height: 80%;
+	width: 100%;
+}
+
+#botarea{
+	position: absolute;
+	top: 90%;
+	width: 100%;
+	height: 10%;
+	background: url('../images/grid.png');
+	background-size: 2%;
+}
+
 .font{
 	font-family: Courier New;
 }
@@ -156,10 +211,6 @@
 	top:1px;
 }
 
-body
-{
-	margin: 0px 0px;
-}
 .wrapper
 {
 	margin: 0px auto;

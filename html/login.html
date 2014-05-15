@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
 	<head>
-		<title>Login Page</title>
+		<title>Blokus Online - Login Page</title>
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
 		<script src="/socket.io/socket.io.js"></script>
 		<script src="/js/loginView.js"></script>
@@ -13,17 +13,21 @@
 		</script>
 		<link rel="stylesheet" href="/css/login_waitingroom_style.css">
 	</head>
-	<body class=font>
-		<h2 align="center" class=font>CSCI4140 Project - Blokus<br>Login Interface</h2>
+	<body class=font id="login_back">
+		<!--h2 align="center" class=font>CSCI4140 Project - Blokus<br>Login Interface</h2-->
+		<div align="center" class=font>
+			<h2>Blokus Online</h2><br>
+			By JDRW<br>
+		</div>
 		<h3 align="center" class=font id="login_text" style="color: red"></h3>
 		<table align="center" cellspacing=5pt cellpadding=10pt style="border:5pt solid #7777ff;">
 			<tr>
-				<td>Username</td>
+				<td class="loginlabel">Username</td>
 				<td><input id="username" type=text></td>
 			</tr>
 
 			<tr>
-				<td>Password</td>
+				<td class="loginlabel">Password</td>
 				<td><input id="password" type=password></td>
 			</tr>
 

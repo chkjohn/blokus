@@ -26,7 +26,7 @@ if(!network)
 //B for background color
 //H for hints' color
 //P* for Player color
-var color_set = {'B':"#FF6600",'H1':"#CCCCFF",'H2':"#CCCCFF",'H3':"#CCCCFF",'H4':"#CCCCFF",'P1':"blue",'P2':"yellow",'P3':"red",'P4':"green"};
+var color_set = {'B':"#FF6600",'H1':"#CCCCFF",'H2':"#DDDD11",'H3':"#FFCCCC",'H4':"#114111",'P1':"blue",'P2':"yellow",'P3':"red",'P4':"green"};
 var colorClass = ['blue','yellow','red','green'];
 
 //Game(number_cells,board_size,border_size);
