@@ -25,12 +25,13 @@
 		<div id="confirmMessage" style="display: none">
 			<h3 style="padding-top: 30px; padding: 5px"></h3>
 		</div>
+
 		<div id="gameRoomReady" style="display: none">
 			<img id="close" src="/images/delete.png" title="Leave Game Room">
 			<h1 align=center></h1>
 			<div align=center id="playerInTheRoom"></div>
 		</div>
-		
+
 		<table align=center style="width: 100%; color: #00FFFF">
 			<tr>
 				<td align=left>
@@ -70,10 +71,10 @@
 				<div id="gameroom" style="display:flex"></div>
 			</div>
 		</div>
-		<div align=center><input id="createGameRoom" class=waitingRoomButton type=button value="Create Game Room" style="font-size: xx-large;"></div>
+		<div id="botarea" align=center><input id="createGameRoom" class=waitingRoomButton type=button value="Create Game Room" style="font-size: xx-large;"></div>
 	</body>
 	<script>
-		var socket = io.connect('csci4140project-chkjohn.rhcloud.com:8000/waitingRoom');
+		var socket = io.connect('blokus-novax.rhcloud.com:8000/waitingRoom');
 		$(init_waitingroom(socket));
 	</script>
 </html>
