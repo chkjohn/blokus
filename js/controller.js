@@ -126,7 +126,7 @@ function Player(id)
 			if(tile.length == 1)
 				player.score += 20;
 		}
-		updateStatus();	
+		//updateStatus();	
 	};
 	player.nextTile = function(tile,mouse_co){
 		if(tile!=null)

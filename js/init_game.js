@@ -27,8 +27,8 @@ function updateStatus()
 	}
 	else
 	{
-		document.getElementById('status').innerHTML = "Player: " + ((client_index + 1)%4 + 1) + " current score: " + players[(client_index+1)%4].score;
-		$("#status").attr('class', colorClass[(client_index+1)%4]);
+		document.getElementById('status').innerHTML = "Player: " + (game.token_index + 1) + " current score: " + players[game.token_index].score;
+		$("#status").attr('class', colorClass[game.token_index]);
 	}
 }
 
@@ -241,14 +241,13 @@ function init()
 		if(game.token_index==client_index)
 		{
 			game.pass_num++;
-			players[game.token_index].stop = true;	// John's change
 			if(game.isGameEnd())
 			{
 				gameEndHandler();
 			}
 			else
 			{
-				updateStatus();
+				players[game.token_index].stop = true;	// John's change
 				game.nextToken(network);	//next player		
 			}
 			
@@ -259,7 +258,6 @@ function init()
 			if(network)
 				players[client_index].send("empty",null,null,null);
 				
-			players[client_index].stop = true;	//John's change
 			/*
 			document.getElementById("rotate_cw").disabled = true;
 			document.getElementById("rotate_counter_cw").disabled = true;

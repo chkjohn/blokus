@@ -49,6 +49,7 @@ function Game(number_cells,board_size,border_size)
 		
 		if(!online)	//no network, single PC version
 			client_index = game.token_index;
+		updateStatus();
 	}
 
 	function getPlayerIndex()
