@@ -189,13 +189,15 @@ function init()
 		else if(msg.status == "end")
 		{
 		}
+		/*
 		if(game.token_index==client_index){;
 			$('#turn').text(colorClass[client_index] + "'s turn");
 			$('#turn').css('color', colorClass[client_index]);
 			$('#turn').fadeIn();
 			$('#turn').fadeOut(3000);
 		}
-		updateStatus();
+		*/
+		//updateStatus();
 	};
 	//-------------game init---------
  	if(network)
