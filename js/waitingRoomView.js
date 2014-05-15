@@ -119,7 +119,7 @@ function init_waitingroom(socket){
 			var div = $('<div>' + key + '</div>');
 			$('#users').append(div)
 			div.attr('id', key);
-			div.css({'color': value.status, 'font-size': 'x-large', 'font-weight': '300%'});
+			div.css({'color': value.status, 'font-size': 'x-large', 'font-weight': '500%'});
 		});
 	});
 

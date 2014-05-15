@@ -168,7 +168,7 @@ module.exports = {
 						gamerooms[gameroom].sockets[i].emit('updateReadyStatus', gamerooms[gameroom].players);
 					socket.emit('updateGameRoomTab',gameroom, gamerooms[gameroom].players);
 					socket.broadcast.emit('updateGameRoomTab',gameroom, gamerooms[gameroom].players);
-					usernames[socket.username].status = 'green';
+					usernames[socket.username].status = 'lime';
 					socket.emit('updateusers', usernames);
 					socket.broadcast.emit('updateusers', usernames);
 					if (gamerooms[gameroom].players.length == 0){
